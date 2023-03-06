@@ -4,7 +4,7 @@ import Head from "next/head";
 import { api } from "~/utils/api";
 
 const Home: NextPage = () => {
-  const movies = api.movieSearch.byTitle.useQuery("irds");
+  const movies = api.movieSearch.byTitle.useQuery("Birds");
 
   return (
     <>
@@ -20,7 +20,7 @@ const Home: NextPage = () => {
             className="flex w-[300px] flex-col gap-4 rounded bg-slate-200 p-8"
           >
             <h3>
-              {movie.title} ({movie.year})
+              {movie.title} {movie.year ? `(${movie.year})` : ""}
             </h3>
             <span>{movie.director}</span>
           </div>
