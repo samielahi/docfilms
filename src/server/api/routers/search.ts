@@ -18,20 +18,4 @@ export const searchRouter = createTRPCRouter({
       },
     });
   }),
-
-  byDirector: publicProcedure.input(z.string()).query(({ ctx, input }) => {
-    return ctx.prisma.movies.findMany({
-      distinct: ["title"],
-      select: {
-        title: true,
-        year: true,
-        director: true,
-      },
-      where: {
-        director: {
-          contains: input,
-        },
-      },
-    });
-  }),
 });
