@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
 }
 
 datasource db {
@@ -8,11 +9,11 @@ datasource db {
 }
 
 model Movies {
+  id       BigInt    @id
   title    String?
   director String?
   year     Int?      @db.SmallInt
   series   String?
   date     DateTime? @db.Date
   notes    String?
-  id       Int       @id @default(autoincrement())
 }

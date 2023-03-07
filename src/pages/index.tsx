@@ -1,11 +1,10 @@
 import { type NextPage } from "next";
 import Head from "next/head";
+import SearchBar from "~/components/SearchBar";
 
-import { api } from "~/utils/api";
+// import { api } from "~/utils/api";
 
 const Home: NextPage = () => {
-  const movies = api.movieSearch.byTitle.useQuery("Birds");
-
   return (
     <>
       <Head>
@@ -14,17 +13,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center gap-4 bg-white">
-        {movies.data?.map((movie, i) => (
-          <div
-            key={i}
-            className="flex w-[300px] flex-col gap-4 rounded bg-slate-200 p-8"
-          >
-            <h3>
-              {movie.title} {movie.year ? `(${movie.year})` : ""}
-            </h3>
-            <span>{movie.director}</span>
-          </div>
-        ))}
+        <SearchBar />
       </main>
     </>
   );

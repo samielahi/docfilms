@@ -7,7 +7,7 @@ import { searchRouter } from "~/server/api/routers/search";
  * All routers added in /api/routers should be manually added here.
  */
 export const appRouter = createTRPCRouter({
-  movieSearch: searchRouter,
+  searchMovies: searchRouter,
 });
 
 // export type definition of API
