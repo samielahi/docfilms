@@ -12,7 +12,7 @@ const Home: NextPage = () => {
         <meta name="description" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex min-h-screen flex-col items-center justify-center gap-4 bg-white">
+      <main className="mt-10 flex justify-center bg-white">
         <SearchBar />
       </main>
     </>

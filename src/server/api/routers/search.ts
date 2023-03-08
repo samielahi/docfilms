@@ -13,7 +13,7 @@ export const searchRouter = createTRPCRouter({
       },
       where: {
         title: {
-          search: input,
+          contains: input.toLowerCase(),
         },
       },
     });
