@@ -6,7 +6,7 @@ function useDebouncedFn<I, O>(callback: Callback<I, O>, waitMS = 250) {
 
   return function (this: Callback<I, O> | void, ...args: I[]) {
     clearTimeout(timeoutIdRef.current);
-    // Arrow function preserves 'this' scope from enclosing lexical context
+
     timeoutIdRef.current = setTimeout(() => {
       timeoutIdRef.current = undefined;
       callback.call(this, ...args);

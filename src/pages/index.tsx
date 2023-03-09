@@ -1,8 +1,7 @@
 import { type NextPage } from "next";
 import Head from "next/head";
+import Logo from "~/core/Logo";
 import SearchBar from "~/components/SearchBar";
-
-// import { api } from "~/utils/api";
 
 const Home: NextPage = () => {
   return (
@@ -12,8 +11,11 @@ const Home: NextPage = () => {
         <meta name="description" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="mt-10 flex justify-center bg-white">
-        <SearchBar />
+      <main className="flex items-center justify-center">
+        <div className="mt-20 flex w-fit flex-col items-center gap-8">
+          <Logo />
+          <SearchBar />
+        </div>
       </main>
     </>
   );
