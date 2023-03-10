@@ -3,6 +3,7 @@
 const config = {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
+    darkMode: "class",
     extend: {
       fontFamily: {
         logo: ["var(--font-logo)"],

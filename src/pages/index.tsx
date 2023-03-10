@@ -13,7 +13,7 @@ const Home: NextPage = () => {
       </Head>
       <main className="flex items-center justify-center">
         <div className="mt-20 flex w-fit flex-col items-center gap-8">
-          <Logo />
+          <Logo size="large" />
           <SearchBar />
         </div>
       </main>
