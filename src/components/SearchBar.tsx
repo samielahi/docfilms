@@ -46,7 +46,7 @@ function SearchResults(props: {
 
 export default function SearchBar() {
   const [value, setValue] = useState("");
-  const debouncedValue = useDebouncedValue(value, 0);
+  const debouncedValue = useDebouncedValue(value);
   const { data, isLoading, isError } = api.searchMovies.byTitle.useQuery(
     debouncedValue,
     { enabled: debouncedValue.length > 3 }

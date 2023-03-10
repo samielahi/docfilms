@@ -3,19 +3,42 @@ import type { ParsedUrlQuery } from "querystring";
 
 export type Callback<T, O> = (...args: T[]) => O;
 
-export type MoviesWithoutId = Omit<Movies, "id" | "date">;
+export interface SerializableMovie extends Omit<Movies, "id" | "date"> {
+  date: string;
+}
 
 export interface MoviePageProps {
-  movies: MoviesWithoutId[];
-  posterPath?: string;
+  title: string;
+  year?: number;
+  director?: string;
+  dates?: string[];
+  series?: string[];
+  backdrop_path: string;
   overview?: string;
 }
 
-export interface MovieDbSearchResult {
+export interface MovieDbSearchResponse {
   page?: number;
-  results?: Record<string, string | number | number[] | boolean | null>[];
+  results?: MovieDbSearchResult[];
   totalResults?: number;
   totalPages?: number;
+}
+
+export interface MovieDbSearchResult {
+  posterPath: string | null;
+  adult: boolean;
+  overview: string;
+  releaseDate: string;
+  id: number;
+  backdrop_path: string;
+  video: boolean;
+  voteAvg: number;
+  popularity: number;
+  title: string;
+  originalTitle: string;
+  originalLanguage: string;
+  voteCount: number;
+  genreIds: number[];
 }
 
 export interface QParams extends ParsedUrlQuery {
