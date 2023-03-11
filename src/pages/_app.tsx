@@ -28,7 +28,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
           font-family: ${logoFont.style.fontFamily};
         }
       `}</style>
-      <Component {...pageProps} />;
+      <Component {...pageProps} />
     </>
   );
 };

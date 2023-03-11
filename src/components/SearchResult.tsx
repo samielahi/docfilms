@@ -1,7 +1,7 @@
 import Link from "next/link";
-import type { Movies } from "@prisma/client";
+import type { movies } from "@prisma/client";
 
-export default function SearchResult(props: Partial<Movies>) {
+export default function SearchResult(props: Partial<movies>) {
   // This should be impossible since we'll ONLY render this component if there is data
   if (!props.title) throw new Error("Movie has no title");
 

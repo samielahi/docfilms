@@ -1,11 +1,11 @@
-import type { Movies } from "@prisma/client";
+import type { movies } from "@prisma/client";
 import { useState } from "react";
 import useDebouncedValue from "~/hooks/useDebouncedValue";
 import { api } from "~/utils/api";
 import SearchResult from "./SearchResult";
 
 function SearchResults(props: {
-  movies: Partial<Movies>[] | undefined;
+  movies: Partial<movies>[] | undefined;
   isLoading: boolean;
   isError: boolean;
   value: string;
@@ -59,7 +59,7 @@ export default function SearchBar() {
 
   return (
     <>
-      <div className="flex h-full w-[300px] flex-col gap-0  rounded-xl border-2 border-transparent bg-white md:w-[500px] lg:w-[700px]">
+      <div className="flex h-full w-[300px] flex-col gap-0 rounded-xl bg-white border-2 dark:border-0 border-gray md:w-[500px] lg:w-[700px]">
         <div className="flex w-full items-center justify-between gap-4 px-4 py-2 md:py-4 md:px-6">
           <div className="flex items-center gap-4 md:h-[45px]">
             <svg
@@ -76,7 +76,7 @@ export default function SearchBar() {
             </svg>
 
             <input
-              className="outline-none placeholder:italic placeholder:text-gray md:text-2xl"
+              className="outline-none placeholder:bg-white placeholder:italic placeholder:text-gray md:text-2xl"
               autoComplete="off"
               autoFocus
               value={value}

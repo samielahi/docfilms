@@ -26,11 +26,11 @@ const Test: NextPage = () => {
         </div>
       </header>
 
-      <main className="wrapper h-full  text-black">
-        <div className="full-bleed relative mb-10 h-[350px] overflow-hidden opacity-70 grayscale">
+      <main className="wrapper h-full overflow-hidden text-black dark:text-white">
+        <div className="relative mb-10 h-[300px] overflow-hidden drop-shadow-sm  md:h-[500px]">
           <Image
             src={"/pulp.webp"}
-            className="object-cover object-top w-fit"
+            className="object-cover object-top"
             fill={true}
             alt=""
           ></Image>
@@ -43,7 +43,7 @@ const Test: NextPage = () => {
               </h1>
             </div>
 
-            <p className=" underline decoration-orange underline-offset-4">
+            <p className="underline decoration-orange decoration-4 underline-offset-4">
               Quentin Tarantino
             </p>
             <p>
@@ -56,16 +56,16 @@ const Test: NextPage = () => {
           <hr className="mt-8 mb-8 w-[80%] border-dashed" />
           <div className="flow flex flex-col">
             <h2>
-              Shown @ <span className="font-logo font-bold">doc</span>
+              Shown @ <span className="font-logo font-bold">doc</span> on:
             </h2>
 
             <div className="flex items-center gap-6">
-              <div className="m-0 flex h-[70px] w-[70px] flex-col items-center justify-center bg-[#F4F4F4] p-4 text-center font-mono text-sm font-bold text-black md:text-lg">
+              <div className="m-0 flex h-[70px] w-[70px] flex-col items-center justify-center bg-[#F4F4F4] p-4 text-center text-sm font-bold text-black dark:bg-yellow md:text-lg">
                 <span>MAR</span>
                 <span>1995</span>
               </div>
               <p className="hidden sm:block">as part of series</p>
-              <p className="italic underline decoration-orange underline-offset-4">
+              <p className="italic underline decoration-orange decoration-4 underline-offset-4">
                 Weekend - Spring 1995 (Doc and the Maiden)
               </p>
             </div>
