@@ -15,6 +15,7 @@ const config = {
         gray: "#C3C3C3",
         orange: "#DE612B",
         yellow: "#FAEBD3",
+        violet: "#B685D0",
       },
     },
   },

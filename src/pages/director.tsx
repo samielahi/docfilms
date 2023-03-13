@@ -3,6 +3,7 @@ import Head from "next/head";
 import Image from "next/image";
 import Header from "~/components/Header";
 import MovieCard from "~/components/MovieCard";
+import LinePlot from "~/components/LinePlot";
 
 const Director: NextPage = () => {
   return (
@@ -36,10 +37,26 @@ const Director: NextPage = () => {
                 violence.
               </p>
 
-              <div>
+              <div className="flex h-full flex-col">
                 <h2>
                   Tarantino @ <span className="font-logo font-bold">doc</span>
                 </h2>
+
+                <LinePlot
+                  xOffset={40}
+                  yOffset={60}
+                  width={400}
+                  height={200}
+                  domain={[0, 250]}
+                  range={[140, 60]}
+                  dataDomain={[1930, 2023]}
+                  dataRange={[0, 20]}
+                  data={[
+                    [1995, 8],
+                    [2001, 2],
+                    [2010, 1],
+                  ]}
+                />
               </div>
             </div>
           </div>
@@ -49,7 +66,8 @@ const Director: NextPage = () => {
 
         <div className="flow">
           <h2>
-            Their Movies Shown @ <span className="font-logo font-bold">doc</span>
+            Their Movies Shown @{" "}
+            <span className="font-logo font-bold">doc</span>
           </h2>
 
           <div className="flex flex-wrap justify-center gap-10 pb-10 text-center md:justify-start">
