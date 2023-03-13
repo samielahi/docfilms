@@ -1,8 +1,9 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import Logo from "~/core/Logo";
+import Logo from "~/components/Logo";
 import Image from "next/image";
 import Link from "next/link";
+import Header from "~/components/Header";
 
 const Test: NextPage = () => {
   return (
@@ -13,20 +14,7 @@ const Test: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <header className="wrapper flex justify-between py-10">
-        <Logo size="small" />
-        <div className="flex items-center gap-4">
-          <input
-            className="mr-2"
-            type="checkbox"
-            name="dark-mode"
-            id="dark-mode"
-          />
-          <label className="font-bold" htmlFor="dark-mode">
-            dark mode
-          </label>
-        </div>
-      </header>
+      <Header />
 
       <main className="wrapper h-full overflow-hidden text-black dark:text-white">
         <div className="relative mb-10 h-[300px] overflow-hidden drop-shadow-sm  md:h-[500px]">

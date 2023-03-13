@@ -1,9 +1,8 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import Logo from "~/core/Logo";
 import Image from "next/image";
-import Link from "next/link";
-import { getRandomInt } from "~/utils/utils";
+import Header from "~/components/Header";
+import MovieCard from "~/components/MovieCard";
 
 const Director: NextPage = () => {
   return (
@@ -13,25 +12,13 @@ const Director: NextPage = () => {
         <meta name="description" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <header className="wrapper flex justify-between py-10">
-        <Logo size="small" />
-        <div className="flex items-center gap-4">
-          <input
-            className="mr-2"
-            type="checkbox"
-            name="dark-mode"
-            id="dark-mode"
-          />
-          <label className="font-bold" htmlFor="dark-mode">
-            dark mode
-          </label>
-        </div>
-      </header>
+
+      <Header />
 
       <main className="wrapper h-full text-black dark:text-white">
         <div className="flex flex-col items-center md:flex-row md:gap-20">
           <Image
-            className="w-[350px] md:w-[500px]"
+            className="w-[300px] sm:w-[350px] md:w-[500px]"
             src={"/quentin.jpg"}
             width={500}
             height={500}
@@ -66,21 +53,9 @@ const Director: NextPage = () => {
           </h2>
 
           <div className="flex flex-wrap justify-center gap-10 pb-10 text-center md:justify-start">
-            {/* <Link href={"/movie"}>
-              <div className="relative h-[175px] w-[350px]">
-                <Image
-                  src={`/${getRandomInt(1, 3)}.png`}
-                  fill={true}
-                  alt=""
-                  className="-z-1 opacity-80"
-                />
-                <div className="absolute h-full w-full">
-                  <h3 className="p-[75px] flex h-full items-center justify-center text-black underline decoration-orange">
-                    <span>Harry Potter and the Chamber of Secrets</span>
-                  </h3>
-                </div>
-              </div>
-            </Link> */}
+            <MovieCard title="Pulp Fiction" year={1994} />
+            <MovieCard title="Kill Bill Vol. 1" year={2003} />
+            <MovieCard title="Kill Bill Vol. 2" year={2004} />
           </div>
         </div>
       </main>
