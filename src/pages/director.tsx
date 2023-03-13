@@ -49,7 +49,7 @@ const Director: NextPage = () => {
 
         <div className="flow">
           <h2>
-            Movies Shown @ <span className="font-logo font-bold">doc</span>
+            Their Movies Shown @ <span className="font-logo font-bold">doc</span>
           </h2>
 
           <div className="flex flex-wrap justify-center gap-10 pb-10 text-center md:justify-start">
