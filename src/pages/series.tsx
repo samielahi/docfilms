@@ -3,6 +3,7 @@ import Head from "next/head";
 import Image from "next/image";
 import Header from "~/components/Header";
 import MovieCard from "~/components/MovieCard";
+import DateBlock from "~/components/DateBlock";
 
 const Series: NextPage = () => {
   return (
@@ -15,24 +16,74 @@ const Series: NextPage = () => {
 
       <Header />
 
-      <main className="wrapper h-full text-black dark:text-white">
-        <div className="flex flex-col items-center md:flex-row md:gap-20">
-          <div className="my-10">
-            <div className="flow flex flex-col">
-              <h1 className="italic">
-                Weekend - Spring 1995 (Doc and the Maiden)
-              </h1>
-            </div>
-          </div>
+      <main className="wrapper flow pb-10 h-full text-black dark:text-white">
+        <div className="relative h-[300px] overflow-hidden drop-shadow-sm  md:h-[500px]">
+          <Image
+            src={"/student.png"}
+            className="object-cover object-top"
+            fill={true}
+            alt=""
+          ></Image>
         </div>
 
         <div className="flow">
-          <h2>Movies Shown In This Series</h2>
+          <h1 className="italic">Doc and the Maiden</h1>
+          <table className="w-full table-fixed border-collapse">
+            <thead className="border-2 border-yellow/10">
+              <tr>
+                <th className="p-4">Movie</th>
+                <th>Director</th>
+                <th>Date Shown</th>
+              </tr>
+            </thead>
+            <tbody className="text-center">
+              <tr className="border-2 border-yellow/10">
+                <td className="p-8 underline decoration-orange decoration-4 underline-offset-4">
+                  Pulp Fiction
+                </td>
+                <td className="underline decoration-orange decoration-4 underline-offset-4">
+                  Quentin Tarantino
+                </td>
+                <td>1961</td>
+              </tr>
+              <tr className="border-2 border-yellow/10">
+                <td className="p-8 underline decoration-orange decoration-4 underline-offset-4">
+                  Kill Bill Vol. 1
+                </td>
+                <td className="underline decoration-orange decoration-4 underline-offset-4">
+                  Quentin Tarantino
+                </td>
+                <td>1972</td>
+              </tr>
+              <tr className="border-2 border-yellow/10">
+                <td className="p-8 underline decoration-orange decoration-4 underline-offset-4">
+                  Kill Bill Vol. 2
+                </td>
+                <td className="underline decoration-orange decoration-4 underline-offset-4">
+                  Quentin Tarantino
+                </td>
+                <td>1975</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
-          <div className="flex flex-wrap justify-center gap-10 pb-10 text-center md:justify-start">
-            <MovieCard title="Pulp Fiction" year={1994} />
-            {/* <MovieCard title="Kill Bill Vol. 1" year={2003} />
-            <MovieCard title="Kill Bill Vol. 2" year={2004} /> */}
+        {/* <hr className="my-10" /> */}
+
+        <div className="flow">
+          <h2>Related Series</h2>
+          <div className="flex gap-10 text-center">
+            <ul className="flex w-full justify-between italic">
+              <li className="underline decoration-orange decoration-4 underline-offset-4">
+                Test Example
+              </li>
+              <li className="underline decoration-orange decoration-4 underline-offset-4">
+                Test Example
+              </li>
+              <li className="underline decoration-orange decoration-4 underline-offset-4">
+                Test Example
+              </li>
+            </ul>
           </div>
         </div>
       </main>

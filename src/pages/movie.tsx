@@ -1,9 +1,9 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import Logo from "~/components/Logo";
 import Image from "next/image";
 import Link from "next/link";
 import Header from "~/components/Header";
+import DateBlock from "~/components/DateBlock";
 
 const Test: NextPage = () => {
   return (
@@ -53,14 +53,12 @@ const Test: NextPage = () => {
             </h2>
 
             <div className="flex items-center gap-6">
-              <div className="m-0 flex h-[70px] w-[70px] flex-col items-center justify-center bg-[#F4F4F4] p-4 text-center text-sm font-bold text-black dark:bg-yellow md:text-lg">
-                <span>MAR</span>
-                <span>1995</span>
-              </div>
+              <DateBlock year={1994} month="Mar" />
+
               <p className="hidden sm:block">as part of series</p>
-              <Link href={"/"}>
+              <Link href={"/series"}>
                 <p className="italic underline decoration-orange decoration-4 underline-offset-4">
-                  Weekend - Spring 1995 (Doc and the Maiden)
+                  Doc and the Maiden
                 </p>
               </Link>
             </div>
