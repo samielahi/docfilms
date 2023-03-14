@@ -11,10 +11,17 @@ export interface MoviePageProps {
   title: string;
   year?: number;
   director?: string;
-  dates?: string[];
-  series?: string[];
+  series?: Record<string, string>;
   backdrop_path: string;
   overview?: string;
+}
+
+export interface DirectorPageProps {
+  director: string;
+  blurb?: string;
+  movies?: SerializableMovie[];
+  movieCountByYear?: Record<number, number>;
+  imagePath?: string;
 }
 
 export interface MovieDbSearchResponse {

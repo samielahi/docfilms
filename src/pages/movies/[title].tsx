@@ -1,5 +1,9 @@
 import Head from "next/head";
-import { PrismaClient } from "@prisma/client";
+import Image from "next/image";
+import Link from "next/link";
+import Header from "~/components/Header";
+import DateBlock from "~/components/DateBlock";
+import { prisma } from "~/server/db";
 import type { GetServerSideProps } from "next";
 import type {
   MovieDbSearchResponse,
@@ -8,8 +12,6 @@ import type {
   SerializableMovie,
 } from "~/types";
 import type { QParams } from "~/types";
-
-const prisma = new PrismaClient();
 
 async function getDataFromDb(title: string) {
   const movies = await prisma.movies.findMany({
@@ -54,20 +56,17 @@ function createPageProps(
 ): MoviePageProps {
   if (!data) throw Error("Unable to create movie page props, no 'data' found");
 
-  const seriesList = [];
-  const dates = [];
+  const seriesMap: Record<string, string> = {};
 
   for (let i = 0; i < data.length; i++) {
     const { series, date } = data[i]!;
-    seriesList.push(series!);
-    dates.push(date);
+    seriesMap[`${date}`] = series!;
   }
 
   const props: MoviePageProps = {
     title: data[0]?.title!,
-    series: seriesList,
-    dates: dates,
     year: data[0]?.year!,
+    series: seriesMap,
     director: data[0]?.director!,
     backdrop_path: "",
     overview: "",
@@ -77,7 +76,8 @@ function createPageProps(
     return props;
   }
 
-  props.backdrop_path = supplementaryData[0]?.backdrop_path!;
+  props.backdrop_path =
+    "https://image.tmdb.org/t/p/w500" + supplementaryData[0]?.backdrop_path!;
   props.overview = supplementaryData[0]?.overview;
 
   return props;
@@ -107,6 +107,7 @@ export const getServerSideProps: GetServerSideProps<
 };
 
 export default function Movie(props: MoviePageProps) {
+  const { title, year, director, backdrop_path, overview, series } = props;
   return (
     <>
       <Head>
@@ -114,31 +115,53 @@ export default function Movie(props: MoviePageProps) {
         <meta name="description" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <Header />
 
-      <main className="max-w-screen h-screen overflow-hidden">
-        <section className="relative flex h-1/2 items-center justify-center">
-          <div className="absolute h-full w-full bg-cover opacity-20 bg-blend-screen grayscale">
-            <img
-              src={`https://image.tmdb.org/t/p/original${props.backdrop_path}`}
-              alt=""
-              className="h-full w-full object-cover"
-            />
+      <main className="wrapper h-full overflow-hidden text-black dark:text-white">
+        <div className="relative mb-10 h-[300px] overflow-hidden drop-shadow-sm  md:h-[500px]">
+          <Image
+            src={backdrop_path}
+            className="object-cover object-top"
+            fill={true}
+            alt=""
+          ></Image>
+        </div>
+        <section className="mb-10">
+          <div className="flow flex flex-col">
+            <div className="flex items-center gap-6 capitalize">
+              <h1>
+                <i>{title} </i>{" "}
+                <span className="text-2xl">{year ? `(${year})` : ""}</span>
+              </h1>
+            </div>
+
+            <Link href={"/director"}>
+              <p className="w-fit capitalize underline decoration-orange decoration-4 underline-offset-4">
+                {director}
+              </p>
+            </Link>
+
+            <p>{overview}</p>
           </div>
 
-          <div className="text-center text-white">
-            <h1 className="text-6xl capitalize">{props.title}</h1>
-            <span className="text-xl font-bold text-orange">
-              {props.year ? `(${props.year})` : ""}
-            </span>
-          </div>
-        </section>
+          <hr className="mt-8 mb-8 w-[100%]" />
+          <div className="flow flex flex-col">
+            <h2>
+              Shown @ <span className="font-logo font-bold">doc</span>:
+            </h2>
 
-        <section className="flex h-1/2">
-          <div className="flex h-full w-1/3  bg-orange p-12">
-            <p className="text-lg text-black">{props.overview}</p>
+            {Object.entries(series!).map(([date, series], key) => (
+              <div key={key} className="flex items-center gap-6">
+                <DateBlock date={date} />
+                <p className="hidden sm:block">as part of series</p>
+                <Link href={"/series"}>
+                  <p className="capitalize italic underline decoration-orange decoration-4 underline-offset-4">
+                    {series}
+                  </p>
+                </Link>
+              </div>
+            ))}
           </div>
-          <div className="h-full w-1/3 bg-pink"></div>
-          <div className="h-full w-1/3 bg-yellow"></div>
         </section>
       </main>
     </>

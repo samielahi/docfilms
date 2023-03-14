@@ -53,7 +53,7 @@ const Test: NextPage = () => {
             </h2>
 
             <div className="flex items-center gap-6">
-              <DateBlock year={1994} month="Mar" />
+              <DateBlock date="Fri Mar 23 1994" />
 
               <p className="hidden sm:block">as part of series</p>
               <Link href={"/series"}>
