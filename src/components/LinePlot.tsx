@@ -64,11 +64,11 @@ export default function LinePlot(props: LinePlotProps) {
           className="stroke-yellow stroke-2"
           strokeLinejoin="bevel"
         />
-        {/* Y-label */}
+        {/* X-label */}
         <text
           className="fill-white font-mono italic text-[12px]"
-          x={260}
-          y={140}
+          x={140}
+          y={range![0]! + 55}
         >
           Year(1930-2023)
         </text>

@@ -37,7 +37,7 @@ const Director: NextPage = () => {
                 violence.
               </p>
 
-              <div className="flex h-full flex-col">
+              <div className="flex hidden h-full flex-col md:block">
                 <h2>
                   Tarantino @ <span className="font-logo font-bold">doc</span>
                 </h2>
@@ -47,12 +47,13 @@ const Director: NextPage = () => {
                   yOffset={60}
                   width={400}
                   height={200}
-                  domain={[0, 250]}
+                  domain={[40, 400]}
                   range={[140, 60]}
                   dataDomain={[1930, 2023]}
                   dataRange={[0, 20]}
                   data={[
-                    [1995, 8],
+                    [1939, 8],
+                    [1942, 1],
                     [2001, 2],
                     [2010, 1],
                   ]}
