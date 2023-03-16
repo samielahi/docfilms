@@ -1,4 +1,5 @@
 import { createCanvas, Image, ImageData } from "canvas";
+// Make this into a class
 
 // RGB values for black and white in our tailwind config
 const BLACK = new Uint8ClampedArray([26, 26, 25, 255]);
@@ -41,14 +42,6 @@ function rgbToY(r: number, g: number, b: number) {
   const Y =
     0.2126 * sRGBtoLin(r) + 0.7152 * sRGBtoLin(g) + 0.0722 * sRGBtoLin(b);
   return Y;
-}
-
-function colorDistance(a: Uint8ClampedArray, b: Uint8ClampedArray) {
-  return Math.sqrt(
-    Math.pow(a[0]! - b[0]!, 2) +
-      Math.pow(a[1]! - b[1]!, 2) +
-      Math.pow(a[2]! - b[2]!, 2)
-  );
 }
 
 function createLuminanceMatrix(image: ImageData) {

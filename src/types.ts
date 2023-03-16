@@ -11,9 +11,10 @@ export interface MoviePageProps {
   title: string;
   year?: number;
   director?: string;
-  series?: Record<string, string>;
-  backdrop_path: string;
   overview?: string;
+  backdropURL: string;
+  genre?: string;
+  series?: Record<string, string>;
 }
 
 export interface DirectorPageProps {
@@ -22,30 +23,6 @@ export interface DirectorPageProps {
   movies?: SerializableMovie[];
   movieCountByYear?: Record<number, number>;
   imagePath?: string;
-}
-
-export interface MovieDbSearchResponse {
-  page?: number;
-  results?: MovieDbSearchResult[];
-  totalResults?: number;
-  totalPages?: number;
-}
-
-export interface MovieDbSearchResult {
-  posterPath: string | null;
-  adult: boolean;
-  overview: string;
-  releaseDate: string;
-  id: number;
-  backdrop_path: string;
-  video: boolean;
-  voteAvg: number;
-  popularity: number;
-  title: string;
-  originalTitle: string;
-  originalLanguage: string;
-  voteCount: number;
-  genreIds: number[];
 }
 
 export interface QParams extends ParsedUrlQuery {
