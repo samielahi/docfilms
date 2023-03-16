@@ -1,7 +1,7 @@
 // Utility wrapper functions for working with data from TMBD
 
-function getMovieData() {}
+function getMovieData(movieId: number) {}
 
-function getDirectorData() {}
+function getDirectorData(movieId: number) {}
 
-export { getDirectorData };
+export { getDirectorData, getMovieData };

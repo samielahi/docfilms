@@ -12,6 +12,7 @@ import type {
   SerializableMovie,
 } from "~/types";
 import type { QParams } from "~/types";
+import dither from "~/server/dither";
 
 async function getDataFromDb(title: string) {
   const movies = await prisma.movies.findMany({
@@ -47,6 +48,14 @@ async function getSupplementaryData(title: string, year: number) {
   }
 
   const data = (await response.json()) as MovieDbSearchResponse;
+  const backdropPath = data.results![0]?.backdrop_path;
+  let backdropURL = "";
+  if (backdropPath) {
+    backdropURL = "https://image.tmdb.org/t/p/w500" + backdropPath;
+    const ditheredBackdrop = await dither(backdropURL);
+    data.results![0]!.backdrop_path = ditheredBackdrop;
+  }
+
   return data.results || ([] as MovieDbSearchResult[]);
 }
 
@@ -76,8 +85,9 @@ function createPageProps(
     return props;
   }
 
-  props.backdrop_path =
-    "https://image.tmdb.org/t/p/w500" + supplementaryData[0]?.backdrop_path!;
+  // props.backdrop_path =
+  //   "https://image.tmdb.org/t/p/w500" + supplementaryData[0]?.backdrop_path!;
+  props.backdrop_path = supplementaryData[0]?.backdrop_path!;
   props.overview = supplementaryData[0]?.overview;
 
   return props;
@@ -120,6 +130,8 @@ export default function Movie(props: MoviePageProps) {
       <main className="wrapper h-full overflow-hidden text-black dark:text-white">
         <div className="relative mb-10 h-[300px] overflow-hidden drop-shadow-sm  md:h-[500px]">
           <Image
+            // style={{ imageRendering: "pixelated" }}
+            // unoptimized={true}
             src={backdrop_path}
             className="object-cover object-top"
             fill={true}
