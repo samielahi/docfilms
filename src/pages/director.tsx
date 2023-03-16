@@ -37,7 +37,7 @@ const Director: NextPage = () => {
                 violence.
               </p>
 
-              <div className="flex hidden h-full flex-col md:block">
+              <div className="hidden h-full flex-col md:flex">
                 <h2>
                   Tarantino @ <span className="font-logo font-bold">doc</span>
                 </h2>

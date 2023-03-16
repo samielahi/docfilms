@@ -13,9 +13,9 @@ const THRESHOLD_MAP = [
 
 async function getImageData(url: string) {
   const image = await new Promise<Image>((resolve, reject) => {
-    const nodeImage = new Image();
+    const nodeImage: Image = new Image();
     nodeImage.onload = () => resolve(nodeImage);
-    nodeImage.onerror = (err) => reject(err);
+    nodeImage.onerror = (err: Error) => reject(err);
     nodeImage.src = url;
   });
 
