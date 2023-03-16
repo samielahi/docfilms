@@ -1,13 +1,13 @@
 import Head from "next/head";
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
 import Header from "~/components/Header";
 import DateBlock from "~/components/DateBlock";
 import { prisma } from "~/server/db";
+import dither from "~/server/dither";
 import type { GetServerSideProps } from "next";
 import type { MoviePageProps, SerializableMovie } from "~/types";
 import type { QParams } from "~/types";
-import dither from "~/server/dither";
 
 // async function getDataFromDb(title: string) {
 //   const movies = await prisma.movies.findMany({
@@ -31,28 +31,7 @@ import dither from "~/server/dither";
 //   return serializableMovies;
 // }
 
-// async function getSupplementaryData(title: string, year: number) {
-//   const response = await fetch(
-//     `https://api.themoviedb.org/3/search/movie?api_key=${process.env
-//       .MOVIEDB_API_KEY!}&query=${title}&year=${year}`
-//   );
-
-//   if (!response.ok) {
-//     const message = `An error has occured: ${response.status}`;
-//     throw new Error(message);
-//   }
-
-//   const data = (await response.json()) as MovieDbSearchResponse;
-//   const backdropPath = data.results![0]?.backdrop_path;
-//   let backdropURL = "";
-//   if (backdropPath) {
-//     backdropURL = "https://image.tmdb.org/t/p/w500" + backdropPath;
-//     const ditheredBackdrop = await dither(backdropURL);
-//     data.results![0]!.backdrop_path = ditheredBackdrop;
-//   }
-
-//   return data.results || ([] as MovieDbSearchResult[]);
-// }
+//
 
 // function createPageProps(
 //   data: SerializableMovie[],
