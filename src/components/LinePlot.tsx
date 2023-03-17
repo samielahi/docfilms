@@ -66,7 +66,7 @@ export default function LinePlot(props: LinePlotProps) {
         />
         {/* X-label */}
         <text
-          className="fill-white font-mono italic text-[12px]"
+          className="fill-white font-mono text-[12px] italic"
           x={140}
           y={range![0]! + 55}
         >
@@ -107,7 +107,7 @@ export default function LinePlot(props: LinePlotProps) {
 
             <line
               x1={point[0]}
-              y1={point[1]!}
+              y1={point[1]}
               x2={point[0]}
               y2={point[1]! - 20}
               className="stroke-violet stroke-2"

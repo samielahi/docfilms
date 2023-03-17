@@ -2,30 +2,26 @@ import type { Movies } from "@prisma/client";
 import type { ParsedUrlQuery } from "querystring";
 
 export type Callback<T, O> = (...args: T[]) => O;
-
-export interface SerializableMovie extends Omit<Movies, "id" | "date"> {
-  date: string;
-}
+export type DocMovie = Omit<Movies, "id" | "notes">;
 
 export interface MoviePageProps {
   title: string;
   year?: number;
   director?: string;
   overview?: string;
-  backdropURL: string;
-  genre?: string;
+  backdropURL?: string;
   series?: Record<string, string>;
 }
 
 export interface DirectorPageProps {
   director: string;
   blurb?: string;
-  movies?: SerializableMovie[];
+  movies?: DocMovie[];
   movieCountByYear?: Record<number, number>;
   imagePath?: string;
 }
 
-export interface QParams extends ParsedUrlQuery {
+export interface QueryParams extends ParsedUrlQuery {
   title?: string;
   director?: string;
   series?: string;

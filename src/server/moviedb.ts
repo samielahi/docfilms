@@ -3,11 +3,10 @@
 import { Result } from "true-myth";
 import z from "zod";
 
-const TBMDMovieSchema = z.object({
+const TMDBMovieSchema = z.object({
   title: z.string(),
   overview: z.string().nullable(),
   backdrop_path: z.string().nullable(),
-  genre: z.array(z.object({ id: z.number(), name: z.string() })),
   spoken_languages: z.array(
     z.object({
       english_name: z.string(),
@@ -24,7 +23,7 @@ const TMBDCreditSchema = z.object({
   profile_path: z.string().nullable(),
 });
 
-const TBMDCreditsSchema = z.object({
+const TMDBCreditsSchema = z.object({
   crew: z.array(TMBDCreditSchema),
 });
 
@@ -34,22 +33,24 @@ const TMDBDirectorSchema = z.object({
   biography: z.string(),
 });
 
-type TBMDDirectorInfo = z.infer<typeof TMDBDirectorSchema>;
-type TBMDMovie = z.infer<typeof TBMDMovieSchema>;
+type TMDBMovie = z.infer<typeof TMDBMovieSchema>;
+type TMDBDirectorInfo = z.infer<typeof TMDBDirectorSchema>;
+type TMDBCredits = z.infer<typeof TMDBCreditsSchema>;
 
 const moviedb = (() => {
   async function getMovieData(
     movieId: number
-  ): Promise<Result<TBMDMovie, Error>> {
-    const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${process.env.MOVIEDB_API_KEY}&language=en-US`;
+  ): Promise<Result<TMDBMovie, Error>> {
+    const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${process
+      .env.MOVIEDB_API_KEY!}&language=en-US`;
     const response = await fetch(url);
 
     if (!response.ok) {
       return Result.err(new Error("Unable to fetch movie from TMBD API."));
     }
 
-    const movieJson = await response.json();
-    const movie = TBMDMovieSchema.parse(movieJson);
+    const movieJson = (await response.json()) as TMDBMovie;
+    const movie = TMDBMovieSchema.parse(movieJson);
 
     return Result.ok(movie);
   }
@@ -57,7 +58,8 @@ const moviedb = (() => {
   async function getDirectorId(
     movieId: number
   ): Promise<Result<number, Error>> {
-    const url = `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${process.env.MOVIEDB_API_KEY}&language=en-US`;
+    const url = `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${process
+      .env.MOVIEDB_API_KEY!}&language=en-US`;
     const response = await fetch(url);
 
     if (!response.ok) {
@@ -66,8 +68,8 @@ const moviedb = (() => {
       );
     }
 
-    const creditsJson = await response.json();
-    const credits = TBMDCreditsSchema.parse(creditsJson);
+    const creditsJson = (await response.json()) as TMDBCredits;
+    const credits = TMDBCreditsSchema.parse(creditsJson);
     const director = credits.crew.filter((person) => person.job === "Director");
     let directorId: number;
 
@@ -82,17 +84,19 @@ const moviedb = (() => {
 
   async function getDirectorData(
     movieId: number
-  ): Promise<Result<TBMDDirectorInfo, Error>> {
+  ): Promise<Result<TMDBDirectorInfo, Error>> {
     const id = await getDirectorId(movieId);
 
     if (id.isErr) {
       return Result.err(id.error);
     }
 
-    const url = `https://api.themoviedb.org/3/person/${id}?api_key=${process.env.MOVIEDB_API_KEY}&language=en-US`;
+    const url = `https://api.themoviedb.org/3/person/${
+      id.value
+    }?api_key=${process.env.MOVIEDB_API_KEY!}&language=en-US`;
     const response = await fetch(url);
 
-    const directorJson = response.json();
+    const directorJson = (await response.json()) as TMDBDirectorInfo;
     const director = TMDBDirectorSchema.parse(directorJson);
 
     return Result.ok(director);

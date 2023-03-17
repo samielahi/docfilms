@@ -7,9 +7,9 @@ import type {
   MovieDbSearchResponse,
   MovieDbSearchResult,
   DirectorPageProps,
-  SerializableMovie,
+  DocMovie,
 } from "~/types";
-import type { QParams } from "~/types";
+import type { QueryParams } from "~/types";
 
 const prisma = new PrismaClient();
 
@@ -23,14 +23,12 @@ async function getDataFromDb(director: string) {
   });
 
   // Leave out id because bigint cannot be serialized and convert Date to string
-  const serializableMovies: SerializableMovie[] = movies.map(
-    ({ id, date, ...rest }) => {
-      return {
-        date: date?.toDateString() || "",
-        ...rest,
-      };
-    }
-  );
+  const serializableMovies: DocMovie[] = movies.map(({ id, date, ...rest }) => {
+    return {
+      date: date?.toDateString() || "",
+      ...rest,
+    };
+  });
 
   return serializableMovies;
 }
@@ -52,7 +50,7 @@ async function getSupplementaryData(title: string, year: number) {
 
 export const getServerSideProps: GetServerSideProps<
   DirectorPageProps,
-  QParams
+  QueryParams
 > = async ({ params }) => {
   if (!params?.director) throw Error("Query has no title");
 

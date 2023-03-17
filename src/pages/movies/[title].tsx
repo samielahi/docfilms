@@ -4,94 +4,76 @@ import Image from "next/image";
 import Header from "~/components/Header";
 import DateBlock from "~/components/DateBlock";
 import { prisma } from "~/server/db";
-import dither from "~/server/dither";
+import moviedb from "~/server/moviedb";
+import { ditherer } from "~/server/dither";
 import type { GetServerSideProps } from "next";
-import type { MoviePageProps, SerializableMovie } from "~/types";
-import type { QParams } from "~/types";
+import type { MoviePageProps, DocMovie } from "~/types";
+import type { QueryParams } from "~/types";
 
-// async function getDataFromDb(title: string) {
-//   const movies = await prisma.movies.findMany({
-//     where: {
-//       title: {
-//         equals: title,
-//       },
-//     },
-//   });
+async function getDataFromDb(title: string) {
+  const movies: DocMovie[] = await prisma.movies.findMany({
+    select: {
+      title: true,
+      director: true,
+      date: true,
+      series: true,
+      year: true,
+      mid: true,
+    },
+    where: {
+      title: {
+        equals: title,
+      },
+    },
+  });
 
-//   // Leave out id because bigint cannot be serialized and convert Date to string
-//   const serializableMovies: SerializableMovie[] = movies.map(
-//     ({ id, date, ...rest }) => {
-//       return {
-//         date: date?.toDateString() || "",
-//         ...rest,
-//       };
-//     }
-//   );
+  return movies;
+}
 
-//   return serializableMovies;
-// }
+export const getServerSideProps: GetServerSideProps<
+  MoviePageProps,
+  QueryParams
+> = async ({ params }) => {
+  if (!params?.title) throw Error("Query has no title");
+  // Base Props
+  const title = params.title;
+  const year = parseInt(params?.year!);
+  const docData = await getDataFromDb(title);
+  const { director, mid } = docData[0]!;
+  const series: Record<string, string> = {};
 
-//
+  docData.forEach((movie) => {
+    const dateString = movie.date?.toDateString() || "";
+    if (movie.series && dateString !== "") {
+      series[`${dateString}`] = movie.series;
+    }
+  });
 
-// function createPageProps(
-//   data: SerializableMovie[],
-//   supplementaryData: MovieDbSearchResult[]
-// ): MoviePageProps {
-//   if (!data) throw Error("Unable to create movie page props, no 'data' found");
+  const props: MoviePageProps = {
+    title: title,
+    year: year,
+    director: director!,
+    series: series,
+  };
 
-//   const seriesMap: Record<string, string> = {};
+  // Potentially Additional Data From TMDB
+  const tmdbMovieData = await moviedb.getMovieData(Number(mid));
 
-//   for (let i = 0; i < data.length; i++) {
-//     const { series, date } = data[i]!;
-//     seriesMap[`${date}`] = series!;
-//   }
+  if (tmdbMovieData.isErr) {
+    return { props: props };
+  } else {
+    const value = tmdbMovieData.value;
+    const url = "https://image.tmdb.org/t/p/original" + value.backdrop_path!;
+    const ditheredImageUrl = await ditherer.dither(url);
+    props.backdropURL = ditheredImageUrl || url;
+    props.overview = value.overview!;
+  }
 
-//   const props: MoviePageProps = {
-//     title: data[0]?.title!,
-//     year: data[0]?.year!,
-//     series: seriesMap,
-//     director: data[0]?.director!,
-//     backdrop_path: "",
-//     overview: "",
-//   };
-
-//   if (!supplementaryData.length) {
-//     return props;
-//   }
-
-//   // props.backdrop_path =
-//   //   "https://image.tmdb.org/t/p/w500" + supplementaryData[0]?.backdrop_path!;
-//   props.backdrop_path = supplementaryData[0]?.backdrop_path!;
-//   props.overview = supplementaryData[0]?.overview;
-
-//   return props;
-// }
-
-// export const getServerSideProps: GetServerSideProps<
-//   MoviePageProps,
-//   QParams
-// > = async ({ params }) => {
-//   if (!params?.title) throw Error("Query has no title");
-
-//   const title = params.title;
-//   const year = parseInt(params?.year!);
-
-//   const data = await getDataFromDb(title);
-//   let supplementaryData: MovieDbSearchResult[] = [];
-
-//   if (isNaN(year)) {
-//     supplementaryData = await getSupplementaryData(title, year);
-//   }
-
-//   const props = createPageProps(data, supplementaryData);
-
-//   return {
-//     props: props,
-//   };
-// };
+  return { props: props };
+};
 
 export default function Movie(props: MoviePageProps) {
-  // const { title, year, director, backdrop_path, overview, series } = props;
+  const { title, year, director, backdropURL, overview, series } = props;
   return (
     <>
       <Head>
@@ -101,12 +83,12 @@ export default function Movie(props: MoviePageProps) {
       </Head>
       <Header />
 
-      {/* <main className="wrapper h-full overflow-hidden text-black dark:text-white">
+      <main className="wrapper h-full overflow-hidden text-black dark:text-white">
         <div className="relative mb-10 h-[300px] overflow-hidden drop-shadow-sm  md:h-[500px]">
           <Image
-            // style={{ imageRendering: "pixelated" }}
-            // unoptimized={true}
-            src={backdrop_path}
+            style={{ imageRendering: "auto" }}
+            unoptimized={true}
+            src={backdropURL!}
             className="object-cover object-top"
             fill={true}
             alt=""
@@ -149,7 +131,7 @@ export default function Movie(props: MoviePageProps) {
             ))}
           </div>
         </section>
-      </main> */}
+      </main>
     </>
   );
 }

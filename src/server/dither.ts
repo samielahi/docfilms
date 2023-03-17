@@ -1,10 +1,5 @@
-import {
-  createCanvas,
-  Image,
-  ImageData,
-  Canvas,
-  CanvasRenderingContext2D,
-} from "canvas";
+import { createCanvas, Image, ImageData } from "canvas";
+import type { Canvas, CanvasRenderingContext2D } from "canvas";
 
 export const ditherer = (() => {
   // RGB values for black and white in our tailwind config
