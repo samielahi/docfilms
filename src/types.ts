@@ -27,3 +27,9 @@ export interface DirectorPageProps {
   movieCountByYear?: Map<string, number>;
   profileURL?: string;
 }
+
+export interface SeriesPageProps {
+  series: string;
+  movies: DocMovie[];
+  
+}

@@ -6,6 +6,8 @@ import type { GetServerSideProps } from "next";
 import type { DirectorPageProps, DocMovie } from "~/types";
 import type { QueryParams } from "~/types";
 
+// Can optimize with better sql queries
+
 async function getDataFromDb(director: string) {
   const movies: DocMovie[] = await prisma.movies.findMany({
     select: {
