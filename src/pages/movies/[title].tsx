@@ -5,7 +5,6 @@ import Header from "~/components/Header";
 import DateBlock from "~/components/DateBlock";
 import { prisma } from "~/server/db";
 import moviedb from "~/server/moviedb";
-import { ditherer } from "~/server/dither";
 import type { GetServerSideProps } from "next";
 import type { MoviePageProps, DocMovie } from "~/types";
 import type { QueryParams } from "~/types";
@@ -56,7 +55,7 @@ export const getServerSideProps: GetServerSideProps<
     series: series,
   };
 
-  // Potentially fetch additional data from TMDB
+  // Fetch additional data from TMDB
   const tmdbMovieData = await moviedb.getMovieData(Number(mid));
 
   if (tmdbMovieData.isErr) {
