@@ -35,7 +35,7 @@ export const getServerSideProps: GetServerSideProps<
   QueryParams
 > = async ({ params }) => {
   if (!params?.title) throw Error("Query has no title");
-  // Base Props
+  // Fetch docfilms data
   const title = params.title;
   const year = parseInt(params?.year!);
   const docData = await getDataFromDb(title);
@@ -56,17 +56,15 @@ export const getServerSideProps: GetServerSideProps<
     series: series,
   };
 
-  // Potentially Additional Data From TMDB
+  // Potentially fetch additional data from TMDB
   const tmdbMovieData = await moviedb.getMovieData(Number(mid));
 
   if (tmdbMovieData.isErr) {
     return { props: props };
   } else {
-    const value = tmdbMovieData.value;
-    const url = "https://image.tmdb.org/t/p/original" + value.backdrop_path!;
-    const ditheredImageUrl = await ditherer.dither(url);
-    props.backdropURL = ditheredImageUrl || url;
-    props.overview = value.overview!;
+    // Unwrap the tmdb movie data
+    const data = tmdbMovieData.value;
+    props.overview = data.overview!;
   }
 
   return { props: props };
@@ -86,8 +84,6 @@ export default function Movie(props: MoviePageProps) {
       <main className="wrapper h-full overflow-hidden text-black dark:text-white">
         <div className="relative mb-10 h-[300px] overflow-hidden drop-shadow-sm  md:h-[500px]">
           <Image
-            style={{ imageRendering: "auto" }}
-            unoptimized={true}
             src={backdropURL!}
             className="object-cover object-top"
             fill={true}

@@ -2,6 +2,7 @@
 
 import { Result } from "true-myth";
 import z from "zod";
+import { ditherer } from "./dither";
 
 const TMDBMovieSchema = z.object({
   title: z.string(),
@@ -18,9 +19,7 @@ const TMDBMovieSchema = z.object({
 
 const TMBDCreditSchema = z.object({
   id: z.number(),
-  name: z.string(),
   job: z.string(),
-  profile_path: z.string().nullable(),
 });
 
 const TMDBCreditsSchema = z.object({
@@ -51,6 +50,10 @@ const moviedb = (() => {
 
     const movieJson = (await response.json()) as TMDBMovie;
     const movie = TMDBMovieSchema.parse(movieJson);
+
+    if (movie.backdrop_path) {
+      movie.backdrop_path = await getDitheredImageUrl(movie.backdrop_path);
+    }
 
     return Result.ok(movie);
   }
@@ -99,7 +102,17 @@ const moviedb = (() => {
     const directorJson = (await response.json()) as TMDBDirectorInfo;
     const director = TMDBDirectorSchema.parse(directorJson);
 
+    if (director.profile_path) {
+      director.profile_path = await getDitheredImageUrl(director.profile_path);
+    }
+
     return Result.ok(director);
+  }
+
+  async function getDitheredImageUrl(path: string) {
+    const url = "https://image.tmdb.org/t/p/original" + path;
+    const ditheredImageUrl = await ditherer.dither(url);
+    return ditheredImageUrl;
   }
 
   return { getMovieData, getDirectorData };
