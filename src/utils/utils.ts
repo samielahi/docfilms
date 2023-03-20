@@ -20,4 +20,13 @@ function mapTo(
   return ((n - start1) / (stop1 - start1)) * (stop2 - start2) + start2;
 }
 
-export { getRandomInt, createMappingFn };
+function getDateObject(date: string) {
+  const splitDate = date.split(" ");
+
+  return {
+    month: splitDate[1],
+    year: splitDate[3],
+  };
+}
+
+export { getRandomInt, createMappingFn, getDateObject };
