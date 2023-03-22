@@ -4,7 +4,7 @@ import Header from "~/components/Header";
 import moviedb from "~/server/moviedb";
 import type { GetServerSideProps } from "next";
 import type { DirectorPageProps, DocMovie } from "~/types";
-import type { QueryParams } from "~/types";
+import type { QParams } from "~/types";
 
 // Can optimize with better sql queries
 
@@ -28,7 +28,7 @@ async function getDataFromDb(director: string) {
 
 export const getServerSideProps: GetServerSideProps<
   DirectorPageProps,
-  QueryParams
+  QParams
 > = async ({ params }) => {
   if (!params?.director) throw Error("Query has no director");
   const director = params.director;

@@ -18,16 +18,16 @@ const Director: NextPage = () => {
 
       <main className="wrapper h-full text-black dark:text-white">
         <div className="flex flex-col items-center md:flex-row md:gap-20">
-          <Image
+          {/* <Image
             className="w-[300px] sm:w-[350px] md:w-[500px]"
             src={"/quentin.jpg"}
             width={500}
             height={500}
             alt=""
-          ></Image>
+          ></Image> */}
           <div className="my-10">
             <div className="flow flex flex-col">
-              <h1>Quentin Tarantino</h1>
+              {/* <h1>Quentin Tarantino</h1>
 
               <p>
                 Quentin Jerome Tarantino (born March 27, 1963) is an American
@@ -35,14 +35,14 @@ const Director: NextPage = () => {
                 actor. In the early 1990s he was an independent filmmaker whose
                 films used nonlinear storylines and aestheticization of
                 violence.
-              </p>
+              </p> */}
 
               <div className="hidden h-full flex-col md:flex">
-                <h2>
+                {/* <h2>
                   Tarantino @ <span className="font-logo font-bold">doc</span>
-                </h2>
+                </h2> */}
 
-                <LinePlot
+                {/* <LinePlot
                   xOffset={40}
                   yOffset={60}
                   width={400}
@@ -57,13 +57,13 @@ const Director: NextPage = () => {
                     [2001, 2],
                     [2010, 1],
                   ]}
-                />
+                /> */}
               </div>
             </div>
           </div>
         </div>
 
-        <hr className="my-10" />
+        {/* <hr className="my-10" />
 
         <div className="flow">
           <h2>
@@ -76,7 +76,7 @@ const Director: NextPage = () => {
             <MovieCard title="Kill Bill Vol. 1" year={2003} />
             <MovieCard title="Kill Bill Vol. 2" year={2004} />
           </div>
-        </div>
+        </div> */}
       </main>
     </>
   );

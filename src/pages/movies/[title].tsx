@@ -7,7 +7,7 @@ import { prisma } from "~/server/db";
 import moviedb from "~/server/moviedb";
 import type { GetServerSideProps } from "next";
 import type { MoviePageProps, DocMovie } from "~/types";
-import type { QueryParams } from "~/types";
+import type { QParams } from "~/types";
 
 async function getDataFromDb(title: string) {
   const movies: DocMovie[] = await prisma.movies.findMany({
@@ -31,13 +31,13 @@ async function getDataFromDb(title: string) {
 
 export const getServerSideProps: GetServerSideProps<
   MoviePageProps,
-  QueryParams
-> = async ({ params }) => {
-  if (!params?.title) throw Error("Query has no title");
+  QParams
+> = async ({ query }) => {
+  if (!query?.title) throw Error("Query has no title");
   // Fetch docfilms data
-  const title = params.title;
-  const year = parseInt(params?.year!);
-  const docData = await getDataFromDb(title);
+  const title = query.title as string;
+  const year = query.year as string;
+  const docData = await getDataFromDb(title as string);
   const { director, mid } = docData[0]!;
   const series: Record<string, string> = {};
 
@@ -50,7 +50,7 @@ export const getServerSideProps: GetServerSideProps<
 
   const props: MoviePageProps = {
     title: title,
-    year: year,
+    year: parseInt(year),
     director: director!,
     series: series,
   };
@@ -63,6 +63,7 @@ export const getServerSideProps: GetServerSideProps<
   } else {
     // Unwrap the tmdb movie data
     const data = tmdbMovieData.value;
+    props.backdropURL = data.backdrop_path!;
     props.overview = data.overview!;
   }
 
@@ -71,6 +72,7 @@ export const getServerSideProps: GetServerSideProps<
 
 export default function Movie(props: MoviePageProps) {
   const { title, year, director, backdropURL, overview, series } = props;
+  console.log(backdropURL);
   return (
     <>
       <Head>
@@ -84,6 +86,7 @@ export default function Movie(props: MoviePageProps) {
         <div className="relative mb-10 h-[300px] overflow-hidden drop-shadow-sm  md:h-[500px]">
           <Image
             src={backdropURL!}
+            unoptimized={true}
             className="object-cover object-top"
             fill={true}
             alt=""

@@ -3,7 +3,7 @@ import { prisma } from "~/server/db";
 import Header from "~/components/Header";
 import type { GetServerSideProps } from "next";
 import type { DocMovie, SeriesPageProps } from "~/types";
-import type { QueryParams } from "~/types";
+import type { QParams } from "~/types";
 
 // Can optimize with better sql queries
 
@@ -27,7 +27,7 @@ async function getDataFromDb(series: string) {
 
 export const getServerSideProps: GetServerSideProps<
   SeriesPageProps,
-  QueryParams
+  QParams
 > = async ({ params }) => {
   if (!params?.series) throw Error("Query has no series");
 

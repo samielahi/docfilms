@@ -4,7 +4,7 @@ import type { ParsedUrlQuery } from "querystring";
 export type Callback<T, O> = (...args: T[]) => O;
 export type DocMovie = Omit<Partial<Movies>, "id" | "notes">;
 
-export interface QueryParams extends ParsedUrlQuery {
+export interface QParams extends ParsedUrlQuery {
   title?: string;
   director?: string;
   series?: string;
@@ -31,5 +31,4 @@ export interface DirectorPageProps {
 export interface SeriesPageProps {
   series: string;
   movies: DocMovie[];
-  
 }

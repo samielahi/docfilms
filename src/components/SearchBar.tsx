@@ -1,11 +1,11 @@
-import type { movies } from "@prisma/client";
+import type { Movies } from "@prisma/client";
 import { useState } from "react";
 import useDebouncedValue from "~/hooks/useDebouncedValue";
 import { api } from "~/utils/api";
 import SearchResult from "./SearchResult";
 
 function SearchResults(props: {
-  movies: Partial<movies>[] | undefined;
+  movies: Partial<Movies>[] | undefined;
   isLoading: boolean;
   isError: boolean;
   value: string;
