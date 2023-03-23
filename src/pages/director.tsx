@@ -3,7 +3,7 @@ import Head from "next/head";
 import Image from "next/image";
 import Header from "~/components/Header";
 import MovieCard from "~/components/MovieCard";
-import LinePlot from "~/components/LinePlot";
+import BarPlot from "~/components/BarPlot";
 
 const Director: NextPage = () => {
   return (
@@ -18,16 +18,16 @@ const Director: NextPage = () => {
 
       <main className="wrapper h-full text-black dark:text-white">
         <div className="flex flex-col items-center md:flex-row md:gap-20">
-          <Image
+          {/* <Image
             className="w-[300px] sm:w-[350px] md:w-[500px]"
             src={"/quentin.jpg"}
             width={500}
             height={500}
             alt=""
-          ></Image>
+          ></Image> */}
           <div className="my-10">
             <div className="flow flex flex-col">
-              <h1>Quentin Tarantino</h1>
+              {/* <h1>Quentin Tarantino</h1>
 
               <p>
                 Quentin Jerome Tarantino (born March 27, 1963) is an American
@@ -35,35 +35,35 @@ const Director: NextPage = () => {
                 actor. In the early 1990s he was an independent filmmaker whose
                 films used nonlinear storylines and aestheticization of
                 violence.
-              </p>
+              </p> */}
 
               <div className="hidden h-full flex-col md:flex">
-                <h2>
+                {/* <h2>
                   Tarantino @ <span className="font-logo font-bold">doc</span>
-                </h2>
+                </h2> */}
 
-                <LinePlot
-                  xOffset={40}
+                <BarPlot
+                  xOffset={80}
                   yOffset={60}
-                  width={400}
-                  height={200}
-                  domain={[40, 400]}
-                  range={[140, 60]}
-                  dataDomain={[1930, 2023]}
-                  dataRange={[0, 20]}
-                  data={[
-                    [1939, 8],
-                    [1942, 1],
-                    [2001, 2],
-                    [2010, 1],
-                  ]}
+                  width={600}
+                  height={300}
+                  data={{
+                    domain: [1930, 2023],
+                    range: [0, 10],
+                    values: [
+                      [1939, 8],
+                      [1942, 1],
+                      [2001, 2],
+                      [2010, 1],
+                    ],
+                  }}
                 />
               </div>
             </div>
           </div>
         </div>
 
-        <hr className="my-10" />
+        {/* <hr className="my-10" />
 
         <div className="flow">
           <h2>
@@ -76,7 +76,7 @@ const Director: NextPage = () => {
             <MovieCard title="Kill Bill Vol. 1" year={2003} />
             <MovieCard title="Kill Bill Vol. 2" year={2004} />
           </div>
-        </div>
+        </div> */}
       </main>
     </>
   );

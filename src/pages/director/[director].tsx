@@ -2,7 +2,7 @@ import Head from "next/head";
 import Image from "next/image";
 import Header from "~/components/Header";
 import MovieCard from "~/components/MovieCard";
-import LinePlot from "~/components/LinePlot";
+import BarPlot from "~/components/BarPlot";
 import { prisma } from "~/server/db";
 import moviedb from "~/server/moviedb";
 import type { GetServerSideProps } from "next";
@@ -111,7 +111,7 @@ export default function Director(props: DirectorPageProps) {
                   {director} @ <span className="font-logo font-bold">doc</span>
                 </h2>
 
-                <LinePlot
+                <BarPlot
                   xOffset={40}
                   yOffset={60}
                   width={400}
