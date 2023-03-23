@@ -85,7 +85,7 @@ export default function LinePlot(props: LinePlotProps) {
       </g>
 
       {mappedData?.map((point, i) => (
-        <div key={i}>
+        <>
           <text
             x={point[0]! - 4}
             y={160}
@@ -129,7 +129,7 @@ export default function LinePlot(props: LinePlotProps) {
               r={4}
             ></circle>
           </g>
-        </div>
+        </>
       ))}
     </svg>
   );

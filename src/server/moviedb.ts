@@ -102,6 +102,10 @@ const moviedb = (() => {
     const directorJson = (await response.json()) as TMDBDirectorInfo;
     const director = TMDBDirectorSchema.parse(directorJson);
 
+    const splitBiography = director.biography.split(".");
+    const truncatedBiography = splitBiography[0]! + ". " + splitBiography[1] + '.';
+    director.biography = truncatedBiography;
+
     if (director.profile_path) {
       director.profile_path = await getDitheredImageUrl(director.profile_path);
     }

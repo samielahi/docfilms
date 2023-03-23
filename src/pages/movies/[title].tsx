@@ -72,7 +72,6 @@ export const getServerSideProps: GetServerSideProps<
 
 export default function Movie(props: MoviePageProps) {
   const { title, year, director, backdropURL, overview, series } = props;
-  console.log(backdropURL);
   return (
     <>
       <Head>
@@ -101,7 +100,11 @@ export default function Movie(props: MoviePageProps) {
               </h1>
             </div>
 
-            <Link href={"/director"}>
+            <Link
+              href={{
+                pathname: `/director/${props.director}`,
+              }}
+            >
               <p className="w-fit capitalize underline decoration-orange decoration-4 underline-offset-4">
                 {director}
               </p>
