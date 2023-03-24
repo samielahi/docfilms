@@ -51,8 +51,8 @@ export default function BarPlot(props: BarPlotProps) {
 
   return (
     <>
-      <div className="border-2 p-8">
-        <svg className="border-2" width={width} height={height}>
+      <div className="">
+        <svg className="border-0" width={width} height={height}>
           {/* Axes */}
           <g>
             {/* X */}
@@ -105,7 +105,7 @@ export default function BarPlot(props: BarPlotProps) {
                     x={mappedDatum[0]}
                     y={height! - (yOffset! - tickOffset)}
                     className="fill-white text-[12px] font-mono font-bold"
-                    transform={`rotate(-90, ${mappedDatum[0]}, ${
+                    transform={`rotate(-90, ${mappedDatum[0]!}, ${
                       height! - (yOffset! - tickOffset)
                     })`}
                   >
