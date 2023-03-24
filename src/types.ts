@@ -24,7 +24,7 @@ export interface DirectorPageProps {
   director: string;
   blurb?: string;
   movies?: DocMovie[];
-  movieCountByYear?: Record<number, number>;
+  movieCountByDecade?: Record<number, number>;
   profileURL?: string;
 }
 

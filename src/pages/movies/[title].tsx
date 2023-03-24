@@ -72,6 +72,7 @@ export const getServerSideProps: GetServerSideProps<
 
 export default function Movie(props: MoviePageProps) {
   const { title, year, director, backdropURL, overview, series } = props;
+  console.log(backdropURL);
   return (
     <>
       <Head>
@@ -82,15 +83,18 @@ export default function Movie(props: MoviePageProps) {
       <Header />
 
       <main className="wrapper h-full overflow-hidden text-black dark:text-white">
-        <div className="relative mb-10 h-[300px] overflow-hidden drop-shadow-sm  md:h-[500px]">
-          <Image
-            src={backdropURL!}
-            unoptimized={true}
-            className="object-cover object-top"
-            fill={true}
-            alt=""
-          ></Image>
-        </div>
+        {backdropURL ? (
+          <div className="relative mb-10 h-[350px] overflow-hidden drop-shadow-sm  md:h-[500px]">
+            <Image
+              src={backdropURL!}
+              className="border-4  border-orange object-cover"
+              fill={true}
+              alt=""
+            ></Image>
+          </div>
+        ) : (
+          <></>
+        )}
         <section className="mb-10">
           <div className="flow flex flex-col">
             <div className="flex items-center gap-6 capitalize">
@@ -113,7 +117,7 @@ export default function Movie(props: MoviePageProps) {
             <p>{overview}</p>
           </div>
 
-          <hr className="mt-8 mb-8 w-[100%]" />
+          <hr className="mt-8 mb-8 w-[100%] border-t-4 border-gray/70 border-dashed bg-transparent" />
           <div className="flow flex flex-col">
             <h2>
               Shown @ <span className="font-logo font-bold">doc</span>:

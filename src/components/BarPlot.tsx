@@ -1,7 +1,7 @@
 import { createMappingFn } from "~/utils/utils";
 
 export interface BarPlotData {
-  values: [number, number][];
+  values: number[][];
   domain: [number, number];
   range: [number, number];
 }
@@ -30,14 +30,14 @@ export default function BarPlot(props: BarPlotProps) {
   ]);
 
   const mappedData = data?.values.map((value) => [
-    mapToDomain(value[0]),
-    mapToRange(value[1]),
+    mapToDomain(value[0]!),
+    mapToRange(value[1]!),
   ]);
 
   // Y-axis Calculations
   const maxRange = Math.ceil(data?.range[1]! / 10) * 10;
   const tickOffset = 30;
-  const intervalSize = 5;
+  const intervalSize = 10;
   const tickCount = maxRange / intervalSize + 1;
   const intervals = [];
 
@@ -71,7 +71,7 @@ export default function BarPlot(props: BarPlotProps) {
                   <text
                     textAnchor="middle"
                     dominantBaseline="central"
-                    className="fill-white text-[14px] font-mono font-bold"
+                    className="dark:fill-white  font-mono text-[14px] font-bold"
                     x={interval[0]}
                     y={interval[1]}
                   >
@@ -85,7 +85,7 @@ export default function BarPlot(props: BarPlotProps) {
                       x2={width! - xOffset!}
                       y2={interval[1]}
                       strokeDasharray={3}
-                      className="stroke-violet"
+                      className="-z-1 stroke-violet opacity-60"
                     ></line>
                   ) : (
                     <></>
@@ -102,10 +102,10 @@ export default function BarPlot(props: BarPlotProps) {
                   <text
                     dominantBaseline="central"
                     textAnchor="middle"
-                    x={mappedDatum[0]}
+                    x={mappedDatum[0]!}
                     y={height! - (yOffset! - tickOffset)}
-                    className="fill-white text-[12px] font-mono font-bold"
-                    transform={`rotate(-90, ${mappedDatum[0]!}, ${
+                    className="dark:fill-white font-mono text-[12px] font-bold"
+                    transform={`rotate(0, ${mappedDatum[0]!}, ${
                       height! - (yOffset! - tickOffset)
                     })`}
                   >
@@ -116,7 +116,7 @@ export default function BarPlot(props: BarPlotProps) {
                     x2={mappedDatum[0]}
                     y1={height! - yOffset!}
                     y2={mappedDatum[1]}
-                    className="-z-1 stroke-orange stroke-[5px]"
+                    className="stroke-orange stroke-[15px]"
                   ></line>
                 </g>
               </>

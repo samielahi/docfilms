@@ -115,8 +115,8 @@ const moviedb = (() => {
 
   async function getDitheredImageUrl(path: string) {
     const url = "https://image.tmdb.org/t/p/original" + path;
-    const ditheredImageUrl = await ditherer.dither(url);
-    return ditheredImageUrl;
+    // const ditheredImageUrl = await ditherer.dither(url);
+    return url;
   }
 
   return { getMovieData, getDirectorData };

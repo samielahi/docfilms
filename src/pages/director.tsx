@@ -16,18 +16,18 @@ const Director: NextPage = () => {
 
       <Header />
 
-      <main className="wrapper h-full text-black dark:text-white">
+      <main className="wrapper h-full w-full text-black dark:text-white">
         <div className="flex flex-col items-center md:flex-row md:gap-20">
-          {/* <Image
-            className="w-[300px] sm:w-[350px] md:w-[500px]"
+          <Image
+            className="w-[300px] border-4 border-orange sm:w-[350px] md:w-[500px]"
             src={"/quentin.jpg"}
             width={500}
             height={500}
             alt=""
-          ></Image> */}
+          ></Image>
           <div className="my-10">
             <div className="flow flex flex-col">
-              {/* <h1>Quentin Tarantino</h1>
+              <h1>Quentin Tarantino</h1>
 
               <p>
                 Quentin Jerome Tarantino (born March 27, 1963) is an American
@@ -35,12 +35,12 @@ const Director: NextPage = () => {
                 actor. In the early 1990s he was an independent filmmaker whose
                 films used nonlinear storylines and aestheticization of
                 violence.
-              </p> */}
+              </p>
 
               <div className="hidden h-full flex-col md:flex">
-                {/* <h2>
+                <h2>
                   Tarantino @ <span className="font-logo font-bold">doc</span>
-                </h2> */}
+                </h2>
 
                 <BarPlot
                   xOffset={80}
@@ -48,13 +48,13 @@ const Director: NextPage = () => {
                   width={600}
                   height={300}
                   data={{
-                    domain: [1930, 2023],
-                    range: [0, 10],
+                    domain: [1920, 2020],
+                    range: [0, 50],
                     values: [
-                      [1939, 8],
-                      [1942, 1],
-                      [2001, 2],
-                      [2010, 1],
+                      [1930, 20],
+                      [1940, 12],
+                      [2000, 8],
+                      [2010, 18],
                     ],
                   }}
                 />
@@ -63,7 +63,7 @@ const Director: NextPage = () => {
           </div>
         </div>
 
-        {/* <hr className="my-10" />
+        <span className="my-10 h-1 w-[400px] border-2 border-black" />
 
         <div className="flow">
           <h2>
@@ -76,7 +76,7 @@ const Director: NextPage = () => {
             <MovieCard title="Kill Bill Vol. 1" year={2003} />
             <MovieCard title="Kill Bill Vol. 2" year={2004} />
           </div>
-        </div> */}
+        </div>
       </main>
     </>
   );

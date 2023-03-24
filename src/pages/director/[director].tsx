@@ -9,8 +9,6 @@ import type { GetServerSideProps } from "next";
 import type { DirectorPageProps, DocMovie } from "~/types";
 import type { QParams } from "~/types";
 
-// Can optimize with better sql queries
-
 async function getDataFromDb(director: string) {
   const movies: DocMovie[] = await prisma.movies.findMany({
     select: {
@@ -38,7 +36,7 @@ export const getServerSideProps: GetServerSideProps<
 
   const docData = await getDataFromDb(director);
   let mid: number = 0;
-  const movieCountByYear: Record<number, number> = {};
+  const movieCountByDecade: Record<number, number> = {};
 
   docData.forEach((movie) => {
     if (!mid) {
@@ -46,11 +44,12 @@ export const getServerSideProps: GetServerSideProps<
     }
 
     const year = parseInt(movie.date?.toDateString().split(" ")[3]!);
+    const decade = Math.floor(year / 10) * 10;
 
-    if (Object.hasOwn(movieCountByYear, `${year}`)) {
-      movieCountByYear[`${year}`] += 1;
+    if (Object.hasOwn(movieCountByDecade, `${decade}`)) {
+      movieCountByDecade[`${decade}`] += 1;
     } else {
-      movieCountByYear[`${year}`] = 1;
+      movieCountByDecade[`${decade}`] = 1;
     }
 
     movie.date = null;
@@ -60,7 +59,7 @@ export const getServerSideProps: GetServerSideProps<
   const props: DirectorPageProps = {
     director: director,
     movies: docData,
-    movieCountByYear: movieCountByYear,
+    movieCountByDecade: movieCountByDecade,
   };
 
   let tmdbDirectorData = null;
@@ -81,7 +80,11 @@ export const getServerSideProps: GetServerSideProps<
 };
 
 export default function Director(props: DirectorPageProps) {
-  const { director, blurb, movieCountByYear, movies, profileURL } = props;
+  const { director, blurb, movieCountByDecade, movies, profileURL } = props;
+  const values = Object.entries(movieCountByDecade!).map((mc) => [
+    parseInt(mc[0]),
+    mc[1],
+  ]);
   return (
     <>
       <Head>
@@ -94,7 +97,7 @@ export default function Director(props: DirectorPageProps) {
       <main className="wrapper h-full text-black dark:text-white">
         <div className="flex flex-col items-center md:flex-row md:gap-20">
           <Image
-            className="w-[300px] sm:w-[350px] md:w-[400px]"
+            className="w-[300px] border-4 border-yellow sm:w-[350px] md:w-[450px]"
             src={profileURL!}
             width={400}
             height={300}
@@ -112,27 +115,22 @@ export default function Director(props: DirectorPageProps) {
                 </h2>
 
                 <BarPlot
-                  xOffset={40}
+                  xOffset={80}
                   yOffset={60}
-                  width={400}
-                  height={200}
-                  domain={[40, 400]}
-                  range={[140, 60]}
-                  dataDomain={[1930, 2023]}
-                  dataRange={[0, 20]}
-                  data={[
-                    [1939, 8],
-                    [1942, 1],
-                    [2001, 2],
-                    [2010, 1],
-                  ]}
+                  width={525}
+                  height={300}
+                  data={{
+                    domain: [1920, 2030],
+                    range: [0, 50],
+                    values: values!,
+                  }}
                 />
               </div>
             </div>
           </div>
         </div>
 
-        <hr className="my-10" />
+        <hr className="mt-8 mb-8 w-[100%] border-t-4 border-gray/70 border-dashed bg-transparent" />
 
         <div className="flow">
           <h2>
