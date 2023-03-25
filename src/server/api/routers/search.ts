@@ -8,6 +8,7 @@ export const searchRouter = createTRPCRouter({
       take: 5,
       distinct: ["title"],
       select: {
+        id: true,
         title: true,
         year: true,
         director: true,

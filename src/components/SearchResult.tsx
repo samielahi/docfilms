@@ -12,7 +12,7 @@ export default function SearchResult(props: Partial<Movies>) {
         query: { year: props.year },
       }}
     >
-      <div className="flex w-full cursor-pointer justify-between gap-4 bg-white p-4 decoration-orange underline-offset-4 hover:bg-slate-100 hover:underline">
+      <div className="flex w-full cursor-pointer justify-between gap-4 bg-[#fff] p-4 decoration-orange underline-offset-4 hover:bg-slate-100 hover:underline">
         <h3 className="text-sm capitalize text-black md:text-lg">
           {props.title} {props.year ? `(${props.year})` : ""}
         </h3>
