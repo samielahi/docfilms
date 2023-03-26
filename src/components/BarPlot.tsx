@@ -1,4 +1,4 @@
-import { createMappingFn } from "~/utils/utils";
+import { createMappingFn } from "~/utils";
 
 export interface BarPlotData {
   values: number[][];
@@ -71,7 +71,7 @@ export default function BarPlot(props: BarPlotProps) {
                   <text
                     textAnchor="middle"
                     dominantBaseline="central"
-                    className="dark:fill-white  font-mono text-[14px] font-bold"
+                    className="font-mono  text-[14px] font-bold dark:fill-white"
                     x={interval[0]}
                     y={interval[1]}
                   >
@@ -104,7 +104,7 @@ export default function BarPlot(props: BarPlotProps) {
                     textAnchor="middle"
                     x={mappedDatum[0]!}
                     y={height! - (yOffset! - tickOffset)}
-                    className="dark:fill-white font-mono text-[12px] font-bold"
+                    className="font-mono text-[12px] font-bold dark:fill-white"
                     transform={`rotate(0, ${mappedDatum[0]!}, ${
                       height! - (yOffset! - tickOffset)
                     })`}

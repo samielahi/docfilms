@@ -1,43 +1,39 @@
-import type { Movies } from "@prisma/client";
 import { useState } from "react";
 import useDebouncedValue from "~/hooks/useDebouncedValue";
-import { api } from "~/utils/api";
 import SearchResult from "./SearchResult";
+import { DocMovieSearchIndexResult } from "~/hooks/useFlexSearch";
+import useFlexSearch from "~/hooks/useFlexSearch";
 
 function SearchResults(props: {
-  movies: Partial<Movies>[] | undefined;
-  isLoading: boolean;
-  isError: boolean;
-  value: string;
+  movies: DocMovieSearchIndexResult[] | undefined;
+  query: string;
 }) {
-  const { movies, isLoading, isError, value } = props;
-
-  if (isLoading || isError) return <></>;
+  const { movies, query } = props;
 
   return (
-    <div className="h-[350px] w-full rounded-b-xl">
+    <div className="h-max w-full rounded-b-xl">
       <hr className="text-gray/40" />
       {movies!.length ? (
         <>
           {movies!.map((movie, i) => (
             <SearchResult
               key={i}
-              title={movie.title}
-              director={movie.director}
-              year={movie.year}
+              title={movie.title!}
+              director={movie.director!}
+              year={movie.year!}
             />
           ))}
         </>
       ) : (
         <>
-          <div className="flex h-full w-full flex-col items-center justify-center p-4 md:text-2xl">
+          {/* <div className="flex h-full w-full flex-col items-center justify-center p-4 md:text-2xl">
             <span className="w-fit italic text-gray">
               No search results found for :
             </span>
             <span className="underline decoration-orange underline-offset-4">
-              {value}
+              {query}
             </span>
-          </div>
+          </div> */}
         </>
       )}
     </div>
@@ -45,16 +41,18 @@ function SearchResults(props: {
 }
 
 export default function SearchBar() {
-  const [value, setValue] = useState("");
-  const debouncedValue = useDebouncedValue(value);
-  const { data, isLoading, isError } = api.searchMovies.byTitle.useQuery(
-    debouncedValue,
-    { enabled: debouncedValue.length > 3 }
-  );
-  const valueIsEmpty = value === "";
+  const [query, setQuery] = useState("");
+  const debouncedQuery = useDebouncedValue(query);
+  const { results, isError } = useFlexSearch(debouncedQuery);
+
+  if (isError) return <div>An error occurred.</div>;
+
+  console.log(results);
+
+  const valueIsEmpty = query === "";
 
   function clearValue() {
-    if (!valueIsEmpty) setValue("");
+    if (!valueIsEmpty) setQuery("");
   }
 
   return (
@@ -79,9 +77,9 @@ export default function SearchBar() {
               className="bg-[#fff] outline-none placeholder:bg-[#fff] placeholder:italic placeholder:text-gray md:text-2xl"
               autoComplete="off"
               autoFocus
-              value={value}
+              value={query}
               onChange={(event) => {
-                setValue(event.target.value);
+                setQuery(event.target.value);
               }}
               id="search"
               type="text"
@@ -109,12 +107,7 @@ export default function SearchBar() {
           </button>
         </div>
 
-        <SearchResults
-          value={value}
-          movies={data}
-          isLoading={isLoading}
-          isError={isError}
-        />
+        <SearchResults query={query} movies={results} />
       </div>
     </>
   );

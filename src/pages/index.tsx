@@ -17,15 +17,6 @@ const Home: NextPage = () => {
           <Logo size="large" />
           <SearchBar />
         </div>
-        {/* <div className="relative h-[300px] md:h-[650px] w-full overflow-hidden">
-          <Image
-            quality={100}
-            alt=""
-            src={"/tickets.png"}
-            fill={true}
-            className="object-cover object-top md:mt-20"
-          ></Image>
-        </div> */}
       </main>
     </>
   );

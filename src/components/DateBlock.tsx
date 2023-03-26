@@ -1,4 +1,4 @@
-import { getDateObject } from "~/utils/utils";
+import { getDateObject } from "~/utils";
 
 export interface DateBlockProps {
   date?: string;

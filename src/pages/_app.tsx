@@ -1,5 +1,4 @@
 import { type AppType } from "next/app";
-import { api } from "~/utils/api";
 import { Poppins, Atkinson_Hyperlegible } from "next/font/google";
 
 const logoFont = Poppins({
@@ -14,7 +13,7 @@ const mainFont = Atkinson_Hyperlegible({
   subsets: ["latin"],
 });
 
-import "~/styles/globals.css";
+import "~/globals.css";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
@@ -33,4 +32,4 @@ const MyApp: AppType = ({ Component, pageProps }) => {
   );
 };
 
-export default api.withTRPC(MyApp);
+export default MyApp;
