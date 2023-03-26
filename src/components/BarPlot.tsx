@@ -19,23 +19,21 @@ export interface BarPlotProps {
 export default function BarPlot(props: BarPlotProps) {
   const { width, height, xOffset, yOffset, data } = props;
 
-  const mapToDomain = createMappingFn(data?.domain!, [
-    xOffset!,
-    width! - xOffset!,
-  ]);
+  if (!width || !height || !xOffset || !yOffset || !data) {
+    return <></>;
+  }
 
-  const mapToRange = createMappingFn(data?.range!, [
-    height! - yOffset!,
-    yOffset!,
-  ]);
+  const mapToDomain = createMappingFn(data.domain, [xOffset, width - xOffset]);
 
-  const mappedData = data?.values.map((value) => [
+  const mapToRange = createMappingFn(data.range, [height - yOffset, yOffset]);
+
+  const mappedData = data.values.map((value) => [
     mapToDomain(value[0]!),
     mapToRange(value[1]!),
   ]);
 
   // Y-axis Calculations
-  const maxRange = Math.ceil(data?.range[1]! / 10) * 10;
+  const maxRange = Math.ceil(data.range[1] / 10) * 10;
   const tickOffset = 30;
   const intervalSize = 10;
   const tickCount = maxRange / intervalSize + 1;
@@ -43,7 +41,7 @@ export default function BarPlot(props: BarPlotProps) {
 
   for (let i = 0; i < tickCount; i++) {
     intervals.push([
-      xOffset! - tickOffset,
+      xOffset - tickOffset,
       mapToRange(intervalSize * i),
       intervalSize * i,
     ]);
@@ -58,9 +56,9 @@ export default function BarPlot(props: BarPlotProps) {
             {/* X */}
             <line
               x1={xOffset}
-              y1={height! - yOffset!}
-              x2={width! - xOffset!}
-              y2={height! - yOffset!}
+              y1={height - yOffset}
+              x2={width - xOffset}
+              y2={height - yOffset}
               className="stroke-violet stroke-[4px]"
             ></line>
 
@@ -82,7 +80,7 @@ export default function BarPlot(props: BarPlotProps) {
                     <line
                       x1={xOffset}
                       y1={interval[1]}
-                      x2={width! - xOffset!}
+                      x2={width - xOffset}
                       y2={interval[1]}
                       strokeDasharray={3}
                       className="-z-1 stroke-violet opacity-60"
@@ -96,25 +94,25 @@ export default function BarPlot(props: BarPlotProps) {
           </g>
           {/* Plotting Data */}
           <g>
-            {mappedData!.map((mappedDatum, i) => (
+            {mappedData.map((mappedDatum, i) => (
               <>
                 <g key={i}>
                   <text
                     dominantBaseline="central"
                     textAnchor="middle"
-                    x={mappedDatum[0]!}
-                    y={height! - (yOffset! - tickOffset)}
+                    x={mappedDatum[0]}
+                    y={height - (yOffset - tickOffset)}
                     className="font-mono text-[12px] font-bold dark:fill-white"
                     transform={`rotate(0, ${mappedDatum[0]!}, ${
-                      height! - (yOffset! - tickOffset)
+                      height - (yOffset - tickOffset)
                     })`}
                   >
-                    {data!.values[i]![0]}
+                    {data.values[i]![0]}
                   </text>
                   <line
                     x1={mappedDatum[0]}
                     x2={mappedDatum[0]}
-                    y1={height! - yOffset!}
+                    y1={height - yOffset}
                     y2={mappedDatum[1]}
                     className="stroke-orange stroke-[15px]"
                   ></line>

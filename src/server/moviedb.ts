@@ -2,7 +2,6 @@
 
 import { Result } from "true-myth";
 import z from "zod";
-import { ditherer } from "./dither";
 
 const TMDBMovieSchema = z.object({
   title: z.string(),
@@ -52,7 +51,7 @@ const moviedb = (() => {
     const movie = TMDBMovieSchema.parse(movieJson);
 
     if (movie.backdrop_path) {
-      movie.backdrop_path = await getDitheredImageUrl(movie.backdrop_path);
+      movie.backdrop_path = getImageUrl(movie.backdrop_path);
     }
 
     return Result.ok(movie);
@@ -103,19 +102,18 @@ const moviedb = (() => {
     const director = TMDBDirectorSchema.parse(directorJson);
 
     const splitBiography = director.biography.split(".");
-    const truncatedBiography = splitBiography[0]! + ". " + splitBiography[1] + '.';
+    const truncatedBiography = `${splitBiography[0]!}. ${splitBiography[1]!}.}`;
     director.biography = truncatedBiography;
 
     if (director.profile_path) {
-      director.profile_path = await getDitheredImageUrl(director.profile_path);
+      director.profile_path = getImageUrl(director.profile_path);
     }
 
     return Result.ok(director);
   }
 
-  async function getDitheredImageUrl(path: string) {
+  function getImageUrl(path: string) {
     const url = "https://image.tmdb.org/t/p/original" + path;
-    // const ditheredImageUrl = await ditherer.dither(url);
     return url;
   }
 

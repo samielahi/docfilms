@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
-import useSWR, { Fetcher } from "swr";
+import type { Fetcher } from "swr";
+import useSWR from "swr";
 import { Document } from "flexsearch";
 
 export interface DocMovieSearchIndexResult {
@@ -51,7 +52,7 @@ export default function useFlexSearch(query: string) {
     }
 
     return index;
-  }, []);
+  }, [data]);
 
   const numberOfResults = 5;
   const indexResults = useMemo(
@@ -60,7 +61,7 @@ export default function useFlexSearch(query: string) {
         limit: numberOfResults,
         enrich: true,
       }),
-    [query]
+    [query, document]
   );
 
   const searchResults = indexResults.length

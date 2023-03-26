@@ -1,40 +1,28 @@
 import { useState } from "react";
 import useDebouncedValue from "~/hooks/useDebouncedValue";
 import SearchResult from "./SearchResult";
-import { DocMovieSearchIndexResult } from "~/hooks/useFlexSearch";
+import type { DocMovieSearchIndexResult } from "~/hooks/useFlexSearch";
 import useFlexSearch from "~/hooks/useFlexSearch";
 
-function SearchResults(props: {
-  movies: DocMovieSearchIndexResult[] | undefined;
-  query: string;
-}) {
-  const { movies, query } = props;
+function SearchResults(props: { movies: DocMovieSearchIndexResult[] }) {
+  const { movies } = props;
 
   return (
     <div className="h-max w-full rounded-b-xl">
-      <hr className="text-gray/40" />
-      {movies!.length ? (
+      {movies.length ? (
         <>
-          {movies!.map((movie, i) => (
+          <hr className="text-gray/40" />
+          {movies?.map((movie, i) => (
             <SearchResult
               key={i}
-              title={movie.title!}
-              director={movie.director!}
-              year={movie.year!}
+              title={movie.title}
+              director={movie.director}
+              year={movie.year}
             />
           ))}
         </>
       ) : (
-        <>
-          {/* <div className="flex h-full w-full flex-col items-center justify-center p-4 md:text-2xl">
-            <span className="w-fit italic text-gray">
-              No search results found for :
-            </span>
-            <span className="underline decoration-orange underline-offset-4">
-              {query}
-            </span>
-          </div> */}
-        </>
+        <></>
       )}
     </div>
   );
@@ -45,9 +33,7 @@ export default function SearchBar() {
   const debouncedQuery = useDebouncedValue(query);
   const { results, isError } = useFlexSearch(debouncedQuery);
 
-  if (isError) return <div>An error occurred.</div>;
-
-  console.log(results);
+  if (!results || isError) return <div>An error occurred.</div>;
 
   const valueIsEmpty = query === "";
 
@@ -107,7 +93,7 @@ export default function SearchBar() {
           </button>
         </div>
 
-        <SearchResults query={query} movies={results} />
+        <SearchResults movies={results} />
       </div>
     </>
   );
