@@ -1,17 +1,15 @@
 import Link from "next/link";
 import { useEffect, useState, useRef, MutableRefObject } from "react";
-import type { KeyboardEvent as ReactKeyboardEvent, Dispatch } from "react";
+import { useRouter } from "next/router";
+import type { KeyboardEvent as ReactKeyboardEvent } from "react";
 import type { DocMovieSearchIndexResult } from "~/hooks/useFlexSearch";
 
-interface SearchResultProps {
-  title: string;
-  director?: string;
-  year?: number;
+interface SearchResultProps extends DocMovieSearchIndexResult {
   selected?: boolean;
 }
 
 interface SearchResultsProps {
-  movies: DocMovieSearchIndexResult[];
+  movies: SearchResultProps[];
   searchInputRef: MutableRefObject<HTMLInputElement>;
 }
 
@@ -50,8 +48,9 @@ function SearchResult(props: SearchResultProps) {
 
 export default function SearchResults(props: SearchResultsProps) {
   const { movies, searchInputRef } = props;
-  const resultsRef = useRef<HTMLDivElement | null>(null);
   const [selectedResultIndex, setSelectedResultIndex] = useState(-1);
+  const resultsRef = useRef<HTMLDivElement | null>(null);
+  const router = useRouter();
   const numMovies = movies.length;
 
   function selectResult(e: ReactKeyboardEvent<HTMLDivElement>) {
@@ -67,6 +66,11 @@ export default function SearchResults(props: SearchResultsProps) {
         setSelectedResultIndex(
           selectedResultIndex === 0 ? numMovies - 1 : selectedResultIndex - 1
         );
+        break;
+
+      case "Enter":
+        const { title, year } = movies[selectedResultIndex]!;
+        router.push(`/movies/${title}?year=${year}`);
         break;
       default:
         break;
@@ -86,7 +90,10 @@ export default function SearchResults(props: SearchResultsProps) {
     searchInputRef.current.addEventListener("keydown", focusSearchResults);
 
     return () => {
-      searchInputRef.current.removeEventListener("keydown", focusSearchResults);
+      searchInputRef.current?.removeEventListener(
+        "keydown",
+        focusSearchResults
+      );
     };
   }, [numMovies, searchInputRef]);
 
@@ -105,6 +112,7 @@ export default function SearchResults(props: SearchResultsProps) {
             {movies?.map((movie, i) => (
               <SearchResult
                 key={i}
+                id={movie.id}
                 selected={selectedResultIndex === i}
                 title={movie.title}
                 director={movie.director}

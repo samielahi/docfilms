@@ -9,6 +9,8 @@ export default function SearchBar() {
   const { results, isError } = useFlexSearch(debouncedQuery);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  console.log(results);
+
   if (!results || isError) return <div>An error occurred.</div>;
 
   const valueIsEmpty = query === "";
@@ -37,7 +39,7 @@ export default function SearchBar() {
 
             <input
               ref={inputRef}
-              className="bg-[#fff] outline-none placeholder:bg-[#fff] placeholder:italic placeholder:text-gray md:text-2xl lg:w-[500px]"
+              className="bg-[#fff] text-sm outline-none placeholder:bg-[#fff] placeholder:italic placeholder:text-gray md:text-2xl lg:w-[500px]"
               autoComplete="off"
               autoFocus
               value={query}
