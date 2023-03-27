@@ -1,5 +1,4 @@
 // Utility functions for working with data from TMBD
-
 import { Result } from "true-myth";
 import z from "zod";
 
@@ -96,8 +95,11 @@ const moviedb = (() => {
     const url = `https://api.themoviedb.org/3/person/${
       id.value
     }?api_key=${process.env.MOVIEDB_API_KEY!}&language=en-US`;
+
+    // Needs Error Handling
     const response = await fetch(url);
 
+    // Needs Error Handling
     const directorJson = (await response.json()) as TMDBDirectorInfo;
     const director = TMDBDirectorSchema.parse(directorJson);
 
@@ -113,8 +115,7 @@ const moviedb = (() => {
   }
 
   function getImageUrl(path: string) {
-    const url = "https://image.tmdb.org/t/p/original" + path;
-    return url;
+    return "https://image.tmdb.org/t/p/original" + path;
   }
 
   return { getMovieData, getDirectorData };

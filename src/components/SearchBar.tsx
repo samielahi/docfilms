@@ -1,37 +1,13 @@
-import { useState } from "react";
+import { useState, useRef, MutableRefObject } from "react";
 import useDebouncedValue from "~/hooks/useDebouncedValue";
-import SearchResult from "./SearchResult";
-import type { DocMovieSearchIndexResult } from "~/hooks/useFlexSearch";
 import useFlexSearch from "~/hooks/useFlexSearch";
-
-function SearchResults(props: { movies: DocMovieSearchIndexResult[] }) {
-  const { movies } = props;
-
-  return (
-    <div className="h-max w-full rounded-b-xl">
-      {movies.length ? (
-        <>
-          <hr className="text-gray/40" />
-          {movies?.map((movie, i) => (
-            <SearchResult
-              key={i}
-              title={movie.title}
-              director={movie.director}
-              year={movie.year}
-            />
-          ))}
-        </>
-      ) : (
-        <></>
-      )}
-    </div>
-  );
-}
+import SearchResults from "./SearchResults";
 
 export default function SearchBar() {
   const [query, setQuery] = useState("");
   const debouncedQuery = useDebouncedValue(query);
   const { results, isError } = useFlexSearch(debouncedQuery);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   if (!results || isError) return <div>An error occurred.</div>;
 
@@ -43,7 +19,7 @@ export default function SearchBar() {
 
   return (
     <>
-      <div className="flex h-full w-[300px] flex-col gap-0 rounded-xl border-2 border-gray bg-[#fff] text-black dark:border-0 md:w-[500px] lg:w-[700px]">
+      <div className="flex h-full w-[325px] flex-col gap-0 rounded-xl border-2 border-gray bg-[#fff] text-black dark:border-0 md:w-[500px] lg:w-[700px]">
         <div className="flex w-full items-center justify-between gap-4 px-4 py-2 md:py-4 md:px-6">
           <div className="flex items-center gap-4 md:h-[45px]">
             <svg
@@ -60,7 +36,8 @@ export default function SearchBar() {
             </svg>
 
             <input
-              className="bg-[#fff] outline-none placeholder:bg-[#fff] placeholder:italic placeholder:text-gray md:text-2xl"
+              ref={inputRef}
+              className="bg-[#fff] outline-none placeholder:bg-[#fff] placeholder:italic placeholder:text-gray md:text-2xl lg:w-[500px]"
               autoComplete="off"
               autoFocus
               value={query}
@@ -70,7 +47,7 @@ export default function SearchBar() {
               id="search"
               type="text"
               placeholder="Search for a movie"
-              maxLength={45}
+              maxLength={50}
             />
           </div>
 
@@ -93,7 +70,10 @@ export default function SearchBar() {
           </button>
         </div>
 
-        <SearchResults movies={results} />
+        <SearchResults
+          searchInputRef={inputRef as MutableRefObject<HTMLInputElement>}
+          movies={results}
+        />
       </div>
     </>
   );
