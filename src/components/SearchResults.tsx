@@ -67,7 +67,9 @@ export default function SearchResults(props: SearchResultsProps) {
           selectedResultIndex === 0 ? numMovies - 1 : selectedResultIndex - 1
         );
         break;
-
+      case "Escape":
+        setSelectedResultIndex(-1);
+        break;
       case "Enter":
         const { title, year } = movies[selectedResultIndex]!;
         router.push(`/movies/${title}?year=${year}`);
@@ -77,12 +79,21 @@ export default function SearchResults(props: SearchResultsProps) {
     }
   }
 
+  // Refactor
   function focusSearchResults(e: KeyboardEvent) {
     const key = e.key;
     setSelectedResultIndex(9999);
     if (key === "ArrowDown" && resultsRef.current) {
       setSelectedResultIndex(0);
       resultsRef.current.focus();
+    }
+
+    if (key === "Escape") {
+      setSelectedResultIndex(-1);
+    }
+
+    if (key === "Enter") {
+      router.push(`/search?q=${searchInputRef.current.value}`);
     }
   }
 
@@ -99,7 +110,7 @@ export default function SearchResults(props: SearchResultsProps) {
 
   return (
     <div className="h-max w-full rounded-b-xl">
-      <hr className="text-gray/40" />
+      <hr style={!numMovies ? {display: "none"} : {}} className="text-gray/40" />
       <div
         ref={resultsRef}
         tabIndex={1}

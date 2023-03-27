@@ -1,7 +1,6 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import Logo from "~/components/Logo";
-import Image from "next/image";
 import SearchBar from "~/components/SearchBar";
 
 const Home: NextPage = () => {

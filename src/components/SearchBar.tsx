@@ -7,9 +7,7 @@ export default function SearchBar() {
   const [query, setQuery] = useState("");
   const debouncedQuery = useDebouncedValue(query);
   const { results, isError } = useFlexSearch(debouncedQuery);
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  console.log(results);
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   if (!results || isError) return <div>An error occurred.</div>;
 
@@ -23,8 +21,9 @@ export default function SearchBar() {
     <>
       <div className="flex h-full w-[325px] flex-col gap-0 rounded-xl border-2 border-gray bg-[#fff] text-black dark:border-0 md:w-[500px] lg:w-[700px]">
         <div className="flex w-full items-center justify-between gap-4 px-4 py-2 md:py-4 md:px-6">
-          <div className="flex items-center gap-4 md:h-[45px]">
+          <div role="search" className="flex items-center gap-4 md:h-[45px]">
             <svg
+              aria-label="search"
               className="h-[25px] w-[25px] stroke-gray md:h-[35px] md:w-[35px]"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -38,7 +37,8 @@ export default function SearchBar() {
             </svg>
 
             <input
-              ref={inputRef}
+              ref={searchInputRef}
+              aria-label="Search for movies played at docfilms"
               className="bg-[#fff] text-sm outline-none placeholder:bg-[#fff] placeholder:italic placeholder:text-gray md:text-2xl lg:w-[500px]"
               autoComplete="off"
               autoFocus
@@ -54,6 +54,7 @@ export default function SearchBar() {
           </div>
 
           <button
+            aria-label="clear search query"
             style={valueIsEmpty ? { display: "none" } : { display: "block" }}
             onClick={clearValue}
           >
@@ -73,7 +74,7 @@ export default function SearchBar() {
         </div>
 
         <SearchResults
-          searchInputRef={inputRef as MutableRefObject<HTMLInputElement>}
+          searchInputRef={searchInputRef as MutableRefObject<HTMLInputElement>}
           movies={results}
         />
       </div>
