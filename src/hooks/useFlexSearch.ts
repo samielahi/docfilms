@@ -36,10 +36,9 @@ export default function useFlexSearch(query: string) {
 
   const document = useMemo(() => {
     const index = new Document<DocMovieSearchIndexResult, string[]>({
-      tokenize: "full",
+      tokenize: "forward",
       language: "en",
-      preset: "match",
-      cache: true,
+      preset: "performance",
       context: true,
       document: {
         id: "id",
@@ -55,7 +54,7 @@ export default function useFlexSearch(query: string) {
     return index;
   }, [data]);
 
-  const numberOfResults = 5;
+  const numberOfResults = 7;
   const indexResults = useMemo(
     () =>
       document.search(query, numberOfResults, {
