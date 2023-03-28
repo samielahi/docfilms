@@ -1,4 +1,4 @@
-import { useState, useRef, MutableRefObject } from "react";
+import { useState, useRef, useEffect, MutableRefObject } from "react";
 import useDebouncedValue from "~/hooks/useDebouncedValue";
 import useFlexSearch from "~/hooks/useFlexSearch";
 import SearchResults from "./SearchResults";
@@ -16,6 +16,23 @@ export default function SearchBar() {
   function clearValue() {
     if (!valueIsEmpty) setQuery("");
   }
+
+  useEffect(() => {
+    function backslashToFocusSearch(e: KeyboardEvent) {
+      const key = e.key;
+      const inputIsFocused = document.activeElement === searchInputRef.current;
+      if (!inputIsFocused && key === "/") {
+        e.preventDefault();
+        searchInputRef.current?.focus();
+      }
+    }
+
+    document.addEventListener("keydown", backslashToFocusSearch);
+
+    return () => {
+      document.removeEventListener("keydown", backslashToFocusSearch);
+    };
+  }, [searchInputRef]);
 
   return (
     <>

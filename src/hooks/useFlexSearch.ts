@@ -18,6 +18,7 @@ const fetcher: Fetcher<DocMovieSearchIndexResult[], string> = async (
   if (!response.ok) {
     throw Error(await response.text());
   }
+  // Note .json() method can throw
   return (await response.json()) as DocMovieSearchIndexResult[];
 };
 

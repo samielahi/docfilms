@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { useEffect, useState, useRef, MutableRefObject } from "react";
 import { useRouter } from "next/router";
+import { useEffect, useState, useRef, MutableRefObject } from "react";
 import type { KeyboardEvent as ReactKeyboardEvent } from "react";
 import type { DocMovieSearchIndexResult } from "~/hooks/useFlexSearch";
 
@@ -53,7 +53,7 @@ export default function SearchResults(props: SearchResultsProps) {
   const router = useRouter();
   const numMovies = movies.length;
 
-  function selectResult(e: ReactKeyboardEvent<HTMLDivElement>) {
+  function handleSearchResultKeyEvent(e: ReactKeyboardEvent<HTMLDivElement>) {
     const key = e.key;
 
     switch (key) {
@@ -79,42 +79,53 @@ export default function SearchResults(props: SearchResultsProps) {
     }
   }
 
-  // Refactor
-  function focusSearchResults(e: KeyboardEvent) {
+  function handleSearchInputKeyEvent(e: KeyboardEvent) {
     const key = e.key;
+
     setSelectedResultIndex(9999);
-    if (key === "ArrowDown" && resultsRef.current) {
-      setSelectedResultIndex(0);
-      resultsRef.current.focus();
-    }
 
-    if (key === "Escape") {
-      setSelectedResultIndex(-1);
-    }
+    switch (key) {
+      case "ArrowDown":
+        setSelectedResultIndex(0);
+        resultsRef.current!.focus();
+        break;
 
-    if (key === "Enter") {
-      router.push(`/search?q=${searchInputRef.current.value}`);
+      case "Escape":
+        setSelectedResultIndex(-1);
+        break;
+
+      case "Enter":
+        router.push(`/search?q=${searchInputRef.current.value}`);
+
+      default:
+        break;
     }
   }
 
   useEffect(() => {
-    searchInputRef.current.addEventListener("keydown", focusSearchResults);
+    searchInputRef.current.addEventListener(
+      "keydown",
+      handleSearchInputKeyEvent
+    );
 
     return () => {
       searchInputRef.current?.removeEventListener(
         "keydown",
-        focusSearchResults
+        handleSearchInputKeyEvent
       );
     };
   }, [numMovies, searchInputRef]);
 
   return (
     <div className="h-max w-full rounded-b-xl">
-      <hr style={!numMovies ? {display: "none"} : {}} className="text-gray/40" />
+      <hr
+        style={!numMovies ? { display: "none" } : {}}
+        className="text-gray/40"
+      />
       <div
         ref={resultsRef}
         tabIndex={1}
-        onKeyDown={selectResult}
+        onKeyDown={handleSearchResultKeyEvent}
         onBlur={() => setSelectedResultIndex(-1)}
         className="focus: outline-none"
       >
