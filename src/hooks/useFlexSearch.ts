@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import type { Fetcher } from "swr";
-import useSWR from "swr";
+import useSWRImmutable from "swr";
 import { Document } from "flexsearch";
 
 export interface DocMovieSearchIndexResult {
@@ -29,7 +29,7 @@ export default function useFlexSearch(query: string) {
     setShouldFetch(true);
   }
 
-  const { data, error } = useSWR<DocMovieSearchIndexResult[], Error>(
+  const { data, error } = useSWRImmutable<DocMovieSearchIndexResult[], Error>(
     shouldFetch ? url : null,
     fetcher
   );

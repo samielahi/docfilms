@@ -17,9 +17,9 @@ const Home: NextPage = () => {
           <SearchBar />
         </div>
 
-        {/* <span className="absolute top-[90%] left-[5%] hidden rounded-xl bg-gray/20 p-4 font-bold text-black/60 md:block">
+        <span className="absolute top-[90%] left-[5%] hidden border-gray border-2 rounded-xl bg-gray/20 p-4 font-bold text-black/40 md:block">
           / to search
-        </span> */}
+        </span>
       </main>
     </>
   );
