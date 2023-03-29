@@ -133,7 +133,7 @@ function Movie() {
           <hr className="mt-8 mb-8 w-[100%] border-t-4 border-dashed border-gray/70 bg-transparent" />
           <div className="flow flex flex-col">
             <h2>
-              Shown @ <span className="font-logo font-bold">doc</span>:
+              Shown @ <span className="font-logo font-bold">doc</span> :
             </h2>
 
             {Object.entries(series!).map(([date, series], key) => (
