@@ -1,18 +1,12 @@
 // Utility functions for working with data from TMBD
 import { Result } from "true-myth";
+import { Page } from "~/types";
 import z from "zod";
 
 const TMDBMovieSchema = z.object({
   title: z.string(),
   overview: z.string().nullable(),
   backdrop_path: z.string().nullable(),
-  spoken_languages: z.array(
-    z.object({
-      english_name: z.string(),
-      iso_639_1: z.string(),
-      name: z.string(),
-    })
-  ),
 });
 
 const TMBDCreditSchema = z.object({
@@ -96,10 +90,8 @@ const moviedb = (() => {
       id.value
     }?api_key=${process.env.MOVIEDB_API_KEY!}&language=en-US`;
 
-    // Needs Error Handling
     const response = await fetch(url);
 
-    // Needs Error Handling
     const directorJson = (await response.json()) as TMDBDirectorInfo;
     const director = TMDBDirectorSchema.parse(directorJson);
 

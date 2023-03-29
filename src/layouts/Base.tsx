@@ -1,4 +1,5 @@
 import Header from "~/components/Header";
+import Footer from "~/components/Footer";
 import type { ReactNode } from "react";
 import Head from "next/head";
 
@@ -19,6 +20,7 @@ export default function Base({ children, title }: BaseLayoutProps) {
       <main className="wrapper h-full text-black dark:text-white">
         {children}
       </main>
+      <Footer />
     </>
   );
 }

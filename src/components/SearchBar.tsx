@@ -1,26 +1,28 @@
 import { useState, useRef, useEffect, MutableRefObject } from "react";
+import { useRouter } from "next/router";
 import useDebouncedValue from "~/hooks/useDebouncedValue";
 import useFlexSearch from "~/hooks/useFlexSearch";
-import { useRouter } from "next/router";
 import SearchResults from "./SearchResults";
 
 export default function SearchBar() {
   const [query, setQuery] = useState("");
-  const debouncedQuery = useDebouncedValue(query);
-  const { results, isError } = useFlexSearch(debouncedQuery);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
+  const debouncedQuery = useDebouncedValue(query);
+  const { results, isError } = useFlexSearch(debouncedQuery);
 
   if (!results || isError) return <div>An error occurred.</div>;
 
-  const valueIsEmpty = query === "";
+  const queryIsEmpty = query === "";
 
   function clearValue() {
-    if (!valueIsEmpty) setQuery("");
+    if (!queryIsEmpty) setQuery("");
   }
 
   function navigateToSearchResults() {
-    router.push(`/search?q=${query}`);
+    if (!queryIsEmpty) {
+      router.push(`/search?q=${query}`);
+    }
   }
 
   useEffect(() => {
@@ -76,10 +78,9 @@ export default function SearchBar() {
                 maxLength={50}
               />
             </div>
-
             <button
               aria-label="clear search query"
-              style={valueIsEmpty ? { display: "none" } : { display: "block" }}
+              style={queryIsEmpty ? { display: "none" } : { display: "block" }}
               onClick={clearValue}
             >
               <svg
@@ -99,7 +100,7 @@ export default function SearchBar() {
           <button
             onClick={navigateToSearchResults}
             style={results.length ? { borderBottomRightRadius: "0" } : {}}
-            className="h-full rounded-r-lg bg-yellow px-4 font-bold text-orange"
+            className="h-full rounded-r-lg border-l-2 border-gray bg-yellow px-4 text-sm font-bold text-orange md:text-2xl"
           >
             search
           </button>

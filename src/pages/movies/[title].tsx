@@ -4,29 +4,32 @@ import Image from "next/image";
 import Header from "~/components/Header";
 import DateBlock from "~/components/DateBlock";
 import moviedb from "~/server/moviedb";
-import type { GetServerSideProps } from "next";
-import { MoviePageProps } from "~/types";
-import type { QParams } from "~/types";
-import { buildMoviePageQuery, fetcher } from "~/server/db";
 import useSWRImmutable, { SWRConfig } from "swr";
+import { useDb } from "~/server/db";
+import type { GetServerSideProps } from "next";
+import type { DocMovie, MoviePageProps } from "~/types";
+import type { QParams } from "~/types";
+import type { PagePropsWithSWR } from "~/types";
 
-type MoviePagePropsSWR = {
-  fallback: {
-    docDataKey: MoviePageProps;
-  };
-};
+function buildSeriesData(docData: DocMovie[]) {
+  const series: Record<string, string> = {};
+  docData.forEach((movie) => {
+    const dateString = movie.date?.toDateString() || "";
+    if (movie.series && dateString !== "") {
+      series[`${dateString}`] = movie.series;
+    }
+  });
+  return series;
+}
 
 export const getServerSideProps: GetServerSideProps<
-  MoviePagePropsSWR,
+  PagePropsWithSWR<MoviePageProps>,
   QParams
 > = async ({ query }) => {
-  // Get query params
   const title = query.title as string;
   const year = query.year as string;
 
-  // Build database query
-  const prismaQuery = buildMoviePageQuery(title.toLowerCase());
-  const docData = await fetcher(prismaQuery);
+  const docData = await useDb(title, "title");
 
   if (!docData) {
     return {
@@ -37,38 +40,28 @@ export const getServerSideProps: GetServerSideProps<
   }
 
   const { director, mid } = docData[0]!;
-  const series: Record<string, string> = {};
+  const series = buildSeriesData(docData);
 
-  docData.forEach((movie) => {
-    const dateString = movie.date?.toDateString() || "";
-    if (movie.series && dateString !== "") {
-      series[`${dateString}`] = movie.series;
-    }
-  });
-
-  const props: MoviePageProps = {
+  let moviePageProps: MoviePageProps = {
     title: title,
     year: parseInt(year),
     director: director!,
     series: series,
   };
 
-  // Fetch additional data from TMDB
+  // Fetch additional data for the movie from TMDB API
   const tmdbMovieData = await moviedb.getMovieData(Number(mid));
 
   if (tmdbMovieData.isErr) {
-    return { props: { fallback: { docDataKey: props } } };
+    return { props: { fallback: { docDataKey: moviePageProps } } };
   } else {
-    // Unwrap the tmdb movie data
-    const tmdbData = tmdbMovieData.value;
-    props.backdropURL = tmdbData.backdrop_path!;
-    props.overview = tmdbData.overview!;
+    moviePageProps = Object.assign(moviePageProps, tmdbMovieData.value);
   }
 
   return {
     props: {
       fallback: {
-        docDataKey: props,
+        docDataKey: moviePageProps,
       },
     },
   };
@@ -79,7 +72,7 @@ function Movie() {
 
   if (error) return <div>Something went wrong while loading this page.</div>;
 
-  const { backdropURL, title, director, year, series, overview } = data!;
+  const { backdrop_path, title, director, year, series, overview } = data!;
 
   return (
     <>
@@ -91,22 +84,19 @@ function Movie() {
       <Header />
 
       <main className="wrapper h-full overflow-hidden text-black dark:text-white">
-        {backdropURL ? (
-          <div className="relative mb-10 h-[350px] overflow-hidden drop-shadow-sm  md:h-[500px]">
-            <Image
-              priority={true}
-              src={backdropURL!}
-              className="border-4 border-orange object-cover md:object-left-top"
-              fill={true}
-              sizes="(max-width: 768px) 70vw,
+        <div className="relative mb-10 h-[350px] overflow-hidden drop-shadow-sm  md:h-[500px]">
+          <Image
+            priority={true}
+            src={backdrop_path!}
+            className="border-4 border-orange object-cover md:object-left-top"
+            fill={true}
+            sizes="(max-width: 768px) 70vw,
               (max-width: 1200px) 70vw,
               50vw"
-              alt=""
-            ></Image>
-          </div>
-        ) : (
-          <></>
-        )}
+            alt=""
+          ></Image>
+        </div>
+
         <section className="mb-10">
           <div className="flow flex flex-col">
             <div className="flex items-center gap-6 capitalize">
@@ -127,7 +117,14 @@ function Movie() {
               </p>
             </Link>
 
-            <p>{overview}</p>
+            {overview ? (
+              <p>{overview}</p>
+            ) : (
+              <p>
+                Could not find a description for this movie. Feel free to
+                suggest one here.
+              </p>
+            )}
           </div>
 
           <hr className="mt-8 mb-8 w-[100%] border-t-4 border-dashed border-gray/70 bg-transparent" />
@@ -154,7 +151,9 @@ function Movie() {
   );
 }
 
-export default function MoviePage({ fallback }: MoviePagePropsSWR) {
+export default function MoviePage({
+  fallback,
+}: PagePropsWithSWR<MoviePageProps>) {
   return (
     <SWRConfig value={{ fallback }}>
       <Movie />

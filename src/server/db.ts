@@ -1,7 +1,9 @@
+// Prisma global
 import { PrismaClient } from "@prisma/client";
 import type { Fetcher } from "swr";
 import { DocMovie } from "~/types";
 import { env } from "~/env.mjs";
+import { Page } from "~/types";
 
 type PrismaQuery =
   | { title: { equals: string } }
@@ -29,21 +31,37 @@ export const prisma =
 
 if (env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
 
-// Specify some default query generators to export
+// Utils for getting data through prisma
 
-export const buildMoviePageQuery = (title: string) => {
-  return {
-    query: { title: { equals: title } },
+function buildPageQuery(whereClause: string, page: Page) {
+  const query = {} as Record<typeof page, any>;
+
+  ((page) => {
+    query[page] = { equals: whereClause.toLowerCase() };
+  })(page);
+
+  const options: PrismaQueryOptions = {
+    query: query,
     series: true,
     title: true,
     director: true,
     date: true,
     mid: true,
     year: true,
-  } as PrismaQueryOptions;
-};
+  };
 
-export const fetcher: Fetcher<DocMovie[], PrismaQueryOptions> = async (
+  switch (page) {
+    case "director":
+      return (({ series, director, ...rest }) => ({ ...rest }))(options);
+    case "series":
+      return (({ series, mid, ...rest }) => ({ ...rest }))(options);
+    default:
+      return options;
+  }
+}
+
+// SWR Fetcher function for queries
+const fetcher: Fetcher<DocMovie[], PrismaQueryOptions> = async (
   options: PrismaQueryOptions
 ) => {
   const query = options.query;
@@ -57,3 +75,9 @@ export const fetcher: Fetcher<DocMovie[], PrismaQueryOptions> = async (
 
   return movies;
 };
+
+export async function useDb(whereClause: string, page: Page) {
+  const queryOptions = buildPageQuery(whereClause, page);
+  const docData = await fetcher(queryOptions);
+  return docData;
+}

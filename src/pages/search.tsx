@@ -51,7 +51,7 @@ const Search: NextPageWithLayout = () => {
 
         <table className="w-full table-fixed text-center">
           <thead className="border-b-4 border-yellow">
-            <tr>
+            <tr className="md:text-2xl">
               <th className="py-4">
                 <div className="flex items-center justify-center gap-2">
                   <span>Title</span>
@@ -128,9 +128,9 @@ const Search: NextPageWithLayout = () => {
             </tr>
           </thead>
           <tbody>
-            {results?.map((movie) => (
-              <tr>
-                <td className="py-8 text-left">
+            {results?.map((movie, i) => (
+              <tr key={i}>
+                <td className="border-b-0 border-yellow py-8 text-left">
                   <Link
                     href={`/movies/${movie.title}?year=${movie.year}`}
                     className="underline decoration-orange decoration-[3px] underline-offset-4"
@@ -138,7 +138,7 @@ const Search: NextPageWithLayout = () => {
                     {movie.title}
                   </Link>
                 </td>
-                <td>
+                <td className="border-b-0 border-yellow py-8">
                   <Link
                     href={`/director/${movie.director}`}
                     className=" italic underline decoration-orange decoration-[3px] underline-offset-4"
@@ -146,7 +146,7 @@ const Search: NextPageWithLayout = () => {
                     {movie.director}
                   </Link>
                 </td>
-                <td>{movie.year}</td>
+                <td className="border-b-0 border-yellow py-8">{movie.year}</td>
               </tr>
             ))}
           </tbody>
