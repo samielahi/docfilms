@@ -50,9 +50,9 @@ const Search: NextPageWithLayout = () => {
         </p>
 
         <table className="w-full table-fixed text-center">
-          <thead className="border-b-4 border-gray">
+          <thead className="border-b-4 border-yellow">
             <tr>
-              <th>
+              <th className="py-4">
                 <div className="flex items-center justify-center gap-2">
                   <span>Title</span>
                   <svg
@@ -130,13 +130,19 @@ const Search: NextPageWithLayout = () => {
           <tbody>
             {results?.map((movie) => (
               <tr>
-                <td className="p-6">
-                  <Link href={`/movies/${movie.title}?year=${movie.year}`} className="underline decoration-orange decoration-[3px] underline-offset-4">
+                <td className="py-8 text-left">
+                  <Link
+                    href={`/movies/${movie.title}?year=${movie.year}`}
+                    className="underline decoration-orange decoration-[3px] underline-offset-4"
+                  >
                     {movie.title}
                   </Link>
                 </td>
                 <td>
-                  <Link href={`/director/${movie.director}`} className=" italic underline decoration-orange decoration-[3px] underline-offset-4">
+                  <Link
+                    href={`/director/${movie.director}`}
+                    className=" italic underline decoration-orange decoration-[3px] underline-offset-4"
+                  >
                     {movie.director}
                   </Link>
                 </td>
