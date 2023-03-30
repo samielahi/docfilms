@@ -96,7 +96,7 @@ const moviedb = (() => {
     const director = TMDBDirectorSchema.parse(directorJson);
 
     const splitBiography = director.biography.split(".");
-    const truncatedBiography = `${splitBiography[0]!}. ${splitBiography[1]!}.`;
+    const truncatedBiography = `${splitBiography[0]!}. ${splitBiography[1]!}`;
     director.biography = truncatedBiography;
 
     if (director.profile_path) {

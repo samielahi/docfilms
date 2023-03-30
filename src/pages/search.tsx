@@ -130,7 +130,7 @@ const Search: NextPageWithLayout = () => {
           <tbody>
             {results?.map((movie, i) => (
               <tr key={i}>
-                <td className="border-b-0 border-yellow py-8 text-left">
+                <td className="border-yellow py-8 text-left">
                   <Link
                     href={`/movies/${movie.title}?year=${movie.year}`}
                     className="underline decoration-orange decoration-[3px] underline-offset-4"
