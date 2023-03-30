@@ -18,7 +18,7 @@ export default function useKeyNav(
     switch (key) {
       case "ArrowDown":
         if (selectedResult === searchResults.length - 1) {
-          setSelectedResult(-1);
+          setSelectedResult(9999);
           inputRef.current?.focus();
         } else {
           setSelectedResult(selectedResult + 1);
@@ -26,7 +26,7 @@ export default function useKeyNav(
         break;
       case "ArrowUp":
         if (!selectedResult) {
-          setSelectedResult(-1);
+          setSelectedResult(9999);
           inputRef.current?.focus();
         } else {
           setSelectedResult(selectedResult - 1);
@@ -43,6 +43,7 @@ export default function useKeyNav(
 
   function handleSearchInputKeyEvents(e: KeyboardEvent) {
     const key = e.key;
+    setSelectedResult(9999);
 
     switch (key) {
       case "ArrowDown":
@@ -73,7 +74,10 @@ export default function useKeyNav(
   }, [inputRef.current, handleSearchInputKeyEvents]);
 
   useEffect(() => {
-    resultsRef.current?.addEventListener("keydown", handleSearchResultKeyEvents);
+    resultsRef.current?.addEventListener(
+      "keydown",
+      handleSearchResultKeyEvents
+    );
 
     return () => {
       resultsRef.current?.removeEventListener(

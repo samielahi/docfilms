@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { DocMovieSearchIndexResult } from "~/hooks/useFlexSearch";
 
-interface Props extends DocMovieSearchIndexResult {
+export interface Props extends DocMovieSearchIndexResult {
   selected?: boolean;
 }
 

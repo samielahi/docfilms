@@ -1,10 +1,12 @@
 import { useRouter } from "next/router";
-import { useContext } from "react";
-import { SearchContext } from "./SearchContext";
 
-export default function SearchButton() {
-  const { currentQuery } = useContext(SearchContext);
+interface Props {
+  currentQuery: string;
+}
+
+export default function SearchButton(props: Props) {
   const router = useRouter();
+  const { currentQuery } = props;
 
   function navigateToSearchResults() {
     router.push(`/search?q=${currentQuery}`);

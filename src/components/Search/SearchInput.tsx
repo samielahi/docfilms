@@ -1,13 +1,16 @@
+import type { Dispatch, SetStateAction, ForwardedRef } from "react";
 import { forwardRef } from "react";
-import { useContext } from "react";
-import { SearchContext } from "./SearchContext";
-import type { ForwardedRef } from "react";
+
+interface Props {
+  currentQuery: string;
+  setQuery: Dispatch<SetStateAction<string>>;
+}
 
 export default forwardRef(function SearchInput(
-  props: {},
+  props: Props,
   ref: ForwardedRef<HTMLInputElement>
 ) {
-  const { currentQuery, setQuery } = useContext(SearchContext);
+  const { currentQuery, setQuery } = props;
   return (
     <>
       <div
