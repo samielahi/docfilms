@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import type { Fetcher } from "swr";
 import useSWRImmutable from "swr";
+import useDebouncedValue from "./useDebouncedValue";
 import { Document } from "flexsearch";
 
 export interface DocMovieSearchIndexResult {
@@ -23,9 +24,10 @@ const fetcher: Fetcher<DocMovieSearchIndexResult[], string> = async (
 };
 
 export default function useFlexSearch(query: string) {
+  const debouncedQuery = useDebouncedValue(query);
   const [shouldFetch, setShouldFetch] = useState(false);
 
-  if (!shouldFetch && query.length) {
+  if (!shouldFetch && debouncedQuery.length) {
     setShouldFetch(true);
   }
 
@@ -57,11 +59,11 @@ export default function useFlexSearch(query: string) {
   const numberOfResults = 7;
   const indexResults = useMemo(
     () =>
-      document.search(query, numberOfResults, {
+      document.search(debouncedQuery, numberOfResults, {
         limit: numberOfResults,
         enrich: true,
       }),
-    [query, document]
+    [debouncedQuery, document]
   );
 
   const searchResults = indexResults.length
@@ -69,7 +71,7 @@ export default function useFlexSearch(query: string) {
     : [];
 
   return {
-    results: searchResults,
+    searchResults: searchResults,
     isError: error,
   };
 }

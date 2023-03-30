@@ -10,7 +10,7 @@ export default function MovieCard(props: MovieCardProps) {
   const { title, year, count } = props;
   return (
     <Link href={`/movies/${title}?year=${year}`}>
-      <div className="relative w-[330px] border-4 border-yellow p-8 transition-transform">
+      <div className="relative w-[330px] h-[175px] hover:border-orange border-4 border-yellow p-8 transition-transform">
         <h3>
           <i className="mr-2 capitalize underline decoration-orange decoration-4 underline-offset-4">
             {title}

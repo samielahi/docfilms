@@ -8,9 +8,9 @@ import Link from "next/link";
 const Search: NextPageWithLayout = () => {
   const router = useRouter();
   const query = router.query;
-  const { results, isError } = useFlexSearch(query.q as string);
+  const { searchResults, isError } = useFlexSearch(query.q as string);
 
-  results?.sort((a, b) => {
+  searchResults?.sort((a, b) => {
     // If both movies don't have years
     if (!a.year && !b.year) {
       return 0;
@@ -46,7 +46,8 @@ const Search: NextPageWithLayout = () => {
           Search Results for : <i className="text-orange">{query.q}</i>
         </h2>
         <p role="status">
-          Found {results?.length} {results?.length === 1 ? "match" : "matches"}
+          Found {searchResults?.length}{" "}
+          {searchResults?.length === 1 ? "match" : "matches"}
         </p>
 
         <table className="w-full table-fixed text-center">
@@ -128,7 +129,7 @@ const Search: NextPageWithLayout = () => {
             </tr>
           </thead>
           <tbody>
-            {results?.map((movie, i) => (
+            {searchResults?.map((movie, i) => (
               <tr key={i}>
                 <td className="border-yellow py-8 text-left">
                   <Link
