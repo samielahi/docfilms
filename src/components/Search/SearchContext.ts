@@ -1,15 +1,12 @@
+import { Dispatch, SetStateAction } from "react";
 import { createContext } from "react";
+import type { DocMovieSearchIndexResult } from "~/hooks/useFlexSearch";
 
 interface Context {
-  currentQuery: string;
-  selectedSearchResult: number;
-  setQuery: ((query: string) => void) | null;
-  setSelectedSearchResult: ((query: number) => void) | null;
+  currentQuery?: string;
+  selectedResult?: number;
+  setQuery?: Dispatch<SetStateAction<string>>;
+  setSelectedResult?: Dispatch<SetStateAction<number>>;
 }
 
-export const SearchContext = createContext<Context>({
-  currentQuery: "",
-  selectedSearchResult: -1,
-  setQuery: null,
-  setSelectedSearchResult: null,
-});
+export const SearchContext = createContext<Context>({});

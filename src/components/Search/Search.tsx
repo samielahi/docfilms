@@ -1,36 +1,32 @@
-import { useState, useMemo, useCallback } from "react";
+import { useState } from "react";
 import useFlexSearch from "~/hooks/useFlexSearch";
+import useKeyNav from "./useKeyNav";
 import SearchResults from "./SearchResults";
 import SearchButton from "./SearchButton";
 import SearchInput from "./SearchInput";
 import { SearchContext } from "./SearchContext";
-import useKeyboardNavigation from "./useKeyboardNavigation";
 
 export default function Search() {
-  const [value, setValue] = useState("");
-  const { searchResults, isError } = useFlexSearch(value);
+  const [query, setQuery] = useState("");
+  const { searchResults, isError } = useFlexSearch(query);
   const [selectedResult, setSelectedResult] = useState(-1);
-  const { inputRef, resultsRef } = useKeyboardNavigation();
+  const { inputRef, resultsRef } = useKeyNav(
+    query,
+    searchResults!,
+    selectedResult,
+    setSelectedResult
+  );
 
   if (!searchResults || isError) return <div>An error occurred.</div>;
 
-  const setQuery = useCallback((query: string) => {
-    setValue(query);
-  }, []);
+  // Could optimize but really not worth it at this scale
+  const contextValue = {
+    currentQuery: query,
+    selectedResult: selectedResult,
+    setQuery: setQuery,
+    setSelectedResult: setSelectedResult,
+  };
 
-  const setSelectedSearchResult = useCallback((result: number) => {
-    setSelectedResult(result);
-  }, []);
-
-  const contextValue = useMemo(
-    () => ({
-      currentQuery: value,
-      selectedSearchResult: selectedResult,
-      setQuery: setQuery,
-      setSelectedSearchResult: setSelectedSearchResult,
-    }),
-    [value, selectedResult, setQuery, setSelectedSearchResult]
-  );
 
   return (
     <>
