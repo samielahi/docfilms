@@ -1,12 +1,12 @@
 import { createMappingFn } from "~/utils";
 
-export interface BarPlotData {
+interface BarPlotData {
   values: number[][];
   domain: [number, number];
   range: [number, number];
 }
 
-export interface BarPlotProps {
+interface BarPlotProps {
   width?: number;
   height?: number;
   data?: BarPlotData;
@@ -14,6 +14,20 @@ export interface BarPlotProps {
   yOffset?: number;
   xLabel?: string;
   yLabel?: string;
+}
+
+function getTickIntervalSize(maxRange: number) {
+  let intervalSize = 1;
+
+  if (maxRange > 10) {
+    intervalSize = 5;
+  }
+
+  if (maxRange > 20) {
+    intervalSize = 10;
+  }
+
+  return intervalSize;
 }
 
 export default function BarPlot(props: BarPlotProps) {
@@ -24,7 +38,6 @@ export default function BarPlot(props: BarPlotProps) {
   }
 
   const mapToDomain = createMappingFn(data.domain, [xOffset, width - xOffset]);
-
   const mapToRange = createMappingFn(data.range, [height - yOffset, yOffset]);
 
   const mappedData = data.values.map((value) => [
@@ -34,7 +47,7 @@ export default function BarPlot(props: BarPlotProps) {
 
   // Y-axis Calculations
   const maxRange = Math.ceil(data.range[1] / 10) * 10;
-  const tickOffset = 30;
+  const tickOffset = 20;
   const intervalSize = 10;
   const tickCount = maxRange / intervalSize + 1;
   const intervals = [];
@@ -49,7 +62,7 @@ export default function BarPlot(props: BarPlotProps) {
 
   return (
     <>
-      <div className="">
+      <div>
         <svg className="border-0" width={width} height={height}>
           {/* Axes */}
           <g>
@@ -61,6 +74,16 @@ export default function BarPlot(props: BarPlotProps) {
               y2={height - yOffset}
               className="stroke-violet stroke-[4px]"
             ></line>
+            {/* X-label */}
+            <text
+              x={width / 2}
+              y={height - (yOffset - tickOffset) * 0.2}
+              dominantBaseline="central"
+              textAnchor="middle"
+              className="fill-gray font-mono text-[14px] font-bold italic dark:fill-white"
+            >
+              Decade (1930s - 2020s)
+            </text>
 
             {/* Y */}
             {intervals.map((interval, i) => (
@@ -91,6 +114,17 @@ export default function BarPlot(props: BarPlotProps) {
                 </g>
               </>
             ))}
+            {/* Y-Label */}
+            <text
+              x={xOffset + tickOffset}
+              y={height / 2 - yOffset}
+              dominantBaseline="central"
+              textAnchor="middle"
+              className="fill-gray font-mono text-[14px] font-bold italic dark:fill-white"
+              transform={`rotate(-90, ${xOffset}, ${height / 2})`}
+            >
+              # of Movies
+            </text>
           </g>
           {/* Plotting Data */}
           <g>
@@ -103,9 +137,6 @@ export default function BarPlot(props: BarPlotProps) {
                     x={mappedDatum[0]}
                     y={height - (yOffset - tickOffset)}
                     className="font-mono text-[12px] font-bold dark:fill-white"
-                    transform={`rotate(0, ${mappedDatum[0]!}, ${
-                      height - (yOffset - tickOffset)
-                    })`}
                   >
                     {data.values[i]![0]}
                   </text>

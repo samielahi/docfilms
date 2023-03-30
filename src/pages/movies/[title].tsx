@@ -11,7 +11,7 @@ import type { DocMovie, MoviePageProps } from "~/types";
 import type { QParams } from "~/types";
 import type { PagePropsWithSWR } from "~/types";
 
-function buildSeriesData(docData: DocMovie[]) {
+function buildSeriesObject(docData: DocMovie[]) {
   const series: Record<string, string> = {};
   docData.forEach((movie) => {
     const dateString = movie.date?.toDateString() || "";
@@ -40,7 +40,7 @@ export const getServerSideProps: GetServerSideProps<
   }
 
   const { director, mid } = docData[0]!;
-  const series = buildSeriesData(docData);
+  const series = buildSeriesObject(docData);
 
   let moviePageProps: MoviePageProps = {
     title: title,
@@ -87,7 +87,7 @@ function Movie() {
         <div className="relative mb-10 h-[350px] overflow-hidden drop-shadow-sm  md:h-[500px]">
           <Image
             priority={true}
-            src={backdrop_path!}
+            src={backdrop_path! || '/student.png'}
             className="border-4 border-orange object-cover md:object-left-top"
             fill={true}
             sizes="(max-width: 768px) 70vw,

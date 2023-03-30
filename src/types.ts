@@ -21,11 +21,11 @@ export interface MoviePageProps {
 }
 
 export interface DirectorPageProps {
-  director: string;
-  blurb?: string;
+  name: string;
+  biography?: string;
   movies?: DocMovie[];
   movieCountByDecade?: Record<number, number>;
-  profileURL?: string;
+  profile_path?: string;
 }
 
 export interface SeriesPageProps {

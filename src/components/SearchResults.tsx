@@ -143,7 +143,7 @@ export default function SearchResults(props: SearchResultsProps) {
     <div className="h-max w-full rounded-b-xl">
       <hr
         style={!numMovies ? { display: "none" } : {}}
-        className="text-gray/40"
+        className="text-gray bg-transparent border-t-2"
       />
       <div
         ref={resultsRef}
