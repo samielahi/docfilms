@@ -1,7 +1,7 @@
 import { useState } from "react";
 import useFlexSearch from "~/hooks/useFlexSearch";
 import useDebouncedValue from "~/hooks/useDebouncedValue";
-import useKeyNav from "./useKeyNav";
+import useKeyboardNavigation from "./useKeyboardNavigation";
 import SearchResults from "./SearchResults";
 import SearchButton from "./SearchButton";
 import SearchInput from "./SearchInput";
@@ -12,7 +12,7 @@ export default function Search() {
   const { searchResults, isError } = useFlexSearch(debouncedQuery);
   const [selectedResult, setSelectedResult] = useState(-1);
   const [showResults, setShowResults] = useState(true);
-  const { inputRef, resultsRef } = useKeyNav(
+  const { inputRef, resultsRef } = useKeyboardNavigation(
     debouncedQuery,
     searchResults!,
     selectedResult,

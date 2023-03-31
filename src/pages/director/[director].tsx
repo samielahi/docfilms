@@ -158,7 +158,7 @@ function Director() {
                   xOffset={80}
                   yOffset={60}
                   width={525}
-                  height={325}
+                  height={350}
                   data={{
                     domain: [1920, 2030],
                     range: [0, 50],
@@ -168,6 +168,25 @@ function Director() {
               </div>
             </div>
           </div>
+        </div>
+
+        <div className="flex h-full flex-col md:hidden">
+          <h2>
+            <span className="capitalize">{director}</span> @{" "}
+            <span className="font-logo font-bold">doc</span>
+          </h2>
+
+            <BarPlot
+              xOffset={80}
+              yOffset={60}
+              width={425}
+              height={350}
+              data={{
+                domain: [1920, 2030],
+                range: [0, 50],
+                values: numMoviesShownByDecade!,
+              }}
+            />
         </div>
 
         <hr className="mt-8 mb-8 w-[100%] border-t-4 border-dashed border-gray/70 bg-transparent" />

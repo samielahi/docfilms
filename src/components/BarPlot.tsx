@@ -16,20 +16,6 @@ interface BarPlotProps {
   yLabel?: string;
 }
 
-function getTickIntervalSize(maxRange: number) {
-  let intervalSize = 1;
-
-  if (maxRange > 10) {
-    intervalSize = 5;
-  }
-
-  if (maxRange > 20) {
-    intervalSize = 10;
-  }
-
-  return intervalSize;
-}
-
 export default function BarPlot(props: BarPlotProps) {
   const { width, height, xOffset, yOffset, data } = props;
 
@@ -62,7 +48,7 @@ export default function BarPlot(props: BarPlotProps) {
 
   return (
     <>
-      <div>
+      <div className="w-full">
         <svg className="border-0" width={width} height={height}>
           {/* Axes */}
           <g>
@@ -77,7 +63,7 @@ export default function BarPlot(props: BarPlotProps) {
             {/* X-label */}
             <text
               x={width / 2}
-              y={height - (yOffset - tickOffset) * 0.2}
+              y={height - (yOffset - tickOffset) *0.1}
               dominantBaseline="central"
               textAnchor="middle"
               className="fill-gray font-mono text-[14px] font-bold italic dark:fill-white"
@@ -134,9 +120,12 @@ export default function BarPlot(props: BarPlotProps) {
                   <text
                     dominantBaseline="central"
                     textAnchor="middle"
-                    x={mappedDatum[0]}
+                    x={mappedDatum[0]! - xOffset*0.05}
                     y={height - (yOffset - tickOffset)}
                     className="font-mono text-[12px] font-bold dark:fill-white"
+                    transform={`rotate(-50, ${mappedDatum[0]}, ${
+                      height - (yOffset - tickOffset)
+                    })`}
                   >
                     {data.values[i]![0]}
                   </text>

@@ -2,7 +2,7 @@ import { useRef, useEffect, Dispatch, SetStateAction } from "react";
 import { useRouter } from "next/router";
 import { DocMovieSearchIndexResult } from "~/hooks/useFlexSearch";
 
-export default function useKeyNav(
+export default function useKeyboardNavigation(
   currentQuery: string,
   searchResults: DocMovieSearchIndexResult[],
   selectedResult: number,
