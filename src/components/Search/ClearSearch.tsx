@@ -1,4 +1,6 @@
-import { Dispatch, SetStateAction, useMemo } from "react";
+import type { Dispatch, SetStateAction } from "react";
+import { useContext, useMemo } from "react";
+import { SearchContext } from "./SearchContext";
 
 interface Props {
   currentQuery: string;
@@ -8,6 +10,8 @@ interface Props {
 export default function ClearSearch(props: Props) {
   const { currentQuery, setQuery } = props;
   const queryIsEmpty = useMemo(() => currentQuery === "", [currentQuery]);
+  const size = useContext(SearchContext);
+  const sizeIsRegular = size === "regular";
 
   function clearValue() {
     if (!queryIsEmpty) {
@@ -19,12 +23,18 @@ export default function ClearSearch(props: Props) {
     <>
       {!queryIsEmpty ? (
         <button
-          className="absolute top-[calc(50%_-_13px)] left-[65%] md:top-[calc(50%_-_18px)] md:left-[70%] lg:left-[77%]"
+          className={`absolute top-[calc(50%_-_13px)] left-[88%] ${
+            sizeIsRegular
+              ? "left-[65%] md:top-[calc(50%_-_18px)] md:left-[70%] lg:left-[77%]"
+              : ""
+          }`}
           aria-label="clear search query"
           onClick={clearValue}
         >
           <svg
-            className="h-[26px] w-[26px] rounded-full bg-slate-100 stroke-orange p-1 text-center font-bold text-orange md:h-[36px] md:w-[36px] md:p-2"
+            className={`h-[26px] w-[26px] rounded-full bg-slate-100 stroke-orange p-1 text-center font-bold text-orange ${
+              sizeIsRegular ? "md:h-[36px] md:w-[36px] md:p-2" : ""
+            }`}
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             fill="none"

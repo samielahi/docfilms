@@ -1,5 +1,7 @@
 import Link from "next/link";
 import type { DocMovieSearchIndexResult } from "~/hooks/useFlexSearch";
+import { useContext } from "react";
+import { SearchContext } from "./SearchContext";
 
 export interface Props extends DocMovieSearchIndexResult {
   selected?: boolean;
@@ -7,6 +9,8 @@ export interface Props extends DocMovieSearchIndexResult {
 
 export default function SearchResult(props: Props) {
   const { title, director, year, selected } = props;
+  const size = useContext(SearchContext);
+  const sizeIsRegular = size === "regular";
   return (
     <Link
       tabIndex={-1}
@@ -29,7 +33,9 @@ export default function SearchResult(props: Props) {
       >
         <div className="flex items-center gap-4">
           <svg
-            className="hidden text-orange/50 md:block"
+            className={`hidden text-orange/50 ${
+              sizeIsRegular ? "md:block" : ""
+            }`}
             xmlns="http://www.w3.org/2000/svg"
             width="24"
             height="24"
@@ -49,11 +55,19 @@ export default function SearchResult(props: Props) {
             <line x1="17" y1="17" x2="22" y2="17"></line>
             <line x1="17" y1="7" x2="22" y2="7"></line>
           </svg>
-          <h3 className="text-sm capitalize text-black md:text-lg">
-            {title} {year ? `(${year})` : ""}
+          <h3
+            className={`text-sm capitalize text-black ${
+              sizeIsRegular ? "md:text-lg" : ""
+            }`}
+          >
+            {title} {year && sizeIsRegular ? `(${year})` : ""}
           </h3>
         </div>
-        <span className="text-sm capitalize italic text-gray md:text-lg">
+        <span
+          className={`text-sm capitalize italic text-gray ${
+            sizeIsRegular ? "md:text-lg" : ""
+          }`}
+        >
           {director ? director : ""}
         </span>
       </div>

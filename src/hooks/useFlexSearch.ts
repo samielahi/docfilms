@@ -23,7 +23,10 @@ const fetcher: Fetcher<DocMovieSearchIndexResult[], string> = async (
   return (await response.json()) as DocMovieSearchIndexResult[];
 };
 
-export default function useFlexSearch(query: string) {
+export default function useFlexSearch(
+  query: string,
+  numberOfResults: number = 7
+) {
   const [shouldFetch, setShouldFetch] = useState(false);
 
   if (!shouldFetch && query.length) {
@@ -55,7 +58,6 @@ export default function useFlexSearch(query: string) {
     return index;
   }, [data]);
 
-  const numberOfResults = 7;
   const indexResults = useMemo(
     () =>
       document.search(query, numberOfResults, {
