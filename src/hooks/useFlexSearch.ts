@@ -24,10 +24,9 @@ const fetcher: Fetcher<DocMovieSearchIndexResult[], string> = async (
 };
 
 export default function useFlexSearch(query: string) {
-  const debouncedQuery = useDebouncedValue(query);
   const [shouldFetch, setShouldFetch] = useState(false);
 
-  if (!shouldFetch && debouncedQuery.length) {
+  if (!shouldFetch && query.length) {
     setShouldFetch(true);
   }
 
@@ -59,11 +58,11 @@ export default function useFlexSearch(query: string) {
   const numberOfResults = 7;
   const indexResults = useMemo(
     () =>
-      document.search(debouncedQuery, numberOfResults, {
+      document.search(query, numberOfResults, {
         limit: numberOfResults,
         enrich: true,
       }),
-    [debouncedQuery, document]
+    [query, document]
   );
 
   const searchResults = indexResults.length

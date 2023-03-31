@@ -1,5 +1,6 @@
 import type { Dispatch, SetStateAction, ForwardedRef } from "react";
 import { forwardRef } from "react";
+import ClearSearch from "./ClearSearch";
 
 interface Props {
   currentQuery: string;
@@ -39,7 +40,7 @@ export default forwardRef(function SearchInput(
           autoFocus
           value={currentQuery}
           onChange={(event) => {
-            setQuery!(event.target.value);
+            setQuery(event.target.value);
           }}
           id="search"
           type="text"
@@ -47,6 +48,8 @@ export default forwardRef(function SearchInput(
           maxLength={50}
         />
       </div>
+
+      <ClearSearch currentQuery={currentQuery} setQuery={setQuery} />
     </>
   );
 });

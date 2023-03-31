@@ -6,6 +6,8 @@ export default function useKeyNav(
   currentQuery: string,
   searchResults: DocMovieSearchIndexResult[],
   selectedResult: number,
+  showResults: boolean,
+  setShowResults: Dispatch<SetStateAction<boolean>>,
   setSelectedResult: Dispatch<SetStateAction<number>>
 ) {
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -36,6 +38,8 @@ export default function useKeyNav(
         const movie = searchResults[selectedResult]!;
         router.push(`/movies/${movie.title}?year=${movie.year}`);
         break;
+      case "Escape":
+        hideResults();
       default:
         break;
     }
@@ -47,20 +51,49 @@ export default function useKeyNav(
 
     switch (key) {
       case "ArrowDown":
+        setShowResults(true);
         setSelectedResult!(0);
         resultsRef.current!.focus();
         break;
       case "ArrowUp":
+        setShowResults(true);
         setSelectedResult!(searchResults.length - 1);
         resultsRef.current!.focus();
         break;
       case "Enter":
         router.push(`/search?q=${currentQuery}`);
         break;
+      case "Escape":
+        hideResults();
+        break;
       default:
+        setShowResults(true);
         break;
     }
   }
+
+  function hideResults() {
+    if (showResults) {
+      setSelectedResult(-1);
+      setShowResults(false);
+    }
+  }
+
+  useEffect(() => {
+    function focusInput(event: KeyboardEvent) {
+      const inputIsFocused = document.activeElement === inputRef.current;
+      if (!inputIsFocused && event.key === "/") {
+        event.preventDefault();
+        inputRef.current?.focus();
+      }
+    }
+
+    window.addEventListener("keydown", focusInput);
+
+    return () => {
+      window.removeEventListener("keydown", focusInput);
+    };
+  }, []);
 
   useEffect(() => {
     inputRef.current?.addEventListener("keydown", handleSearchInputKeyEvents);
