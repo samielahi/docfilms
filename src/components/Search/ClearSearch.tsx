@@ -23,9 +23,11 @@ export default function ClearSearch(props: Props) {
     <>
       {!queryIsEmpty ? (
         <button
-          className={`absolute top-[calc(50%_-_13px)] left-[88%] ${
+          className={`absolute top-[calc(50%_-_13px)] ${
+            !sizeIsRegular ? "left-[88%]" : ""
+          } ${
             sizeIsRegular
-              ? "left-[65%] md:top-[calc(50%_-_18px)] md:left-[70%] lg:left-[77%]"
+              ? "left-[55%] sm:left-[65%] md:top-[calc(50%_-_18px)] md:left-[70%] lg:left-[77%]"
               : ""
           }`}
           aria-label="clear search query"
