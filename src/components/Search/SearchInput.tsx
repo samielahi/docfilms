@@ -26,7 +26,7 @@ export default forwardRef(function SearchInput(
       >
         <svg
           aria-label="search"
-          className={`h-[25px] w-[25px] stroke-gray ${
+          className={`h-[25px] w-[25px] stroke-orange ${
             sizeIsRegular ? "md:h-[35px] md:w-[35px]" : ""
           }`}
           xmlns="http://www.w3.org/2000/svg"
@@ -43,11 +43,10 @@ export default forwardRef(function SearchInput(
         <input
           ref={ref}
           aria-label="Search for movies played at docfilms"
-          className={`bg-[#fff] w-full text-sm outline-none placeholder:bg-[#fff] placeholder:italic placeholder:text-gray ${
+          className={`w-full bg-[#fff] text-sm outline-none placeholder:bg-[#fff] placeholder:italic placeholder:text-gray ${
             sizeIsRegular ? "lg:w-[500px md:text-2xl" : ""
           }`}
           autoComplete="off"
-          autoFocus
           value={currentQuery}
           onChange={(event) => {
             setQuery(event.target.value);
