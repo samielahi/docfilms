@@ -17,7 +17,7 @@ export default function Base({ children, title }: BaseLayoutProps) {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <Header />
-      <main className="wrapper h-full text-black dark:text-white">
+      <main className="wrapper h-full bg-white text-black dark:bg-black dark:text-white">
         {children}
       </main>
       <Footer />
