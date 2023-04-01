@@ -12,7 +12,9 @@ export default function SearchButton(props: Props) {
   const { currentQuery } = props;
 
   function navigateToSearchResults() {
-    router.push(`/search?q=${currentQuery}`);
+    if (currentQuery.length) {
+      router.push(`/search?q=${currentQuery}`);
+    }
   }
 
   return (

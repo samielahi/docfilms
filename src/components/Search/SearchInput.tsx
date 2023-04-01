@@ -26,7 +26,7 @@ export default forwardRef(function SearchInput(
       >
         <svg
           aria-label="search"
-          className={`h-[25px] w-[25px] stroke-orange ${
+          className={`h-[25px] w-[25px] stroke-orange pointer-events-none ${
             sizeIsRegular ? "md:h-[35px] md:w-[35px]" : ""
           }`}
           xmlns="http://www.w3.org/2000/svg"

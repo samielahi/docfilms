@@ -98,7 +98,7 @@
   }
 
   .wrapper {
-    width: clamp(16rem, 90vw, 70rem);
+    width: clamp(16rem, 90vw, 75rem);
     @apply mx-auto px-[1.5rem];
   }
 

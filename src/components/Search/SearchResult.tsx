@@ -29,7 +29,7 @@ export default function SearchResult(props: Props) {
               }
             : {}
         }
-        className="flex w-full cursor-pointer justify-between gap-4 rounded-b-xl bg-[#fff] p-4 decoration-orange decoration-4 underline-offset-4  hover:underline"
+        className="flex w-full cursor-pointer justify-between gap-4 rounded-b-xl bg-[#fff] p-4 decoration-orange underline-offset-4 hover:underline"
       >
         <div className="flex items-center gap-4">
           <svg
@@ -64,7 +64,7 @@ export default function SearchResult(props: Props) {
           </h3>
         </div>
         <span
-          className={`text-sm capitalize italic text-gray ${
+          className={`hidden text-sm capitalize italic text-gray sm:block ${
             sizeIsRegular ? "md:text-lg" : ""
           }`}
         >

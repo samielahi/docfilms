@@ -65,7 +65,9 @@ export default function useKeyboardNavigation(
         resultsRef.current!.focus();
         break;
       case "Enter":
-        router.push(`/search?q=${currentQuery}`);
+        if (currentQuery.length) {
+          router.push(`/search?q=${currentQuery}`);
+        }
         break;
       case "Escape":
         hideResults();
@@ -92,10 +94,18 @@ export default function useKeyboardNavigation(
       }
     }
 
+    function closeResultsOnClick({ target }: MouseEvent) {
+      if (target !== inputRef.current || target !== resultsRef.current) {
+        hideResults();
+      }
+    }
+
     window.addEventListener("keydown", focusInput);
+    window.addEventListener("click", closeResultsOnClick);
 
     return () => {
       window.removeEventListener("keydown", focusInput);
+      window.removeEventListener("click", closeResultsOnClick);
     };
   }, []);
 
