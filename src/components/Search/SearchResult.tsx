@@ -14,7 +14,7 @@ export default function SearchResult(props: Props) {
   return (
     <Link
       tabIndex={-1}
-      className="outline-orange"
+      className="z-9999 relative outline-orange"
       href={{
         pathname: `/movies/${title}`,
         query: { year: year },

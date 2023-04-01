@@ -19,6 +19,7 @@ export default function useKeyboardNavigation(
 
     switch (key) {
       case "ArrowDown":
+        e.preventDefault();
         if (selectedResult === searchResults.length - 1) {
           setSelectedResult(9999);
           inputRef.current?.focus();
@@ -27,6 +28,7 @@ export default function useKeyboardNavigation(
         }
         break;
       case "ArrowUp":
+        e.preventDefault();
         if (!selectedResult) {
           setSelectedResult(9999);
           inputRef.current?.focus();
@@ -51,11 +53,13 @@ export default function useKeyboardNavigation(
 
     switch (key) {
       case "ArrowDown":
+        e.preventDefault();
         setShowResults(true);
         setSelectedResult!(0);
         resultsRef.current!.focus();
         break;
       case "ArrowUp":
+        e.preventDefault();
         setShowResults(true);
         setSelectedResult!(searchResults.length - 1);
         resultsRef.current!.focus();

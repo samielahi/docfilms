@@ -30,7 +30,7 @@ export default function Search(props: { size: SearchBarSize }) {
     <>
       <SearchContext.Provider value={size}>
         <div
-          className={`flex h-full w-[325px] flex-col rounded-xl border-2 border-gray bg-[#fff] text-black dark:border-0 ${
+          className={`flex h-full relative z-[9999] w-[325px] flex-col rounded-xl border-2 border-gray bg-[#fff] text-black dark:border-0 ${
             size === "regular" ? "md:w-[550px] lg:w-[725px]" : ""
           }`}
         >

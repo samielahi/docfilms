@@ -84,11 +84,11 @@ function Movie() {
       <Header />
 
       <main className="wrapper h-full overflow-hidden text-black dark:text-white">
-        <div className="relative mb-10 h-[350px] overflow-hidden drop-shadow-sm  md:h-[550px]">
+        <div className="mb-10 h-[350px] overflow-hidden  drop-shadow-sm md:h-[550px]">
           <Image
             priority={true}
             src={backdrop_path! || "/student.png"}
-            className="-z-1 border-4 border-orange object-cover md:object-left-top"
+            className="border-4 border-orange object-cover md:object-left-top"
             fill={true}
             sizes="(max-width: 768px) 70vw,
               (max-width: 1200px) 70vw,
