@@ -19,7 +19,7 @@ export default function SearchButton(props: Props) {
 
   return (
     <>
-      {size === "regular" && (
+      {size === "main" && (
         <button
           onClick={navigateToSearchResults}
           className="h-full border-l-2 border-gray px-4 text-sm font-bold text-orange md:text-2xl"

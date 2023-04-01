@@ -6,10 +6,10 @@ import SearchResults from "./SearchResults";
 import SearchButton from "./SearchButton";
 import SearchInput from "./SearchInput";
 import { SearchContext } from "./SearchContext";
-import type { SearchBarSize } from "./SearchContext";
+import type { SearchBarType } from "./SearchContext";
 
-export default function Search(props: { size: SearchBarSize }) {
-  const { size } = props;
+export default function Search(props: { type: SearchBarType }) {
+  const { type } = props;
   const [query, setQuery] = useState("");
   const debouncedQuery = useDebouncedValue(query);
   const { searchResults, isError } = useFlexSearch(debouncedQuery);
@@ -28,10 +28,10 @@ export default function Search(props: { size: SearchBarSize }) {
 
   return (
     <>
-      <SearchContext.Provider value={size}>
+      <SearchContext.Provider value={type}>
         <div
-          className={`relative z-[9999] flex h-full w-[250px] sm:w-[325px] flex-col drop-shadow-sm rounded-xl border-2 border-gray bg-[#fff] text-black dark:border-0 ${
-            size === "regular" ? "md:w-[550px] lg:w-[725px]" : ""
+          className={`relative z-[9999] flex h-full w-[250px] flex-col rounded-xl border-2 border-gray bg-[#fff] text-black drop-shadow-sm dark:border-0 sm:w-[325px] ${
+            type === "main" ? "md:w-[550px] lg:w-[725px]" : ""
           }`}
         >
           <div className="relative flex">

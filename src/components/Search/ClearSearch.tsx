@@ -11,7 +11,7 @@ export default function ClearSearch(props: Props) {
   const { currentQuery, setQuery } = props;
   const queryIsEmpty = useMemo(() => currentQuery === "", [currentQuery]);
   const size = useContext(SearchContext);
-  const sizeIsRegular = size === "regular";
+  const sizeIsRegular = size === "main";
 
   function clearValue() {
     if (!queryIsEmpty) {

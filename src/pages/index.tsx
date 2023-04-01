@@ -15,10 +15,11 @@ const Home: NextPage = () => {
       <main className="relative flex h-screen flex-col items-center justify-between overflow-hidden">
         <div className="mt-28 flex w-fit flex-col items-center gap-8">
           <Logo size="large" />
-          <Search size="regular" />
+          <Search type="main" />
         </div>
 
         <Image
+          draggable={false}
           priority={true}
           alt="An assortment of colored movie tickets."
           src={"/tickets.png"}

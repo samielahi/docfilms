@@ -10,7 +10,7 @@ export interface Props extends DocMovieSearchIndexResult {
 export default function SearchResult(props: Props) {
   const { title, director, year, selected } = props;
   const size = useContext(SearchContext);
-  const sizeIsRegular = size === "regular";
+  const sizeIsRegular = size === "main";
   return (
     <Link
       tabIndex={-1}

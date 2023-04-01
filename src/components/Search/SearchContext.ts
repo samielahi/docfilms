@@ -1,5 +1,5 @@
 import { createContext } from "react";
 
-export type SearchBarSize = "regular" | "mini";
+export type SearchBarType = "main" | "mini" | "builder";
 
-export const SearchContext = createContext<SearchBarSize>("regular");
+export const SearchContext = createContext<SearchBarType>("main");

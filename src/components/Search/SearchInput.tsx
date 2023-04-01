@@ -15,7 +15,7 @@ export default forwardRef(function SearchInput(
 ) {
   const { currentQuery, setQuery } = props;
   const size = useContext(SearchContext);
-  const sizeIsRegular = size === "regular";
+  const sizeIsRegular = size === "main";
   return (
     <>
       <div
@@ -26,7 +26,7 @@ export default forwardRef(function SearchInput(
       >
         <svg
           aria-label="search"
-          className={`h-[25px] w-[25px] stroke-orange pointer-events-none ${
+          className={`pointer-events-none h-[25px] w-[25px] stroke-orange ${
             sizeIsRegular ? "md:h-[35px] md:w-[35px]" : ""
           }`}
           xmlns="http://www.w3.org/2000/svg"
