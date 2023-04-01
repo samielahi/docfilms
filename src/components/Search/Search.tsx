@@ -46,7 +46,7 @@ export default function Search(props: { type: SearchBarType }) {
           <SearchResults
             ref={resultsRef}
             showResults={showResults}
-            movies={searchResults}
+            results={searchResults}
             selected={selectedResult}
           />
         </div>

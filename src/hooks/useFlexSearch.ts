@@ -1,7 +1,6 @@
 import { useMemo, useState } from "react";
 import type { Fetcher } from "swr";
 import useSWRImmutable from "swr";
-import useDebouncedValue from "./useDebouncedValue";
 import { Document } from "flexsearch";
 
 export interface DocMovieSearchIndexResult {

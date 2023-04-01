@@ -2,19 +2,31 @@
 
 Search through movies shown at docfilms since the early 20th century.
 
-# Features
+# To do
 
-- Search by title
-  - Clicking a movie takes you to its page, where you can:
-    - See what series its been a part of
-      - Can click on series name to be redirected to series search
-    - See which years/seasons its been played
-    - Read a blurb about it (pulled from MovieDB)
-      - Can click director to be redirected to director search
-    - See related movies
-      - This is pulled from the 3 other movies also in the series field of the first result
-- Search by director's last name
-  - Show paginated list of movies shown by the director
-  - Show graph of count of movies played by director by year
-- Search by series
-  - Show list of movies in the series
+## Data
+- Merge capsule data with archive data
+- Populate director data in archive using MovieDB api
+  - name
+  - gender
+- Add genre data
+- Map Series data to season + year
+- Series index data
+- Director index data
+- Fix years on movies that are off by one
+
+## Design
+- Design series page
+- Design pages for movie, director, and series when data is sparse
+- Admin account page
+- Review suggested corrections and additions page 
+- Sign in page
+
+## Features
+- Add email NextAuth for admin account
+- Record Correction Tool
+
+## Database
+- Make migration to amended data
+- Add table for users
+- Add table for user suggested corrections
