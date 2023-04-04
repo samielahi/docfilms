@@ -30,7 +30,7 @@ export interface DirectorPageProps {
 
 export interface SeriesPageProps {
   series: string;
-  movies: DocMovie[];
+  movies?: DocMovie[];
 }
 
 export type Page = "title" | "director" | "series";

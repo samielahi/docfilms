@@ -84,7 +84,7 @@ function Movie() {
       <Header />
 
       <main className="wrapper h-full overflow-hidden text-black dark:text-white">
-        <div className="mb-10 h-[350px] overflow-hidden  drop-shadow-sm md:h-[550px]">
+        <div className="relative mb-10 h-[350px] overflow-hidden  drop-shadow-sm md:h-[550px]">
           <Image
             priority={true}
             src={backdrop_path! || "/student.png"}
@@ -137,7 +137,7 @@ function Movie() {
               <div key={key} className="flex items-center gap-6">
                 <DateBlock date={date} />
                 <p className="hidden sm:block">as part of series</p>
-                <Link href={"/series"}>
+                <Link href={`/series/${series}`}>
                   <p className="capitalize italic underline decoration-orange decoration-4 underline-offset-4">
                     {series}
                   </p>
