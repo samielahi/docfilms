@@ -20,14 +20,16 @@ model corrections {
 }
 
 model movies {
-  id       Int       @id(map: "Movies_pkey")
-  title    String?
-  director String?
-  year     Int?      @db.SmallInt
-  series   String?
-  date     DateTime? @db.Date
-  notes    String?
-  mid      BigInt?
+  id          Int       @id
+  title       String?
+  director    String?
+  year        Int?      @db.SmallInt
+  series      String?
+  date        DateTime? @db.Date
+  mid         Int?
+  times_shown Int?      @db.SmallInt
+  quarter     String?
+  overview    String?
 }
 
 model users {
