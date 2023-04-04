@@ -1,20 +1,12 @@
 // Utility functions for working with data from TMBD
-
 import { Result } from "true-myth";
+import { Page } from "~/types";
 import z from "zod";
-import { ditherer } from "./dither";
 
 const TMDBMovieSchema = z.object({
   title: z.string(),
   overview: z.string().nullable(),
   backdrop_path: z.string().nullable(),
-  spoken_languages: z.array(
-    z.object({
-      english_name: z.string(),
-      iso_639_1: z.string(),
-      name: z.string(),
-    })
-  ),
 });
 
 const TMBDCreditSchema = z.object({
@@ -52,7 +44,7 @@ const moviedb = (() => {
     const movie = TMDBMovieSchema.parse(movieJson);
 
     if (movie.backdrop_path) {
-      movie.backdrop_path = await getDitheredImageUrl(movie.backdrop_path);
+      movie.backdrop_path = getImageUrl(movie.backdrop_path);
     }
 
     return Result.ok(movie);
@@ -97,26 +89,25 @@ const moviedb = (() => {
     const url = `https://api.themoviedb.org/3/person/${
       id.value
     }?api_key=${process.env.MOVIEDB_API_KEY!}&language=en-US`;
+
     const response = await fetch(url);
 
     const directorJson = (await response.json()) as TMDBDirectorInfo;
     const director = TMDBDirectorSchema.parse(directorJson);
 
     const splitBiography = director.biography.split(".");
-    const truncatedBiography = splitBiography[0]! + ". " + splitBiography[1] + '.';
+    const truncatedBiography = `${splitBiography[0]!}. ${splitBiography[1]!}`;
     director.biography = truncatedBiography;
 
     if (director.profile_path) {
-      director.profile_path = await getDitheredImageUrl(director.profile_path);
+      director.profile_path = getImageUrl(director.profile_path);
     }
 
     return Result.ok(director);
   }
 
-  async function getDitheredImageUrl(path: string) {
-    const url = "https://image.tmdb.org/t/p/original" + path;
-    // const ditheredImageUrl = await ditherer.dither(url);
-    return url;
+  function getImageUrl(path: string) {
+    return "https://image.tmdb.org/t/p/original" + path;
   }
 
   return { getMovieData, getDirectorData };

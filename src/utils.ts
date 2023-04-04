@@ -1,9 +1,3 @@
-function getRandomInt(min: number, max: number): number {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
 function createMappingFn(domain1: number[], domain2: number[]) {
   return (value: number) => {
     return mapTo(value, domain1[0]!, domain1[1]!, domain2[0]!, domain2[1]!);
@@ -29,4 +23,4 @@ function getDateObject(date: string) {
   };
 }
 
-export { getRandomInt, createMappingFn, getDateObject };
+export { createMappingFn, getDateObject };

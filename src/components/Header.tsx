@@ -1,19 +1,12 @@
 import Logo from "./Logo";
+import Search from "./Search/Search";
 
-export default function Header() {  
+export default function Header() {
   return (
-    <header className="wrapper flex justify-between py-10">
+    <header className="wrapper relative flex py-10">
       <Logo size="small" />
-      <div className="flex items-center gap-4">
-        <input
-          className="mr-2"
-          type="checkbox"
-          name="dark-mode"
-          id="dark-mode"
-        />
-        <label className="font-bold" htmlFor="dark-mode">
-          dark mode
-        </label>
+      <div className="absolute left-[calc(100%_-_275px)] hidden sm:left-[calc(100%_-_350px)] sm:block">
+        <Search size="mini" />
       </div>
     </header>
   );

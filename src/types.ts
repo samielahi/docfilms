@@ -1,7 +1,6 @@
 import type { Movies } from "@prisma/client";
 import type { ParsedUrlQuery } from "querystring";
 
-export type Callback<T, O> = (...args: T[]) => O;
 export type DocMovie = Omit<Partial<Movies>, "id" | "notes">;
 
 export interface QParams extends ParsedUrlQuery {
@@ -13,22 +12,31 @@ export interface QParams extends ParsedUrlQuery {
 
 export interface MoviePageProps {
   title: string;
+  mid?: string;
   year?: number;
   director?: string;
   overview?: string;
-  backdropURL?: string;
+  backdrop_path?: string;
   series?: Record<string, string>;
 }
 
 export interface DirectorPageProps {
-  director: string;
-  blurb?: string;
+  name: string;
+  biography?: string;
   movies?: DocMovie[];
   movieCountByDecade?: Record<number, number>;
-  profileURL?: string;
+  profile_path?: string;
 }
 
 export interface SeriesPageProps {
   series: string;
   movies: DocMovie[];
 }
+
+export type Page = "title" | "director" | "series";
+
+export type PagePropsWithSWR<T> = {
+  fallback: {
+    docDataKey: T;
+  };
+};

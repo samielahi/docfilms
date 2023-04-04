@@ -15,7 +15,7 @@ const config = {
   parserOptions: {
     project: "./tsconfig.json",
   },
-  // plugins: ["@typescript-eslint"],
+  plugins: ["@typescript-eslint"],
   extends: ["next/core-web-vitals"],
   rules: {
     "@typescript-eslint/consistent-type-imports": [

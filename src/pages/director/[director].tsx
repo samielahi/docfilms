@@ -3,44 +3,21 @@ import Image from "next/image";
 import Header from "~/components/Header";
 import MovieCard from "~/components/MovieCard";
 import BarPlot from "~/components/BarPlot";
-import { prisma } from "~/server/db";
 import moviedb from "~/server/moviedb";
+import useSWRImmutable, { SWRConfig } from "swr";
+import { useDb } from "~/server/db";
+import type { PagePropsWithSWR } from "~/types";
 import type { GetServerSideProps } from "next";
 import type { DirectorPageProps, DocMovie } from "~/types";
 import type { QParams } from "~/types";
 
-async function getDataFromDb(director: string) {
-  const movies: DocMovie[] = await prisma.movies.findMany({
-    select: {
-      title: true,
-      year: true,
-      date: true,
-      mid: true,
-    },
-    where: {
-      director: {
-        equals: director,
-      },
-    },
-  });
-
-  return movies;
-}
-
-export const getServerSideProps: GetServerSideProps<
-  DirectorPageProps,
-  QParams
-> = async ({ params: query }) => {
-  if (!query?.director) throw Error("Query has no director");
-  const director = query.director;
-
-  const docData = await getDataFromDb(director);
-  let mid: number = 0;
+function buildMovieCountObject(docData: DocMovie[]) {
+  let midForDirectorData: number = 0;
   const movieCountByDecade: Record<number, number> = {};
 
   docData.forEach((movie) => {
-    if (!mid) {
-      mid = Number(movie.mid);
+    if (!midForDirectorData) {
+      midForDirectorData = Number(movie.mid);
     }
 
     const year = parseInt(movie.date?.toDateString().split(" ")[3]!);
@@ -55,36 +32,77 @@ export const getServerSideProps: GetServerSideProps<
     movie.date = null;
     movie.mid = null;
   });
+  return { midForDirectorData, movieCountByDecade };
+}
 
-  const props: DirectorPageProps = {
-    director: director,
+export const getServerSideProps: GetServerSideProps<
+  PagePropsWithSWR<DirectorPageProps>,
+  QParams
+> = async ({ query }) => {
+  const director = query.director as string;
+  const docData = await useDb(director, "director");
+
+  const { midForDirectorData, movieCountByDecade } =
+    buildMovieCountObject(docData);
+
+  let directorPageProps: DirectorPageProps = {
+    name: director,
     movies: docData,
     movieCountByDecade: movieCountByDecade,
   };
 
   let tmdbDirectorData = null;
 
-  if (mid) {
-    tmdbDirectorData = await moviedb.getDirectorData(mid);
+  if (midForDirectorData) {
+    tmdbDirectorData = await moviedb.getDirectorData(midForDirectorData);
   }
 
   if (!tmdbDirectorData || tmdbDirectorData.isErr) {
-    return { props: props };
+    return { props: { fallback: { docDataKey: directorPageProps } } };
+  } else {
+    directorPageProps = Object.assign(
+      directorPageProps,
+      tmdbDirectorData.value
+    );
   }
 
-  props.director = tmdbDirectorData.value.name;
-  props.blurb = tmdbDirectorData.value.biography;
-  props.profileURL = tmdbDirectorData.value.profile_path!;
-
-  return { props: props };
+  return { props: { fallback: { docDataKey: directorPageProps } } };
 };
 
-export default function Director(props: DirectorPageProps) {
-  const { director, blurb, movieCountByDecade, movies, profileURL } = props;
-  const values = Object.entries(movieCountByDecade!).map((mc) => [
-    parseInt(mc[0]),
-    mc[1],
-  ]);
+function Director() {
+  const { data, error } = useSWRImmutable<DirectorPageProps, Error>(
+    "docDataKey"
+  );
+
+  if (error) return <div>Something went wrong while loading this page.</div>;
+
+  const {
+    name: director,
+    biography,
+    movieCountByDecade,
+    movies,
+    profile_path,
+  } = data!;
+
+  const numMoviesShownByDecade = Object.entries(movieCountByDecade!).map(
+    (mc) => [parseInt(mc[0]), mc[1]]
+  );
+
+  const movieCountMap = new Map<string, Record<string, number>>();
+
+  movies?.forEach((movie) => {
+    const currentKey = movie.title!;
+    const currentValue = movieCountMap.get(currentKey);
+    if (!currentValue) {
+      movieCountMap.set(currentKey, { year: movie.year!, count: 1 });
+    } else {
+      movieCountMap.set(currentKey, {
+        count: currentValue.count! + 1,
+        year: currentValue.year!,
+      });
+    }
+  });
+
   return (
     <>
       <Head>
@@ -97,32 +115,54 @@ export default function Director(props: DirectorPageProps) {
       <main className="wrapper h-full text-black dark:text-white">
         <div className="flex flex-col items-center md:flex-row md:gap-20">
           <Image
-            className="w-[300px] border-4 border-yellow sm:w-[350px] md:w-[450px]"
-            src={profileURL!}
+            className="w-[300px] border-4 border-orange sm:w-[350px] md:w-[450px]"
+            src={profile_path! || "https://placekitten.com/g/300/400"}
             width={400}
             height={300}
             alt=""
           ></Image>
           <div className="my-10">
             <div className="flow flex flex-col">
-              <h1 className="capitalize">{director}</h1>
+              <h1 className="flex items-center gap-4 capitalize">
+                <span>{director}</span>{" "}
+                <svg
+                  className="text-orange"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="45"
+                  height="45"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="m3 11 18-5v12L3 14v-3z"></path>
+                  <path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"></path>
+                </svg>
+              </h1>
 
-              <p>{blurb}</p>
+              {biography ? (
+                <p> {biography} </p>
+              ) : (
+                "Couldn't find a biography for this director. Feel free to suggest one here!"
+              )}
 
               <div className="hidden h-full flex-col md:flex">
                 <h2>
-                  {director} @ <span className="font-logo font-bold">doc</span>
+                  <span className="capitalize">{director}</span> @{" "}
+                  <span className="font-logo font-bold">doc</span>
                 </h2>
 
                 <BarPlot
                   xOffset={80}
                   yOffset={60}
                   width={525}
-                  height={300}
+                  height={350}
                   data={{
                     domain: [1920, 2030],
                     range: [0, 50],
-                    values: values!,
+                    values: numMoviesShownByDecade!,
                   }}
                 />
               </div>
@@ -130,7 +170,26 @@ export default function Director(props: DirectorPageProps) {
           </div>
         </div>
 
-        <hr className="mt-8 mb-8 w-[100%] border-t-4 border-gray/70 border-dashed bg-transparent" />
+        <div className="flex h-full flex-col md:hidden">
+          <h2>
+            <span className="capitalize">{director}</span> @{" "}
+            <span className="font-logo font-bold">doc</span>
+          </h2>
+
+            <BarPlot
+              xOffset={80}
+              yOffset={60}
+              width={425}
+              height={350}
+              data={{
+                domain: [1920, 2030],
+                range: [0, 50],
+                values: numMoviesShownByDecade!,
+              }}
+            />
+        </div>
+
+        <hr className="mt-8 mb-8 w-[100%] border-t-4 border-dashed border-gray/70 bg-transparent" />
 
         <div className="flow">
           <h2>
@@ -139,12 +198,29 @@ export default function Director(props: DirectorPageProps) {
           </h2>
 
           <div className="flex flex-wrap justify-center gap-10 pb-10 text-center md:justify-start">
-            {movies?.map((movie, i) => (
-              <MovieCard key={i} title={movie.title!} year={movie.year!} />
+            {Array.from(movieCountMap.entries()).map(([key, value], i) => (
+              <>
+                <MovieCard
+                  key={i}
+                  title={key}
+                  count={value.count!}
+                  year={value.year!}
+                />
+              </>
             ))}
           </div>
         </div>
       </main>
     </>
+  );
+}
+
+export default function DirectorPage({
+  fallback,
+}: PagePropsWithSWR<DirectorPageProps>) {
+  return (
+    <SWRConfig value={{ fallback }}>
+      <Director />
+    </SWRConfig>
   );
 }

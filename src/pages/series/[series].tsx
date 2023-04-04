@@ -1,49 +1,29 @@
 import Head from "next/head";
-import { prisma } from "~/server/db";
 import Header from "~/components/Header";
 import type { GetServerSideProps } from "next";
-import type { DocMovie, SeriesPageProps } from "~/types";
+import type { SeriesPageProps } from "~/types";
 import type { QParams } from "~/types";
-
-// Can optimize with better sql queries
-
-async function getDataFromDb(series: string) {
-  const movies: DocMovie[] = await prisma.movies.findMany({
-    select: {
-      title: true,
-      director: true,
-      year: true,
-      date: true,
-    },
-    where: {
-      series: {
-        equals: series,
-      },
-    },
-  });
-
-  return movies;
-}
+import { useDb } from "~/server/db";
+import useSWRImmutable, { SWRConfig } from "swr";
+import { PagePropsWithSWR } from "~/types";
 
 export const getServerSideProps: GetServerSideProps<
-  SeriesPageProps,
+  PagePropsWithSWR<SeriesPageProps>,
   QParams
-> = async ({ params }) => {
-  if (!params?.series) throw Error("Query has no series");
+> = async ({ query }) => {
+  const series = query.series as string;
 
-  const docData = await getDataFromDb(params.series);
+  const docData = await useDb(series, "series");
 
-  const props: SeriesPageProps = {
+  const seriesPageProps: SeriesPageProps = {
     movies: docData,
-    series: params.series,
+    series: series,
   };
-
-  return {
-    props: props,
-  };
+  return { props: { fallback: { docDataKey: seriesPageProps } } };
 };
 
-export default function Director(props: SeriesPageProps) {
+function Series() {
+  const { data, error } = useSWRImmutable<SeriesPageProps, Error>("docDataKey");
   return (
     <>
       <Head>
@@ -53,5 +33,15 @@ export default function Director(props: SeriesPageProps) {
       </Head>
       <Header />
     </>
+  );
+}
+
+export default function DirectorPage({
+  fallback,
+}: PagePropsWithSWR<SeriesPageProps>) {
+  return (
+    <SWRConfig value={{ fallback }}>
+      <Series />
+    </SWRConfig>
   );
 }
