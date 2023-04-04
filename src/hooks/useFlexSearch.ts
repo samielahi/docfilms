@@ -10,7 +10,7 @@ export interface DocMovieSearchIndexResult {
   director?: string;
 }
 
-const url: string = "/search-index.json";
+const url: string = "/movies-index.json";
 const fetcher: Fetcher<DocMovieSearchIndexResult[], string> = async (
   url: string
 ) => {
