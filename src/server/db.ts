@@ -18,6 +18,9 @@ type PrismaQueryOptions = {
   date?: boolean;
   mid?: boolean;
   year?: boolean;
+  overview?: boolean;
+  times_shown?: boolean;
+  quarter?: boolean;
 };
 
 const globalForPrisma = globalThis as unknown as { prisma: PrismaClient };
@@ -48,6 +51,8 @@ function buildPageQuery(whereClause: string, page: Page) {
     date: true,
     mid: true,
     year: true,
+    times_shown: true,
+    quarter: true,
   };
 
   switch (page) {

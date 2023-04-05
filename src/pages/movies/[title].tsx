@@ -10,6 +10,7 @@ import type { GetServerSideProps } from "next";
 import type { DocMovie, MoviePageProps } from "~/types";
 import type { QParams } from "~/types";
 import type { PagePropsWithSWR } from "~/types";
+import Footer from "~/components/Footer";
 
 function buildSeriesObject(docData: DocMovie[]) {
   const series: Record<string, string> = {};
@@ -147,6 +148,8 @@ function Movie() {
           </div>
         </section>
       </main>
+
+      <Footer/>
     </>
   );
 }

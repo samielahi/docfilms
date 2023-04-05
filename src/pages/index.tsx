@@ -18,7 +18,7 @@ const Home: NextPage = () => {
           <Search size="full" />
         </div>
 
-        {/* <Image
+        <Image
           draggable={false}
           priority={true}
           alt="An assortment of colored movie tickets."
@@ -26,7 +26,7 @@ const Home: NextPage = () => {
           width={1920}
           height={400}
           className="absolute top-[85%] sm:top-[80%] md:top-[75%] lg:top-[65%] xl:top-[55%]"
-        ></Image> */}
+        ></Image>
       </main>
     </>
   );

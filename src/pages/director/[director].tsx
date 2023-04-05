@@ -10,6 +10,7 @@ import type { PagePropsWithSWR } from "~/types";
 import type { GetServerSideProps } from "next";
 import type { DirectorPageProps, DocMovie } from "~/types";
 import type { QParams } from "~/types";
+import Footer from "~/components/Footer";
 
 function buildMovieCountObject(docData: DocMovie[]) {
   let midForDirectorData: number = 0;
@@ -211,6 +212,8 @@ function Director() {
           </div>
         </div>
       </main>
+
+      <Footer/>
     </>
   );
 }

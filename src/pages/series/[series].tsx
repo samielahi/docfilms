@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Header from "~/components/Header";
+import Footer from "~/components/Footer";
 import Image from "next/image";
 import type { GetServerSideProps } from "next";
 import type { SeriesPageProps } from "~/types";
@@ -54,18 +55,31 @@ function Series() {
           <h1 className="capitalize italic">{data?.series}</h1>
 
           <div className="flow">
-            <h2>Movies Shown</h2>
+            <h2 className="flex  items-center gap-4 font-bold">
+              <span>Movies</span>
+
+              <span className="italic text-gray">
+                (Shown {data?.movies![0]?.quarter})
+              </span>
+            </h2>
 
             <div className="flex flex-wrap justify-center gap-10 pb-10 text-center md:justify-start">
               {data?.movies!.map((movie, i) => (
                 <>
-                  <MovieCard key={i} title={movie.title!} year={movie.year!} />
+                  <MovieCard
+                    key={i}
+                    count={movie.times_shown!}
+                    title={movie.title!}
+                    year={movie.year!}
+                  />
                 </>
               ))}
             </div>
           </div>
         </section>
       </main>
+
+      <Footer />
     </>
   );
 }

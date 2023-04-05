@@ -53,7 +53,7 @@ export default forwardRef(function SearchInput(
           }}
           id="search"
           type="text"
-          placeholder="Search for a movie"
+          placeholder="Search for a movie, director, or quarter"
           maxLength={50}
         />
       </div>

@@ -4,7 +4,7 @@ export default function Logo(props: { size: "small" | "large" }) {
   const { size } = props;
   return (
     <>
-      <Link href={"/"} tabIndex={size === "large" ? -1 : 1}>
+      <Link href={"/"} tabIndex={size === "large" ? -1 : 1} className="w-fit">
         <div className={`flex w-fit flex-col items-end gap-0 leading-3`}>
           <h1
             className={`${
