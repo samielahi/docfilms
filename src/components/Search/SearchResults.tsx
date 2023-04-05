@@ -1,12 +1,12 @@
 import type { ForwardedRef } from "react";
-import type { DocMovieSearchIndexResult } from "~/hooks/useFlexSearch";
+import type { DocSearchIndexResult } from "~/hooks/useFlexSearch";
 import { forwardRef } from "react";
 import SearchResult from "./SearchResult";
 
 interface Props {
   selected?: number;
   showResults?: boolean;
-  results: DocMovieSearchIndexResult[];
+  results: DocSearchIndexResult[];
 }
 
 export default forwardRef(function SearchResults(

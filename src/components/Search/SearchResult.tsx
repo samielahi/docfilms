@@ -1,9 +1,9 @@
 import Link from "next/link";
-import type { DocMovieSearchIndexResult } from "~/hooks/useFlexSearch";
+import type { DocSearchIndexResult } from "~/hooks/useFlexSearch";
 import { useContext } from "react";
 import { SearchContext } from "./SearchContext";
 
-export interface Props extends DocMovieSearchIndexResult {
+export interface Props extends DocSearchIndexResult {
   selected?: boolean;
 }
 

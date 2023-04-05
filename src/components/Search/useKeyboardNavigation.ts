@@ -1,10 +1,10 @@
 import { useRef, useEffect, Dispatch, SetStateAction } from "react";
 import { useRouter } from "next/router";
-import { DocMovieSearchIndexResult } from "~/hooks/useFlexSearch";
+import { DocSearchIndexResult } from "~/hooks/useFlexSearch";
 
 export default function useKeyboardNavigation(
   currentQuery: string,
-  searchResults: DocMovieSearchIndexResult[],
+  searchResults: DocSearchIndexResult[],
   selectedResult: number,
   showResults: boolean,
   setShowResults: Dispatch<SetStateAction<boolean>>,

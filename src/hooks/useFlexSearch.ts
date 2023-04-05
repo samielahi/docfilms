@@ -2,16 +2,23 @@ import { useMemo, useState } from "react";
 import type { Fetcher } from "swr";
 import useSWRImmutable from "swr";
 import { Document } from "flexsearch";
+import type { DocumentOptions } from "flexsearch";
 
-export interface DocMovieSearchIndexResult {
+export interface DocSearchIndexResult {
   id: number;
   title: string;
   year?: number;
   director?: string;
+  quarter?: string;
 }
 
-const url: string = "/movies-index.json";
-const fetcher: Fetcher<DocMovieSearchIndexResult[], string> = async (
+const moviesIndexUrl: string = "/movies-index.json";
+const moviesIndexOptions: DocumentOptions<DocSearchIndexResult, string[]> = {
+  id: "id",
+  index: ["title"],
+  store: ["title", "director", "year"],
+};
+const fetcher: Fetcher<DocSearchIndexResult[], string> = async (
   url: string
 ) => {
   const response = await fetch(url);
@@ -19,12 +26,17 @@ const fetcher: Fetcher<DocMovieSearchIndexResult[], string> = async (
     throw Error(await response.text());
   }
   // Note .json() method can throw
-  return (await response.json()) as DocMovieSearchIndexResult[];
+  return (await response.json()) as DocSearchIndexResult[];
 };
 
 export default function useFlexSearch(
   query: string,
-  numberOfResults: number = 7
+  url: string = moviesIndexUrl,
+  numberOfResults: number = 4,
+  documentOptions: DocumentOptions<
+    DocSearchIndexResult,
+    string[]
+  > = moviesIndexOptions
 ) {
   const [shouldFetch, setShouldFetch] = useState(false);
 
@@ -32,22 +44,18 @@ export default function useFlexSearch(
     setShouldFetch(true);
   }
 
-  const { data, error } = useSWRImmutable<DocMovieSearchIndexResult[], Error>(
+  const { data, error } = useSWRImmutable<DocSearchIndexResult[], Error>(
     shouldFetch ? url : null,
     fetcher
   );
 
   const document = useMemo(() => {
-    const index = new Document<DocMovieSearchIndexResult, string[]>({
+    const index = new Document<DocSearchIndexResult, string[]>({
       tokenize: "forward",
       language: "en",
       preset: "performance",
       context: true,
-      document: {
-        id: "id",
-        index: ["title"],
-        store: ["title", "director", "year"],
-      },
+      document: documentOptions,
     });
 
     for (let idx = 0; idx < data?.length!; idx++) {
