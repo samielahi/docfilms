@@ -8,7 +8,7 @@ import Link from "next/link";
 const Search: NextPageWithLayout = () => {
   const router = useRouter();
   const query = router.query;
-  const { searchResults, isError } = useFlexSearch(query.q as string);
+  const { results: searchResults, isError } = useFlexSearch(query.q as string);
 
   searchResults?.sort((a, b) => {
     // If both movies don't have years

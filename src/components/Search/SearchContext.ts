@@ -1,5 +1,5 @@
 import { createContext } from "react";
 
-export type SearchBarType = "main" | "mini"
+export type SearchBarSize = "full" | "mini";
 
-export const SearchContext = createContext<SearchBarType>("main");
+export const SearchContext = createContext<SearchBarSize>("full");

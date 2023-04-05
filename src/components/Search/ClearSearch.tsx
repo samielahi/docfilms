@@ -11,7 +11,7 @@ export default function ClearSearch(props: Props) {
   const { currentQuery, setQuery } = props;
   const queryIsEmpty = useMemo(() => currentQuery === "", [currentQuery]);
   const size = useContext(SearchContext);
-  const sizeIsRegular = size === "main";
+  const fullSize = size === "full";
 
   function clearValue() {
     if (!queryIsEmpty) {
@@ -24,9 +24,9 @@ export default function ClearSearch(props: Props) {
       {!queryIsEmpty ? (
         <button
           className={`absolute top-[calc(50%_-_13px)] ${
-            !sizeIsRegular ? "left-[88%]" : ""
+            !fullSize ? "left-[88%]" : ""
           } ${
-            sizeIsRegular
+            fullSize
               ? "left-[55%] sm:left-[65%] md:top-[calc(50%_-_18px)] md:left-[70%] lg:left-[77%]"
               : ""
           }`}
@@ -35,7 +35,7 @@ export default function ClearSearch(props: Props) {
         >
           <svg
             className={`h-[26px] w-[26px] rounded-full bg-slate-100 stroke-orange p-1 text-center font-bold text-orange ${
-              sizeIsRegular ? "md:h-[36px] md:w-[36px] md:p-2" : ""
+              fullSize ? "md:h-[36px] md:w-[36px] md:p-2" : ""
             }`}
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"

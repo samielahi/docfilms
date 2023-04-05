@@ -15,19 +15,19 @@ export default forwardRef(function SearchInput(
 ) {
   const { currentQuery, setQuery } = props;
   const size = useContext(SearchContext);
-  const sizeIsRegular = size === "main";
+  const fullSize = size === "full";
   return (
     <>
       <div
         role="search"
         className={`flex w-full items-center justify-between gap-4 px-4 py-2 ${
-          sizeIsRegular ? "md:py-4 md:px-6" : ""
+          fullSize ? "md:py-4 md:px-6" : ""
         }`}
       >
         <svg
           aria-label="search"
           className={`pointer-events-none h-[25px] w-[25px] stroke-orange ${
-            sizeIsRegular ? "md:h-[35px] md:w-[35px]" : ""
+            fullSize ? "md:h-[35px] md:w-[35px]" : ""
           }`}
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
@@ -44,7 +44,7 @@ export default forwardRef(function SearchInput(
           ref={ref}
           aria-label="Search for movies played at docfilms"
           className={`w-full bg-[#fff] text-sm outline-none placeholder:bg-[#fff] placeholder:italic placeholder:text-gray ${
-            sizeIsRegular ? "lg:w-[500px md:text-2xl" : ""
+            fullSize ? "lg:w-[500px md:text-2xl" : ""
           }`}
           autoComplete="off"
           value={currentQuery}

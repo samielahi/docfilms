@@ -16,28 +16,32 @@ export default forwardRef(function SearchResults(
   const { results, selected, showResults } = props;
 
   return (
-    <div
-      ref={ref}
-      className="h-max w-full rounded-b-xl focus:outline-none"
-      tabIndex={1}
-    >
-      {showResults && results.length ? (
-        <>
-          <hr className="border-t-2 border-gray bg-transparent" />
-          {results?.map((movie, i) => (
-            <SearchResult
-              key={i}
-              id={movie.id}
-              selected={selected === i}
-              title={movie.title}
-              director={movie.director}
-              year={movie.year}
-            />
-          ))}
-        </>
-      ) : (
-        <></>
+    <>
+      {showResults && results.length !== 0 && (
+        <hr className="border-t-2 border-gray bg-transparent" />
       )}
-    </div>
+      <div
+        ref={ref}
+        className="max-h-[300px] w-full overflow-y-auto rounded-b-xl focus:outline-none md:max-h-[600px]"
+        tabIndex={1}
+      >
+        {showResults && results.length !== 0 && (
+          <>
+            {results?.map((result, i) => (
+              <SearchResult
+                type={result.type}
+                key={i}
+                id={result.id}
+                selected={selected === i}
+                title={result.title}
+                director={result.director}
+                year={result.year}
+                quarter={result.quarter}
+              />
+            ))}
+          </>
+        )}
+      </div>
+    </>
   );
 });

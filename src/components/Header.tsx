@@ -11,7 +11,7 @@ export default function Header() {
           <Logo size="small" />
 
           <div className="absolute left-[calc(100%_-_275px)] hidden sm:left-[calc(100%_-_350px)] sm:block">
-            <Search type="mini" />
+            <Search size="mini" />
           </div>
 
           <button onClick={() => setShowSearchBar(true)}>
@@ -36,7 +36,7 @@ export default function Header() {
         <>
           <div className="relative">
             <div className="absolute top-0 left-0">
-              <Search type="mini" />
+              <Search size="mini" />
             </div>
           </div>
 

@@ -2,22 +2,42 @@ import { useMemo, useState } from "react";
 import type { Fetcher } from "swr";
 import useSWRImmutable from "swr";
 import { Document } from "flexsearch";
-import type { DocumentOptions } from "flexsearch";
+
+export type ResultType = "movie" | "director" | "quarter";
 
 export interface DocSearchIndexResult {
   id: number;
   title: string;
+  type: ResultType;
   year?: number;
   director?: string;
   quarter?: string;
 }
 
-const moviesIndexUrl: string = "/movies-index.json";
-const moviesIndexOptions: DocumentOptions<DocSearchIndexResult, string[]> = {
-  id: "id",
-  index: ["title"],
-  store: ["title", "director", "year"],
+const urls = {
+  movie: "/movies-index.json",
+  director: "/directors-index.json",
+  quarter: "/quarters-index.json",
 };
+
+const indexOptions = {
+  movie: {
+    id: "id",
+    index: ["title"],
+    store: ["title", "director", "year"],
+  },
+  director: {
+    id: "id",
+    index: ["director"],
+    store: ["director"],
+  },
+  quarter: {
+    id: "id",
+    index: ["quarter"],
+    store: ["quarter"],
+  },
+};
+
 const fetcher: Fetcher<DocSearchIndexResult[], string> = async (
   url: string
 ) => {
@@ -29,15 +49,10 @@ const fetcher: Fetcher<DocSearchIndexResult[], string> = async (
   return (await response.json()) as DocSearchIndexResult[];
 };
 
-export default function useFlexSearch(
-  query: string,
-  url: string = moviesIndexUrl,
-  numberOfResults: number = 4,
-  documentOptions: DocumentOptions<
-    DocSearchIndexResult,
-    string[]
-  > = moviesIndexOptions
-) {
+export default function useFlexSearch(query: string, type: ResultType) {
+  const url = urls[type];
+  const documentOptions = indexOptions[type];
+  const numberOfResults = 4;
   const [shouldFetch, setShouldFetch] = useState(false);
 
   if (!shouldFetch && query.length) {
@@ -75,11 +90,11 @@ export default function useFlexSearch(
   );
 
   const searchResults = indexResults.length
-    ? indexResults[0]?.result.map((res) => res.doc)
+    ? indexResults[0]?.result.map(({ ...doc }) => ({ ...doc.doc, type: type }))
     : [];
 
   return {
-    searchResults: searchResults,
+    results: searchResults,
     isError: error,
   };
 }

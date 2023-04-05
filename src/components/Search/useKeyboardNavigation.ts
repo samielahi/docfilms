@@ -1,15 +1,13 @@
-import { useRef, useEffect, Dispatch, SetStateAction } from "react";
+import { useRef, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { DocSearchIndexResult } from "~/hooks/useFlexSearch";
 
 export default function useKeyboardNavigation(
   currentQuery: string,
-  searchResults: DocSearchIndexResult[],
-  selectedResult: number,
-  showResults: boolean,
-  setShowResults: Dispatch<SetStateAction<boolean>>,
-  setSelectedResult: Dispatch<SetStateAction<number>>
+  searchResults: DocSearchIndexResult[]
 ) {
+  const [selectedResult, setSelectedResult] = useState(-1);
+  const [showResults, setShowResults] = useState(true);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const resultsRef = useRef<HTMLDivElement | null>(null);
   const router = useRouter();
@@ -37,8 +35,14 @@ export default function useKeyboardNavigation(
         }
         break;
       case "Enter":
-        const movie = searchResults[selectedResult]!;
-        router.push(`/movies/${movie.title}?year=${movie.year}`);
+        const result = searchResults[selectedResult]!;
+        if (result.type === "movie") {
+          router.push(`/movies/${result.title}?year=${result.year}`);
+        } else if (result.type === "director") {
+          router.push(`/director/${result.director}`);
+        } else {
+          router.push(`/quarter/${result.quarter}`);
+        }
         break;
       case "Escape":
         hideResults();
@@ -134,5 +138,5 @@ export default function useKeyboardNavigation(
     };
   }, [resultsRef.current, handleSearchResultKeyEvents]);
 
-  return { inputRef, resultsRef };
+  return { inputRef, resultsRef, showResults, selectedResult };
 }
