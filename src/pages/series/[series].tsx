@@ -28,6 +28,7 @@ export const getServerSideProps: GetServerSideProps<
 
 function Series() {
   const { data, error } = useSWRImmutable<SeriesPageProps, Error>("docDataKey");
+  if (error) return <div>An error occurred.</div>;
   return (
     <>
       <Head>

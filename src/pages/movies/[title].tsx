@@ -27,7 +27,7 @@ export const getServerSideProps: GetServerSideProps<
   PagePropsWithSWR<MoviePageProps>,
   QParams
 > = async ({ query }) => {
-  const title = query.title as string;
+  const title = (query.title as string).replaceAll("-", " ");
   const year = query.year as string;
 
   const docData = await useDb(title, "title");
@@ -149,7 +149,7 @@ function Movie() {
         </section>
       </main>
 
-      <Footer/>
+      <Footer />
     </>
   );
 }

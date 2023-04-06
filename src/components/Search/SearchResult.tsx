@@ -140,15 +140,20 @@ export default function SearchResult(props: Props) {
   const { title, director, year, quarter, selected, type } = props;
   const size = useContext(SearchContext);
   const fullSize = size === "full";
+
+  const link = ((type) => {
+    switch (type) {
+      case "movie":
+        return `/movies/${title?.replaceAll(" ", "-")}?year=${year}`;
+      case "director":
+        return `/director/${director?.replaceAll(" ", "-")}`;
+      default:
+        return `/quarter/${quarter?.replaceAll(" ", "-")}`;
+    }
+  })(type);
+
   return (
-    <Link
-      tabIndex={-1}
-      className="z-9999 relative outline-orange"
-      href={{
-        pathname: `/movies/${title}`,
-        query: { year: year },
-      }}
-    >
+    <Link tabIndex={-1} className="z-9999 relative outline-orange" href={link}>
       <div
         className={`${
           selected ? "underline" : ""

@@ -37,7 +37,9 @@ export default function useKeyboardNavigation(
       case "Enter":
         const result = searchResults[selectedResult]!;
         if (result.type === "movie") {
-          router.push(`/movies/${result.title}?year=${result.year}`);
+          router.push(
+            `/movies/${result.title.replaceAll(" ", "-")}?year=${result.year}`
+          );
         } else if (result.type === "director") {
           router.push(`/director/${result.director}`);
         } else {
