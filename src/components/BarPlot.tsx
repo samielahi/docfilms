@@ -63,7 +63,7 @@ export default function BarPlot(props: BarPlotProps) {
             {/* X-label */}
             <text
               x={width / 2}
-              y={height - (yOffset - tickOffset) *0.1}
+              y={height - (yOffset - tickOffset) * 0.1}
               dominantBaseline="central"
               textAnchor="middle"
               className="fill-gray font-mono text-[14px] font-bold italic dark:fill-white"
@@ -120,10 +120,10 @@ export default function BarPlot(props: BarPlotProps) {
                   <text
                     dominantBaseline="central"
                     textAnchor="middle"
-                    x={mappedDatum[0]! - xOffset*0.05}
+                    x={mappedDatum[0]! - xOffset * 0.05}
                     y={height - (yOffset - tickOffset)}
                     className="font-mono text-[12px] font-bold dark:fill-white"
-                    transform={`rotate(-50, ${mappedDatum[0]}, ${
+                    transform={`rotate(-50, ${mappedDatum[0]!}, ${
                       height - (yOffset - tickOffset)
                     })`}
                   >

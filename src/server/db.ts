@@ -1,9 +1,8 @@
 // Prisma global
 import { PrismaClient } from "@prisma/client";
-import type { Fetcher } from "swr";
-import { DocMovie } from "~/types";
 import { env } from "~/env.mjs";
-import { Page } from "~/types";
+import type { Fetcher } from "swr";
+import type { Page, DocMovie } from "~/types";
 
 type PrismaQuery =
   | { title: { equals: string } }
