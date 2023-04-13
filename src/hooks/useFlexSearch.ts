@@ -1,3 +1,4 @@
+// Hook for facilitating client side full text search
 import { useMemo, useState } from "react";
 import useSWRImmutable from "swr";
 import { Document } from "flexsearch";
@@ -16,8 +17,11 @@ const fetcher: Fetcher<SearchResult[], string> = async (url: string) => {
   return (await response.json()) as SearchResult[];
 };
 
-export default function useFlexSearch(query: string) {
-  const numberOfResults = 4;
+export default function useFlexSearch(
+  query: string,
+  numberOfResults: number = 10
+) {
+  // const dispatch = useSearchDispatch()!;
   const [shouldFetch, setShouldFetch] = useState(false);
 
   if (!shouldFetch && query.length) {
@@ -38,7 +42,7 @@ export default function useFlexSearch(query: string) {
       document: {
         id: "id",
         index: ["index"],
-        store: ["index", "year"],
+        store: ["index", "year", "group"],
       },
     });
 
@@ -55,12 +59,19 @@ export default function useFlexSearch(query: string) {
         limit: numberOfResults,
         enrich: true,
       }),
-    [query, document]
+    [query, document, numberOfResults]
   );
 
+  // Grab only the document from the results
   const searchResults = indexResults.length
     ? indexResults[0]?.result.map((result) => result.doc)
     : [];
+
+  // Broadcast how many results have been found
+  // dispatch({
+  //   type: "UPDATE_RESULT_COUNT",
+  //   value: indexResults.length
+  // })
 
   return {
     results: searchResults,

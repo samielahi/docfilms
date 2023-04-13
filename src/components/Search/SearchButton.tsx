@@ -1,28 +1,24 @@
+import { useSearch } from "./state/SearchContext";
 import { useRouter } from "next/router";
-import { SearchContext } from "./SearchContext";
-import { useContext } from "react";
 
-interface Props {
-  currentQuery: string;
-}
-
-export default function SearchButton(props: Props) {
+export default function SearchButton() {
+  const { currentQuery, fullSize } = useSearch()!;
   const router = useRouter();
-  const size = useContext(SearchContext);
-  const { currentQuery } = props;
 
-  function navigateToSearchResults() {
-    if (currentQuery.length) {
-      router.push(`/search?q=${currentQuery}`);
+  function routeToSearchResults() {
+    if (currentQuery.length > 0) {
+      // router.push returns a Promise, void to get around eslint
+      void router.push(`/search?q=${currentQuery}`);
     }
   }
 
   return (
     <>
-      {size === "full" && (
+      {fullSize && (
         <button
-          onClick={navigateToSearchResults}
-          className="h-full border-l-2 border-gray px-4 text-sm font-bold text-orange md:text-2xl"
+          className="h-full rounded-lg border-2 border-gray bg-yellow px-2 py-1 text-sm font-bold text-orange md:px-4 md:text-2xl"
+          onClick={routeToSearchResults}
+          role="button"
         >
           search
         </button>

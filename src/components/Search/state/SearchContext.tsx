@@ -7,21 +7,18 @@ export const SearchDispatchContext =
   createContext<Dispatch<SearchAction> | null>(null);
 
 type Props = {
+  fullSize: boolean;
   children: ReactNode;
 };
 
-export function SearchProvider({ children }: Props) {
-  const inputRef = useRef<HTMLInputElement | null>(null);
-  const resultsRef = useRef<HTMLDivElement | null>(null);
+export function SearchProvider({ fullSize, children }: Props) {
   // TODO : useLocalStorage hook to work with recentQueries
 
   const initialState: SearchState = {
+    fullSize: fullSize,
     currentQuery: "",
     showResults: true,
-    selectedResult: -1,
     recentQueries: [],
-    inputRef: inputRef,
-    resultsRef: resultsRef,
   };
 
   const [state, dispatch] = useReducer(searchReducer, initialState);
@@ -71,12 +68,6 @@ function searchReducer(state: SearchState, action: SearchAction) {
         recentQueries: newRecentQueries,
         ...rest,
       }))(state);
-    case "INCREMENT_SELECTED_RESULT":
-      return state;
-    case "DECREMENT_SELECTED_RESULT":
-      return state;
-    case "UPDATE_RESULT_COUNT":
-      return state;
   }
 }
 

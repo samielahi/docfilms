@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Logo from "~/components/Logo";
-import Search from "~/components/Search2/Search";
+import Search from "~/components/Search/Search";
 import type { NextPage } from "next";
 // import Image from "next/image";
 
@@ -15,8 +15,7 @@ const Home: NextPage = () => {
       <main className="relative flex h-screen flex-col items-center justify-between overflow-hidden">
         <div className="mt-28 flex w-fit flex-col items-center gap-8">
           <Logo size="large" />
-          <Search />
-          {/* <Search size="full" /> */}
+          <Search fullSize={true} />
         </div>
 
         {/* <Image
