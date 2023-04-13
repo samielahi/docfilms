@@ -13,24 +13,19 @@ export interface SearchResult {
 
 export interface SearchState {
   currentQuery: string;
-  currentResults: SearchResult[];
-  selectedResult: number;
   showResults: boolean;
+  selectedResult: number;
   recentQueries: string[];
   inputRef: MutableRefObject<HTMLInputElement | null>;
   resultsRef: MutableRefObject<HTMLDivElement | null>;
 }
 
-export type Action =
+export type SearchAction =
   | { type: "SET_QUERY"; value: string }
   | { type: "CLEAR_QUERY" }
   | { type: "SHOW_RESULTS" }
   | { type: "HIDE_RESULTS" }
-  | { type: "SELECT_RESULT"; id: number }
-  // Route to the results page
-  | { type: "GOTO_RESULTS" }
-  // Route to the like pointed to by the selected result
-  | { type: "GOTO_SELECTED_RESULT" }
   | { type: "PUSH_TO_RECENT_QUERIES"; value: string }
-  | { type: "FOCUS_INPUT" }
-  | { type: "FOCUS_RESULTS" };
+  | { type: "INCREMENT_SELECTED_RESULT" }
+  | { type: "DECREMENT_SELECTED_RESULT" }
+  | { type: "UPDATE_RESULT_COUNT" };

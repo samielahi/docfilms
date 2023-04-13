@@ -1,57 +1,22 @@
 import { useMemo, useState } from "react";
-import type { Fetcher } from "swr";
 import useSWRImmutable from "swr";
 import { Document } from "flexsearch";
 
-export type ResultType = "movie" | "director" | "quarter";
+import type { Fetcher } from "swr";
+import type { SearchResult } from "~/components/Search2/types";
 
-export interface DocSearchIndexResult {
-  id: number;
-  title: string;
-  type: ResultType;
-  year?: number;
-  director?: string;
-  quarter?: string;
-}
+const url = "/index.json";
 
-const urls = {
-  movie: "/movies-index.json",
-  director: "/directors-index.json",
-  quarter: "/quarters-index.json",
-};
-
-const indexOptions = {
-  movie: {
-    id: "id",
-    index: ["title"],
-    store: ["title", "director", "year"],
-  },
-  director: {
-    id: "id",
-    index: ["director"],
-    store: ["director"],
-  },
-  quarter: {
-    id: "id",
-    index: ["quarter"],
-    store: ["quarter"],
-  },
-};
-
-const fetcher: Fetcher<DocSearchIndexResult[], string> = async (
-  url: string
-) => {
+const fetcher: Fetcher<SearchResult[], string> = async (url: string) => {
   const response = await fetch(url);
   if (!response.ok) {
     throw Error(await response.text());
   }
   // Note .json() method can throw
-  return (await response.json()) as DocSearchIndexResult[];
+  return (await response.json()) as SearchResult[];
 };
 
-export default function useFlexSearch(query: string, type: ResultType) {
-  const url = urls[type];
-  const documentOptions = indexOptions[type];
+export default function useFlexSearch(query: string) {
   const numberOfResults = 4;
   const [shouldFetch, setShouldFetch] = useState(false);
 
@@ -59,18 +24,22 @@ export default function useFlexSearch(query: string, type: ResultType) {
     setShouldFetch(true);
   }
 
-  const { data, error } = useSWRImmutable<DocSearchIndexResult[], Error>(
+  const { data, error } = useSWRImmutable<SearchResult[], Error>(
     shouldFetch ? url : null,
     fetcher
   );
 
   const document = useMemo(() => {
-    const index = new Document<DocSearchIndexResult, string[]>({
+    const index = new Document<SearchResult, string[]>({
       tokenize: "forward",
       language: "en",
       preset: "performance",
       context: true,
-      document: documentOptions,
+      document: {
+        id: "id",
+        index: ["index"],
+        store: ["index", "year"],
+      },
     });
 
     for (let idx = 0; idx < data?.length!; idx++) {
@@ -90,7 +59,7 @@ export default function useFlexSearch(query: string, type: ResultType) {
   );
 
   const searchResults = indexResults.length
-    ? indexResults[0]?.result.map(({ ...doc }) => ({ ...doc.doc, type: type }))
+    ? indexResults[0]?.result.map((result) => result.doc)
     : [];
 
   return {
