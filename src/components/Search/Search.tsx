@@ -1,6 +1,5 @@
-import { SearchProvider } from "./state/SearchContext";
+import { SearchProvider } from "./SearchContext";
 import SearchInput from "./SearchInput";
-import SearchButton from "./SearchButton";
 import SearchResultList from "./SearchResultList";
 
 type Props = { fullSize: boolean };
@@ -21,7 +20,6 @@ export default function Search({ fullSize }: Props) {
             }`}
           >
             <SearchInput />
-            <SearchButton />
           </div>
           <SearchResultList />
         </form>

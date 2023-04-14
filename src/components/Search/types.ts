@@ -1,4 +1,4 @@
-import type { FocusIndex } from "~/hooks/useFocusCycle";
+import type { MutableRefObject } from "react";
 
 // Search can return three types of results and displays them in their own group
 export type ResultGroup = "movie" | "director" | "quarter";
@@ -16,6 +16,7 @@ export interface SearchState {
   currentQuery: string;
   showResults: boolean;
   recentQueries: string[];
+  inputRef: MutableRefObject<HTMLInputElement | null>;
 }
 
 export type SearchAction =

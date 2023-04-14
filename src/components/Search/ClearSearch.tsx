@@ -1,4 +1,4 @@
-import { useSearch, useSearchDispatch } from "./state/SearchContext";
+import { useSearch, useSearchDispatch } from "./SearchContext";
 
 export default function ClearSearch() {
   const { currentQuery } = useSearch()!;

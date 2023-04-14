@@ -1,4 +1,4 @@
-import { useSearch } from "./state/SearchContext";
+import { useSearch } from "./SearchContext";
 import { useRouter } from "next/router";
 
 export default function SearchButton() {

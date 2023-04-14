@@ -1,6 +1,6 @@
 import { createContext, useContext, useReducer, useRef } from "react";
-import type { ReactNode, Dispatch } from "react";
-import type { SearchAction, SearchState } from "../types";
+import type { ReactNode, Dispatch, MutableRefObject } from "react";
+import type { SearchAction, SearchState } from "./types";
 
 export const SearchContext = createContext<SearchState | null>(null);
 export const SearchDispatchContext =
@@ -12,13 +12,14 @@ type Props = {
 };
 
 export function SearchProvider({ fullSize, children }: Props) {
+  const inputRef = useRef<HTMLInputElement | null>(null);
   // TODO : useLocalStorage hook to work with recentQueries
-
   const initialState: SearchState = {
     fullSize: fullSize,
     currentQuery: "",
     showResults: true,
     recentQueries: [],
+    inputRef: inputRef,
   };
 
   const [state, dispatch] = useReducer(searchReducer, initialState);

@@ -1,15 +1,15 @@
 import SearchResult from "./SearchResult";
-import { useSearch } from "./state/SearchContext";
+import { useSearch } from "./SearchContext";
 import useFlexSearch from "~/hooks/useFlexSearch";
 import useDebouncedValue from "~/hooks/useDebouncedValue";
-import { useFocusCycle } from "~/hooks/useFocusCycle";
+import { useFocusManager } from "./useFocusManager";
 
 export default function SearchResultList() {
   const { currentQuery, showResults } = useSearch()!;
   const debouncedQuery = useDebouncedValue(currentQuery);
   const { results, isError } = useFlexSearch(debouncedQuery);
   // Include search input in list count so that focusing list[0] focuses it
-  const [focusedIndex] = useFocusCycle(results ? results.length : 0, null);
+  const [focusedIndex] = useFocusManager(results ? results.length : 0, null);
 
   if (isError) return <div>An error occurred while fetching results.</div>;
 
