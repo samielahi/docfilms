@@ -1,11 +1,12 @@
-import SearchResult from "./SearchResult";
+import SearchResultItem from "./SearchResultItem";
 import { useSearch } from "./SearchContext";
 import useFlexSearch from "~/hooks/useFlexSearch";
 import useDebouncedValue from "~/hooks/useDebouncedValue";
 import { useFocusManager } from "./useFocusManager";
+import type { SearchResult } from "./types";
 
 export default function SearchResultList() {
-  const { currentQuery, showResults, fullSize } = useSearch()!;
+  const { currentQuery, showResults } = useSearch()!;
   const debouncedQuery = useDebouncedValue(currentQuery);
   const { results, isError } = useFlexSearch(debouncedQuery);
   const [focusedIndex] = useFocusManager(results ? results.length : 0, null);
@@ -25,8 +26,8 @@ export default function SearchResultList() {
       >
         {results &&
           showResults &&
-          results.map((result, i) => (
-            <SearchResult
+          results.map((result: SearchResult, i) => (
+            <SearchResultItem
               key={i}
               index={result.index}
               year={result.year}

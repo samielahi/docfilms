@@ -8,7 +8,7 @@ interface Props extends Partial<SearchResult> {
   focus: boolean;
 }
 
-export default function SearchResult(props: Props) {
+export default function SearchResultItem(props: Props) {
   const { fullSize } = useSearch()!;
   const ref = useFocus<HTMLAnchorElement>(props.focus);
   return (

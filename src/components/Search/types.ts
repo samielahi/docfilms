@@ -12,10 +12,12 @@ export interface SearchResult {
 }
 
 export interface SearchState {
+  // Search bar can big or inline nested in the header
   fullSize: boolean;
   currentQuery: string;
   showResults: boolean;
   recentQueries: string[];
+  // Expose the input globally for keyboard control functionality
   inputRef: MutableRefObject<HTMLInputElement | null>;
 }
 

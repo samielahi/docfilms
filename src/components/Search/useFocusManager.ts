@@ -19,7 +19,7 @@ export const useFocusManager = (
   const handleKeyDown = useCallback<(event: KeyboardEvent) => void>(
     (event) => {
       switch (event.key) {
-        // Handle cycling up or down through the list, wrapping if necessary.
+        // Handle cycling up or down through search results using keyboard
         case "ArrowDown":
           event.preventDefault();
           setCurrentFocus(
@@ -48,7 +48,7 @@ export const useFocusManager = (
             type: "HIDE_RESULTS",
           });
           break;
-        // Focus search bar on Escape
+        // Focus search bar on /
         case "/":
           event.preventDefault();
           if (document.activeElement !== inputRef.current) {
