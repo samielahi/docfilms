@@ -1,12 +1,11 @@
 import Image from "next/image";
-import { useState } from "react";
 import { useSearch, useSearchDispatch } from "./SearchContext";
-import useFocus from "~/hooks/useFocus";
-import type { MutableRefObject } from "react";
+import { useRouter } from "next/router";
 
 export default function SearchInput() {
   const { currentQuery, fullSize, showResults, inputRef } = useSearch()!;
   const dispatch = useSearchDispatch()!;
+  const router = useRouter();
 
   return (
     <>
@@ -27,7 +26,7 @@ export default function SearchInput() {
       <input
         ref={inputRef}
         className={`w-full bg-[#fff] text-sm outline-none placeholder:bg-[#fff] placeholder:italic placeholder:text-gray ${
-          fullSize ? "lg:w-[500px md:text-xl" : ""
+          fullSize ? "md:text-xl" : ""
         }`}
         id="search"
         type="text"
@@ -53,6 +52,13 @@ export default function SearchInput() {
             type: "SET_QUERY",
             value: event.target.value,
           });
+        }}
+        // Simulate a form get action and route to search results page
+        onKeyDown={(event) => {
+          if (currentQuery.length && event.key === "Enter") {
+            // router.push returns a Promise, void to get around eslint
+            void router.push(`/search?q=${currentQuery}`);
+          }
         }}
         placeholder="Search for movies, directors, or quarters..."
       />

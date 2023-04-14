@@ -15,7 +15,7 @@ const Home: NextPage = () => {
       <main className="relative flex h-screen flex-col items-center justify-between overflow-hidden">
         <div className="mt-28 flex w-fit flex-col items-center gap-8">
           <Logo size="large" />
-          <Search fullSize={true} />
+          <Search fullSize={false} />
         </div>
 
         {/* <Image

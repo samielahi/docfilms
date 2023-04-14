@@ -57,6 +57,9 @@ export const useFocusManager = (
           }
           break;
         case "Tab":
+          dispatch({
+            type: "HIDE_RESULTS",
+          });
           setCurrentFocus(null);
           break;
       }

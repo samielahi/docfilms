@@ -1,14 +1,15 @@
 import Link from "next/link";
 import Image from "next/image";
 import useFocus from "~/hooks/useFocus";
+import { useSearch } from "./SearchContext";
 import type { SearchResult, ResultGroup } from "./types";
-import type { MutableRefObject } from "react";
 
 interface Props extends Partial<SearchResult> {
   focus: boolean;
 }
 
 export default function SearchResult(props: Props) {
+  const { fullSize } = useSearch()!;
   const ref = useFocus<HTMLAnchorElement>(props.focus);
   return (
     <>
@@ -31,11 +32,11 @@ export default function SearchResult(props: Props) {
             src={getResultIcon(props.group!)}
             width={15}
             height={15}
-            className="w-[15px] text-orange/50 sm:w-auto"
+            className="w-[20px] text-orange/50"
             role="presentation"
             alt=""
           />
-          <p className="text-sm italic md:text-xl">
+          <p className={`text-sm italic ${fullSize ? "md:text-xl" : ""}`}>
             {props.index} {props.year && <span> ({props.year})</span>}
           </p>
         </li>

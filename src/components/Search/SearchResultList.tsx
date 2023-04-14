@@ -8,7 +8,6 @@ export default function SearchResultList() {
   const { currentQuery, showResults } = useSearch()!;
   const debouncedQuery = useDebouncedValue(currentQuery);
   const { results, isError } = useFlexSearch(debouncedQuery);
-  // Include search input in list count so that focusing list[0] focuses it
   const [focusedIndex] = useFocusManager(results ? results.length : 0, null);
 
   if (isError) return <div>An error occurred while fetching results.</div>;
@@ -22,7 +21,7 @@ export default function SearchResultList() {
         role="presentation"
         aria-label="search suggestions"
         tabIndex={-1}
-        className="flex flex-col gap-2"
+        className="flex max-h-[650px] flex-col gap-2 overflow-y-auto"
       >
         {results &&
           showResults &&

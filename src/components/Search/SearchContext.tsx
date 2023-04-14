@@ -1,5 +1,5 @@
 import { createContext, useContext, useReducer, useRef } from "react";
-import type { ReactNode, Dispatch, MutableRefObject } from "react";
+import type { ReactNode, Dispatch } from "react";
 import type { SearchAction, SearchState } from "./types";
 
 export const SearchContext = createContext<SearchState | null>(null);
