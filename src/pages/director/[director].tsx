@@ -113,7 +113,7 @@ function Director() {
       </Head>
       <Header />
 
-      <main className="wrapper h-full text-black dark:text-white">
+      <main className="wrapper h-full text-white">
         <div className="flex flex-col items-center md:flex-row md:gap-20">
           <Image
             className="w-[300px] border-4 border-orange sm:w-[350px] md:w-[450px]"
@@ -177,17 +177,17 @@ function Director() {
             <span className="font-logo font-bold">doc</span>
           </h2>
 
-            <BarPlot
-              xOffset={80}
-              yOffset={60}
-              width={425}
-              height={350}
-              data={{
-                domain: [1920, 2030],
-                range: [0, 50],
-                values: numMoviesShownByDecade!,
-              }}
-            />
+          <BarPlot
+            xOffset={80}
+            yOffset={60}
+            width={425}
+            height={350}
+            data={{
+              domain: [1920, 2030],
+              range: [0, 50],
+              values: numMoviesShownByDecade!,
+            }}
+          />
         </div>
 
         <hr className="mt-8 mb-8 w-[100%] border-t-4 border-dashed border-gray/70 bg-transparent" />
@@ -213,7 +213,7 @@ function Director() {
         </div>
       </main>
 
-      <Footer/>
+      <Footer />
     </>
   );
 }

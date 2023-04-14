@@ -21,7 +21,7 @@ const Search: NextPageWithLayout = () => {
   return (
     <>
       <div className="flow">
-        <h2 className="w-fit bg-yellow/40 px-6 py-4 font-bold dark:bg-none">
+        <h2 className="w-fit bg-none px-6 py-4 font-bold">
           Search Results for : <i className="text-orange">{query}</i>
         </h2>
         <p role="status" className="italic">

@@ -38,7 +38,7 @@ function Series() {
       </Head>
       <Header />
 
-      <main className="wrapper h-full overflow-hidden text-black dark:text-white">
+      <main className="wrapper h-full overflow-hidden text-white">
         <div className="relative mb-10 h-[350px] overflow-hidden drop-shadow-sm md:h-[550px]">
           <Image
             priority={true}
