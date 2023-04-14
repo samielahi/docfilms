@@ -58,6 +58,9 @@ export default function SearchInput() {
           if (currentQuery.length && event.key === "Enter") {
             // router.push returns a Promise, void to get around eslint
             void router.push(`/search?q=${currentQuery}`);
+            dispatch({
+              type: "CLEAR_QUERY",
+            });
           }
         }}
         placeholder="Search for movies, directors, or quarters..."

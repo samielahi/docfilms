@@ -5,8 +5,8 @@ import Link from "next/link";
 export default function Footer() {
   return (
     <>
-      <footer className="wrapper mt-16 flex h-[200px] w-full items-center justify-between border-t-4 border-yellow py-4">
-        <div className="flex items-center gap-4 ">
+      <footer className="relative mt-16 flex h-[250px] w-full items-center justify-between bg-slate-100/5 py-4 backdrop-blur-2xl">
+        <div className="wrapper flex items-center gap-4">
           <span className="w-[100px] text-base italic text-gray">
             Images and some data courtesy of:
           </span>

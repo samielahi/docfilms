@@ -21,11 +21,11 @@ export default function SearchResultItem(props: Props) {
         }
         ref={ref}
         tabIndex={props.focus ? 0 : -1}
-        className="w-full hover:bg-slate-100 focus:bg-slate-100"
+        className="w-full hover:bg-slate-100 focus:bg-slate-100 focus:underline focus:decoration-orange focus:outline-none"
         aria-selected={props.focus ? "true" : "false"}
         role="option"
         // Include label so screen readers can announce which group the result is from
-        aria-label={`${props.index!}, jump to this ${props.group!}`}
+        aria-label={`${props.index!}, go to this ${props.group!}`}
       >
         <li className="flex w-full gap-4 px-4 py-2 md:px-6 md:py-4">
           <Image
@@ -45,7 +45,7 @@ export default function SearchResultItem(props: Props) {
   );
 }
 
-function getResultIcon(group: ResultGroup) {
+export function getResultIcon(group: ResultGroup) {
   switch (group) {
     case "movie":
       return "/film.svg";

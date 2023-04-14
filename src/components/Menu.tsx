@@ -9,15 +9,15 @@ interface Props {
 
 export default function Menu({ children }: Props) {
   const [isOpen, setIsOpen] = useState(false);
-  // const currentWidth = useViewportWidth();
+  const currentWidth = useViewportWidth();
   const breakpoint = 768; // TailwindCSS 'md' breakpoint width
 
-  // Close an open menu once 'md' width breakpoint is crossed
-  // useEffect(() => {
-  //   if (currentWidth > breakpoint && isOpen) {
-  //     setIsOpen(false);
-  //   }
-  // }, [currentWidth, isOpen]);
+  //  Close an open menu once 'md' width breakpoint is crossed
+  useEffect(() => {
+    if (currentWidth > breakpoint && isOpen) {
+      setIsOpen(false);
+    }
+  }, [currentWidth, isOpen]);
 
   return (
     <>
@@ -42,7 +42,7 @@ export default function Menu({ children }: Props) {
           ></span>
           <span
             style={isOpen ? { transform: "rotate(-45deg)" } : {}}
-            className="h-[6px] w-10 origin-top-left rounded-sm bg-gray transition-all duration-300"
+            className="h-[6px] w-10 origin-top-left rounded-sm bg-white transition-all duration-300"
           ></span>
         </div>
       </button>

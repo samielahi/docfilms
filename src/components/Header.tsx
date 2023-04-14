@@ -6,7 +6,7 @@ import Menu from "./Menu";
 
 export default function Header() {
   return (
-    <header className="py- relative border-b-2 border-gray/60 py-6">
+    <header className="fixed top-0 z-[9999] w-full border-b-[1px] border-white bg-slate-100/5 py-6 backdrop-blur-2xl md:h-[100px]">
       <div className="wrapper flex items-center justify-between">
         <Logo size="small" />
         <div className="hidden items-center gap-12 md:flex">
