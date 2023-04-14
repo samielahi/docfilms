@@ -5,7 +5,7 @@ import useDebouncedValue from "~/hooks/useDebouncedValue";
 import { useFocusManager } from "./useFocusManager";
 
 export default function SearchResultList() {
-  const { currentQuery, showResults } = useSearch()!;
+  const { currentQuery, showResults, fullSize } = useSearch()!;
   const debouncedQuery = useDebouncedValue(currentQuery);
   const { results, isError } = useFlexSearch(debouncedQuery);
   const [focusedIndex] = useFocusManager(results ? results.length : 0, null);
