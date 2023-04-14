@@ -4,7 +4,7 @@ import useSWRImmutable from "swr";
 import { Document } from "flexsearch";
 
 import type { Fetcher } from "swr";
-import type { SearchResult } from "~/components/Search2/types";
+import type { SearchResult } from "~/components/Search/types";
 
 const url = "/index.json";
 
@@ -21,7 +21,6 @@ export default function useFlexSearch(
   query: string,
   numberOfResults: number = 10
 ) {
-  // const dispatch = useSearchDispatch()!;
   const [shouldFetch, setShouldFetch] = useState(false);
 
   if (!shouldFetch && query.length) {
@@ -66,12 +65,6 @@ export default function useFlexSearch(
   const searchResults = indexResults.length
     ? indexResults[0]?.result.map((result) => result.doc)
     : [];
-
-  // Broadcast how many results have been found
-  // dispatch({
-  //   type: "UPDATE_RESULT_COUNT",
-  //   value: indexResults.length
-  // })
 
   return {
     results: searchResults,

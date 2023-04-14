@@ -7,8 +7,10 @@ import type { SearchResult } from "./types";
 
 export default function SearchResultList() {
   const { currentQuery, showResults } = useSearch()!;
+  // Search only after the user stops typing for a small window
   const debouncedQuery = useDebouncedValue(currentQuery);
   const { results, isError } = useFlexSearch(debouncedQuery);
+  // Tracking focused result when navigating by keyboard
   const [focusedIndex] = useFocusManager(results ? results.length : 0, null);
 
   if (isError) return <div>An error occurred while fetching results.</div>;

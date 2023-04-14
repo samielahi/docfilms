@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
-export default function useDebouncedValue<T>(value: T, delay = 0) {
+// Update a value after a delay for performance
+export default function useDebouncedValue<T>(value: T, delay = 150) {
   const [debouncedValue, setDebouncedValue] = useState(value);
 
   useEffect(() => {

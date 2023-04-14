@@ -17,7 +17,7 @@ export default function useViewportWidth() {
     const resizeListener = () => {
       // Prevent execution of previous setTimeout
       clearTimeout(timeoutId!);
-      // Change width from the state object after 150 milliseconds
+      // Change width from the state object after 150ms
       timeoutId = setTimeout(() => setWidth(getWidth()), 150);
     };
     window.addEventListener("resize", resizeListener);

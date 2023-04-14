@@ -2,6 +2,7 @@ import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
 import Header from "~/components/Header";
+import Footer from "~/components/Footer";
 import DateBlock from "~/components/DateBlock";
 import moviedb from "~/server/moviedb";
 import useSWRImmutable, { SWRConfig } from "swr";
@@ -10,7 +11,6 @@ import type { GetServerSideProps } from "next";
 import type { DocMovie, MoviePageProps } from "~/types";
 import type { QParams } from "~/types";
 import type { PagePropsWithSWR } from "~/types";
-import Footer from "~/components/Footer";
 
 function buildSeriesObject(docData: DocMovie[]) {
   const series: Record<string, string> = {};

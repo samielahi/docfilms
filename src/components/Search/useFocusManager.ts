@@ -7,6 +7,7 @@ import {
 
 export type FocusIndex = number | null;
 
+// Manages focus behavior on search results and search bar when using keyboard
 export const useFocusManager = (
   listSize: number,
   initialFocus: FocusIndex

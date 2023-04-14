@@ -1,7 +1,6 @@
 import Logo from "./Logo";
 import Search from "./Search/Search";
 import Link from "next/link";
-
 import Menu from "./Menu";
 
 export default function Header() {
@@ -23,6 +22,7 @@ export default function Header() {
           </Link>
         </div>
       </div>
+      {/* Mobile burger menu toggler */}
       <Menu>
         <Search fullSize />
       </Menu>
