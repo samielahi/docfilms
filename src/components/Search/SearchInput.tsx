@@ -63,7 +63,7 @@ export default function SearchInput() {
             });
           }
         }}
-        placeholder="Search for movies, directors, or quarters..."
+        placeholder="Search for a movie or director..."
       />
     </>
   );

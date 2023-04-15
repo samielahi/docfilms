@@ -34,28 +34,28 @@ export default function Menu({ children }: Props) {
                   }
                 : {}
             }
-            className="h-[6px] w-10 origin-top-left rounded-sm bg-orange transition-transform duration-300"
+            className="h-[6px] w-10 origin-top-left bg-orange transition-transform duration-300"
           ></span>
           <span
             style={isOpen ? { opacity: "0" } : { opacity: "100" }}
-            className="h-[6px] w-10 rounded-sm bg-violet transition-opacity duration-300"
+            className="h-[6px] w-10 bg-violet transition-opacity duration-300"
           ></span>
           <span
             style={isOpen ? { transform: "rotate(-45deg)" } : {}}
-            className="h-[6px] w-10 origin-top-left rounded-sm bg-white transition-all duration-300"
+            className="h-[6px] w-10 origin-top-left bg-white transition-all duration-300"
           ></span>
         </div>
       </button>
 
       {isOpen && (
         <div className="wrapper mt-4 flex h-full flex-col items-center justify-center gap-4">
-          {/* <Link
+          <Link
             href={"/"}
             className="w-fit font-bold underline decoration-orange decoration-2"
           >
             Log in
-          </Link> */}
-          <div className="relative h-[45px] w-[300px]">
+          </Link>
+          <div className="relative mt-2 h-[45px] w-[300px]">
             <div className="absolute top-0">{children}</div>
           </div>
         </div>

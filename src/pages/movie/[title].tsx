@@ -1,61 +1,37 @@
-import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
-import Header from "~/components/Header";
-import Footer from "~/components/Footer";
 import DateBlock from "~/components/DateBlock";
+import Base from "~/layouts/Base";
+import { db } from "~/server/db";
 import moviedb from "~/server/moviedb";
 import useSWRImmutable, { SWRConfig } from "swr";
-import { useDb } from "~/server/db";
 import type { GetServerSideProps } from "next";
-import type { DocMovie, MoviePageProps } from "~/types";
+import type { MoviePageProps } from "~/types";
 import type { QParams } from "~/types";
 import type { PagePropsWithSWR } from "~/types";
-
-function buildSeriesObject(docData: DocMovie[]) {
-  const series: Record<string, string> = {};
-  docData.forEach((movie) => {
-    const dateString = movie.date?.toDateString() || "";
-    if (movie.series && dateString !== "") {
-      series[`${dateString}`] = movie.series;
-    }
-  });
-  return series;
-}
+import type { NextPageWithLayout } from "../_app";
+import type { TMDBMovie } from "~/server/moviedb";
+import type { Result } from "true-myth";
 
 export const getServerSideProps: GetServerSideProps<
   PagePropsWithSWR<MoviePageProps>,
   QParams
 > = async ({ query }) => {
-  const title = (query.title as string).replaceAll("-", " ");
+  const title = query.title as string;
   const year = query.year as string;
+  let moviePageProps = await db.getMoviePageProps(title);
 
-  const docData = await useDb(title, "title");
-
-  if (!docData) {
-    return {
-      props: {
-        fallback: { docDataKey: { title: title, year: parseInt(year) } },
-      },
-    };
+  let tmdbMovieData: Result<TMDBMovie, Error> | null = null;
+  // Fetch additional data for the movie from TMDB API
+  if (moviePageProps.tmdbID) {
+    tmdbMovieData = await moviedb.getMovieData(moviePageProps.tmdbID);
   }
 
-  const { director, mid } = docData[0]!;
-  const series = buildSeriesObject(docData);
-
-  let moviePageProps: MoviePageProps = {
-    title: title,
-    year: parseInt(year),
-    director: director!,
-    series: series,
-  };
-
-  // Fetch additional data for the movie from TMDB API
-  const tmdbMovieData = await moviedb.getMovieData(Number(mid));
-
-  if (tmdbMovieData.isErr) {
+  // Return base page props if fetching tmdb data fails
+  if (!tmdbMovieData || tmdbMovieData.isErr) {
     return { props: { fallback: { docDataKey: moviePageProps } } };
   } else {
+    // Merge db data with data from the api
     moviePageProps = Object.assign(moviePageProps, tmdbMovieData.value);
   }
 
@@ -68,7 +44,7 @@ export const getServerSideProps: GetServerSideProps<
   };
 };
 
-function Movie() {
+const Movie: NextPageWithLayout = () => {
   const { data, error } = useSWRImmutable<MoviePageProps, Error>("docDataKey");
 
   if (error) return <div>Something went wrong while loading this page.</div>;
@@ -77,89 +53,77 @@ function Movie() {
 
   return (
     <>
-      <Head>
-        <title>docfilms archive</title>
-        <meta name="description" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <Header />
-
-      <main className="wrapper mt-[calc(100px_+_3rem)] h-full overflow-hidden text-white">
-        <div className="relative mb-10 h-[350px] overflow-hidden drop-shadow-lg md:h-[550px]">
-          <Image
-            priority={true}
-            src={backdrop_path! || "/student.png"}
-            className="bg-violet object-cover mix-blend-multiply md:object-left-top"
-            fill={true}
-            sizes="(max-width: 768px) 70vw,
+      <div className="relative mb-10 h-[400px] overflow-hidden drop-shadow-lg md:h-[550px]">
+        <Image
+          priority={true}
+          src={backdrop_path! || "/student.png"}
+          className="object-cover md:object-left-top"
+          fill={true}
+          sizes="(max-width: 768px) 70vw,
               (max-width: 1200px) 70vw,
               50vw"
-            alt=""
-          ></Image>
+          alt=""
+        />
+      </div>
+
+      <section className="mb-10">
+        <div className="flow flex flex-col">
+          <div className="flex items-center gap-6 capitalize">
+            <h1>
+              <i>{title} </i>
+              <span className="text-2xl">{year ? `(${year})` : ""}</span>
+            </h1>
+          </div>
+
+          <Link
+            className="w-fit"
+            href={{
+              pathname: `/director/${director!}`,
+            }}
+          >
+            <p className="capitalize underline decoration-orange decoration-4 underline-offset-4">
+              {director}
+            </p>
+          </Link>
+
+          <p>
+            {overview
+              ? overview
+              : "Could not find a description for this movie. Feel free to suggest one here"}
+          </p>
         </div>
 
-        <section className="mb-10">
-          <div className="flow flex flex-col">
-            <div className="flex items-center gap-6 capitalize">
-              <h1>
-                <i>{title} </i>{" "}
-                <span className="text-2xl">{year ? `(${year})` : ""}</span>
-              </h1>
+        <hr className="mt-8 mb-8 w-[100%] border-t-4 border-dashed border-gray/70 bg-transparent" />
+        <div className="flow flex flex-col">
+          <h2>
+            Shown @ <span className="font-logo font-bold">doc</span> :
+          </h2>
+
+          {Object.entries(series!).map(([date, series], key) => (
+            <div key={key} className="flex items-center gap-6">
+              <DateBlock date={date} />
+              <p className="hidden sm:block">as part of series</p>
+              <Link href={`/series/${series}`}>
+                <p className="capitalize italic underline decoration-orange decoration-4 underline-offset-4">
+                  {series}
+                </p>
+              </Link>
             </div>
-
-            <Link
-              className="w-fit"
-              href={{
-                pathname: `/director/${director}`,
-              }}
-            >
-              <p className="capitalize underline decoration-orange decoration-4 underline-offset-4">
-                {director}
-              </p>
-            </Link>
-
-            {overview ? (
-              <p>{overview}</p>
-            ) : (
-              <p>
-                Could not find a description for this movie. Feel free to
-                suggest one here.
-              </p>
-            )}
-          </div>
-
-          <hr className="mt-8 mb-8 w-[100%] border-t-4 border-dashed border-gray/70 bg-transparent" />
-          <div className="flow flex flex-col">
-            <h2>
-              Shown @ <span className="font-logo font-bold">doc</span> :
-            </h2>
-
-            {Object.entries(series!).map(([date, series], key) => (
-              <div key={key} className="flex items-center gap-6">
-                <DateBlock date={date} />
-                <p className="hidden sm:block">as part of series</p>
-                <Link href={`/series/${series}`}>
-                  <p className="capitalize italic underline decoration-orange decoration-4 underline-offset-4">
-                    {series}
-                  </p>
-                </Link>
-              </div>
-            ))}
-          </div>
-        </section>
-      </main>
-
-      <Footer />
+          ))}
+        </div>
+      </section>
     </>
   );
-}
+};
 
 export default function MoviePage({
   fallback,
 }: PagePropsWithSWR<MoviePageProps>) {
   return (
     <SWRConfig value={{ fallback }}>
-      <Movie />
+      <Base>
+        <Movie />
+      </Base>
     </SWRConfig>
   );
 }

@@ -1,13 +1,12 @@
-import Head from "next/head";
-import Header from "~/components/Header";
-import Footer from "~/components/Footer";
 import Image from "next/image";
+import Base from "~/layouts/Base";
+import { db } from "~/server/db";
+import useSWRImmutable, { SWRConfig } from "swr";
 import type { GetServerSideProps } from "next";
 import type { SeriesPageProps } from "~/types";
 import type { QParams } from "~/types";
-import { useDb } from "~/server/db";
-import useSWRImmutable, { SWRConfig } from "swr";
-import { PagePropsWithSWR } from "~/types";
+import type { PagePropsWithSWR } from "~/types";
+import type { NextPageWithLayout } from "../_app";
 import MovieCard from "~/components/MovieCard";
 
 export const getServerSideProps: GetServerSideProps<
@@ -16,81 +15,66 @@ export const getServerSideProps: GetServerSideProps<
 > = async ({ query }) => {
   const series = query.series as string;
 
-  const docData = await useDb(series, "series");
-
-  const seriesPageProps: SeriesPageProps = {
-    // Pass in without date, so it becomes serializable
-    movies: docData.map(({ date, ...rest }) => ({ ...rest })),
-    series: series,
-  };
+  const seriesPageProps = await db.getSeriesPageProps(series);
   return { props: { fallback: { docDataKey: seriesPageProps } } };
 };
 
-function Series() {
+const Series: NextPageWithLayout = () => {
   const { data, error } = useSWRImmutable<SeriesPageProps, Error>("docDataKey");
   if (error) return <div>An error occurred.</div>;
+
+  const { series, quarter, movies } = data!;
   return (
     <>
-      <Head>
-        <title>docfilms archive</title>
-        <meta name="description" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <Header />
-
-      <main className="wrapper h-full overflow-hidden text-white">
-        <div className="relative mb-10 h-[350px] overflow-hidden drop-shadow-sm md:h-[550px]">
-          <Image
-            priority={true}
-            src={"/student.png"}
-            className="border-4 border-orange object-cover md:object-left-top"
-            fill={true}
-            sizes="(max-width: 768px) 70vw,
+      <div className="relative mb-10 h-[350px] overflow-hidden drop-shadow-sm md:h-[550px]">
+        <Image
+          priority={true}
+          src={"/student.png"}
+          className="object-cover md:object-left-top"
+          fill={true}
+          sizes="(max-width: 768px) 70vw,
               (max-width: 1200px) 70vw,
               50vw"
-            alt=""
-          ></Image>
-        </div>
+          alt=""
+        ></Image>
+      </div>
 
-        <section className="flow">
-          <h1 className="capitalize italic">{data?.series}</h1>
+      <section className="flow">
+        <h1 className="capitalize italic">{series}</h1>
 
-          <div className="flow">
-            <h2 className="flex  items-center gap-4 font-bold">
-              <span>Movies</span>
+        <div className="flow">
+          <h2 className="flex  items-center gap-4 font-bold">
+            <span>Movies</span>
 
-              <span className="italic text-gray">
-                (Shown {data?.movies![0]?.quarter})
-              </span>
-            </h2>
+            <span className="italic text-gray">(Shown {quarter})</span>
+          </h2>
 
-            <div className="flex flex-wrap justify-center gap-10 pb-10 text-center md:justify-start">
-              {data?.movies!.map((movie, i) => (
-                <>
-                  <MovieCard
-                    key={i}
-                    count={movie.times_shown!}
-                    title={movie.title!}
-                    year={movie.year!}
-                  />
-                </>
-              ))}
-            </div>
+          <div className="flex flex-wrap justify-center gap-10 pb-10 text-center md:justify-start">
+            {movies!.map((movie, i) => (
+              <>
+                <MovieCard
+                  key={i}
+                  count={movie.times_shown!}
+                  title={movie.title!}
+                  year={movie.year!}
+                />
+              </>
+            ))}
           </div>
-        </section>
-      </main>
-
-      <Footer />
+        </div>
+      </section>
     </>
   );
-}
+};
 
 export default function DirectorPage({
   fallback,
 }: PagePropsWithSWR<SeriesPageProps>) {
   return (
     <SWRConfig value={{ fallback }}>
-      <Series />
+      <Base>
+        <Series />
+      </Base>
     </SWRConfig>
   );
 }

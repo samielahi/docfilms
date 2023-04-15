@@ -12,7 +12,7 @@ export interface QParams extends ParsedUrlQuery {
 
 export interface MoviePageProps {
   title: string;
-  mid?: string;
+  tmdbID?: number;
   year?: number;
   director?: string;
   overview?: string;
@@ -31,6 +31,7 @@ export interface DirectorPageProps {
 
 export interface SeriesPageProps {
   series: string;
+  quarter: string;
   movies?: DocMovie[];
 }
 
