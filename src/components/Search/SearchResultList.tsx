@@ -7,7 +7,7 @@ import type { SearchResult } from "./types";
 
 export default function SearchResultList() {
   const { currentQuery, showResults } = useSearch()!;
-  // Search only after the user stops typing for a small window
+  // Search only after the user stops typing for a small window of time
   const debouncedQuery = useDebouncedValue(currentQuery);
   const { results, isError } = useFlexSearch(debouncedQuery);
   // Tracking focused result when navigating by keyboard

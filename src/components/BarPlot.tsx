@@ -58,17 +58,17 @@ export default function BarPlot(props: BarPlotProps) {
               y1={height - yOffset}
               x2={width - xOffset}
               y2={height - yOffset}
-              className="stroke-violet stroke-[4px]"
+              className="stroke-orange stroke-[4px]"
             ></line>
             {/* X-label */}
             <text
               x={width / 2}
-              y={height - (yOffset - tickOffset) * 0.1}
+              y={height - (yOffset - tickOffset) * 0.2}
               dominantBaseline="central"
               textAnchor="middle"
-              className=" fill-white font-mono text-[14px] font-bold italic"
+              className=" fill-white font-heading text-[14px] font-bold italic"
             >
-              Decade (1930s - 2020s)
+              Decade
             </text>
 
             {/* Y */}
@@ -78,7 +78,7 @@ export default function BarPlot(props: BarPlotProps) {
                   <text
                     textAnchor="middle"
                     dominantBaseline="central"
-                    className="fill-white font-mono text-[14px] font-bold"
+                    className="fill-white font-heading text-[14px] font-bold"
                     x={interval[0]}
                     y={interval[1]}
                   >
@@ -106,7 +106,7 @@ export default function BarPlot(props: BarPlotProps) {
               y={height / 2 - yOffset}
               dominantBaseline="central"
               textAnchor="middle"
-              className="fill-white font-mono text-[14px] font-bold italic"
+              className="fill-white font-heading text-[14px] font-bold italic"
               transform={`rotate(-90, ${xOffset}, ${height / 2})`}
             >
               # of Movies
@@ -122,7 +122,7 @@ export default function BarPlot(props: BarPlotProps) {
                     textAnchor="middle"
                     x={mappedDatum[0]! - xOffset * 0.05}
                     y={height - (yOffset - tickOffset)}
-                    className="fill-white font-mono text-[12px] font-bold"
+                    className="fill-white font-heading text-[12px] font-bold"
                     transform={`rotate(-50, ${mappedDatum[0]!}, ${
                       height - (yOffset - tickOffset)
                     })`}

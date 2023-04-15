@@ -13,7 +13,7 @@ export default function Logo(props: { size: "small" | "large" }) {
           >
             docfilms
           </h1>
-          <p className={`font-heading font-bold italic text-gray`}>archive</p>
+          <p className={`font-heading italic text-gray`}>archive</p>
         </div>
       </Link>
     </>

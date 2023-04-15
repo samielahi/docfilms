@@ -26,7 +26,7 @@ export default function SearchInput() {
       <input
         ref={inputRef}
         className={`w-full bg-white text-sm outline-none placeholder:bg-white placeholder:text-gray ${
-          fullSize ? "md:text-xl" : ""
+          fullSize ? "md:h-[35px] md:text-xl" : ""
         }`}
         id="search"
         type="text"
