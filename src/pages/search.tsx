@@ -8,6 +8,7 @@ import type { SearchResult } from "~/components/Search/types";
 import type { ReactElement } from "react";
 import type { NextPageWithLayout } from "./_app";
 
+// Search Results page
 const Search: NextPageWithLayout = () => {
   const router = useRouter();
   const query = router.query.q! as string;

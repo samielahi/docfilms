@@ -26,7 +26,7 @@ model movies {
   year        Int?      @db.SmallInt
   series      String?
   date        DateTime? @db.Date
-  mid         Int?
+  tmdbID      Int?
   times_shown Int?      @db.SmallInt
   quarter     String?
   overview    String?

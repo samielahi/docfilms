@@ -23,8 +23,8 @@ const TMDBDirectorSchema = z.object({
   biography: z.string(),
 });
 
-type TMDBMovie = z.infer<typeof TMDBMovieSchema>;
-type TMDBDirectorInfo = z.infer<typeof TMDBDirectorSchema>;
+export type TMDBMovie = z.infer<typeof TMDBMovieSchema>;
+export type TMDBDirectorInfo = z.infer<typeof TMDBDirectorSchema>;
 type TMDBCredits = z.infer<typeof TMDBCreditsSchema>;
 
 const moviedb = (() => {

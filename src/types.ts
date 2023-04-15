@@ -24,7 +24,8 @@ export interface DirectorPageProps {
   name: string;
   biography?: string;
   movies?: DocMovie[];
-  movieCountByDecade?: Record<number, number>;
+  tmdbId?: number;
+  movieCountByDecade?: number[][];
   profile_path?: string;
 }
 

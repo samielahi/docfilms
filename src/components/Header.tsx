@@ -14,12 +14,12 @@ export default function Header() {
               <Search fullSize={false} />
             </div>
           </div>
-          <Link
+          {/* <Link
             href={"/"}
             className="w-fit font-bold underline decoration-orange decoration-2"
           >
             <p>Log in</p>
-          </Link>
+          </Link> */}
         </div>
       </div>
       {/* Mobile burger menu toggler */}
