@@ -1,4 +1,3 @@
-import { type AppType } from "next/app";
 import { Poppins, Atkinson_Hyperlegible } from "next/font/google";
 import type { ReactElement, ReactNode } from "react";
 import type { NextPage } from "next";

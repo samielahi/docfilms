@@ -45,7 +45,7 @@ export default function SearchResultItem(props: Props) {
   );
 }
 
-export function getResultIcon(group: ResultGroup) {
+export function getResultIcon(group: ResultGroup): string {
   switch (group) {
     case "movie":
       return "/film.svg";

@@ -113,7 +113,7 @@ function Director() {
       </Head>
       <Header />
 
-      <main className="wrapper h-full text-white">
+      <main className="wrapper mt-[calc(100px_+_3rem)] h-full text-white">
         <div className="flex flex-col items-center md:flex-row md:gap-20">
           <Image
             className="w-[300px] border-4 border-orange sm:w-[350px] md:w-[450px]"

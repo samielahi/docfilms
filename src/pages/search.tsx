@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import useFlexSearch from "~/hooks/useFlexSearch";
 import { getResultIcon } from "~/components/Search/SearchResultItem";
-import type { ResultGroup, SearchResult } from "~/components/Search/types";
+import type { SearchResult } from "~/components/Search/types";
 import type { ReactElement } from "react";
 import type { NextPageWithLayout } from "./_app";
 
@@ -15,16 +15,6 @@ const Search: NextPageWithLayout = () => {
 
   if (isError) return <div>An error occurred while fetching results.</div>;
   const numResults = results?.length;
-  // Split up results by group
-  const movies = results?.filter(
-    (result: SearchResult) => result.group === "movie"
-  );
-  const directors = results?.filter(
-    (result: SearchResult) => result.group === "director"
-  );
-  const quarters = results?.filter(
-    (result: SearchResult) => result.group === "quarter"
-  );
 
   return (
     <>

@@ -7,6 +7,8 @@ const config = {
       fontFamily: {
         logo: ["var(--font-logo)"],
         main: ["var(--font-main)"],
+        heading: ["Satoshi", "sans-serif"],
+        body: ["Erode", "serif"],
       },
       colors: {
         white: "#fffff1",
