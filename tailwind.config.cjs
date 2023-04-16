@@ -5,15 +5,13 @@ const config = {
   theme: {
     extend: {
       fontFamily: {
-        logo: ["var(--font-logo)"],
-        main: ["var(--font-main)"],
         heading: ["Satoshi", "sans-serif"],
-        body: ["Erode", "serif"],
+        body: ["Satoshi", "sans-serif"],
       },
       colors: {
         white: "#fffff1",
-        black: "#1A1A19",
-        gray: "#C3C3C3",
+        black: "#10100e",
+        gray: "#e8e8cf",
         orange: "#DE612B",
         yellow: "#FAEBD3",
         violet: "#B685D0",

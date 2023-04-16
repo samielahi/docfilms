@@ -18,7 +18,7 @@ export default function SearchResultList() {
   return (
     <>
       {results?.length !== 0 && showResults && (
-        <hr className="border-t-2 border-gray bg-transparent" />
+        <hr className="border-t-[1px] border-gray bg-transparent" />
       )}
       <ul
         role="presentation"

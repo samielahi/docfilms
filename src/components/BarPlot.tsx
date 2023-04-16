@@ -92,7 +92,7 @@ export default function BarPlot(props: BarPlotProps) {
                       x2={width - xOffset}
                       y2={interval[1]}
                       strokeDasharray={3}
-                      className="-z-1 stroke-violet opacity-60"
+                      className="-z-1 stroke-gray opacity-60"
                     ></line>
                   ) : (
                     <></>

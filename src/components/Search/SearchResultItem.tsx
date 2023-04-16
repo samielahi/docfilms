@@ -21,7 +21,7 @@ export default function SearchResultItem(props: Props) {
         }
         ref={ref}
         tabIndex={props.focus ? 0 : -1}
-        className="w-full hover:bg-slate-100 focus:bg-slate-100 focus:underline focus:decoration-orange focus:outline-none"
+        className="w-full hover:bg-gray hover:underline hover:decoration-orange focus:bg-gray focus:underline focus:decoration-orange focus:outline-none"
         aria-selected={props.focus ? "true" : "false"}
         role="option"
         // Include label so screen readers can announce which group the result is from

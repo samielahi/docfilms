@@ -21,7 +21,7 @@ export default function Search({ fullSize }: Props) {
             }`}
           >
             <SearchInput />
-            {/* <ClearSearch /> */}
+            <ClearSearch />
           </div>
           <SearchResultList />
         </div>

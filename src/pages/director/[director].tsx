@@ -128,7 +128,7 @@ const Director: NextPageWithLayout = () => {
           Their Movies Shown @ <span className="font-logo font-bold">doc</span>
         </h2>
 
-        <div className="flex flex-wrap justify-center gap-10 pb-10 text-center md:justify-start">
+        <div className="flex flex-wrap justify-center gap-0 pb-10 text-center md:justify-start">
           {movies!.map((movie, i) => (
             <>
               <MovieCard

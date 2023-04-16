@@ -25,7 +25,7 @@ export default function SearchInput() {
 
       <input
         ref={inputRef}
-        className={`w-full bg-white text-sm outline-none placeholder:bg-white placeholder:text-gray ${
+        className={`w-full bg-white text-sm outline-none placeholder:bg-white placeholder:text-black/30 ${
           fullSize ? "md:h-[35px] md:text-xl" : ""
         }`}
         id="search"
@@ -63,7 +63,7 @@ export default function SearchInput() {
             });
           }
         }}
-        placeholder="Search for a movie or director..."
+        placeholder="Search for a movie or director"
       />
     </>
   );

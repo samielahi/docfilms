@@ -1,13 +1,13 @@
 import Image from "next/image";
 import Base from "~/layouts/Base";
-import { db } from "~/server/db";
+import MovieCard from "~/components/MovieCard";
 import useSWRImmutable, { SWRConfig } from "swr";
+import { db } from "~/server/db";
 import type { GetServerSideProps } from "next";
 import type { SeriesPageProps } from "~/types";
 import type { QParams } from "~/types";
 import type { PagePropsWithSWR } from "~/types";
 import type { NextPageWithLayout } from "../_app";
-import MovieCard from "~/components/MovieCard";
 
 export const getServerSideProps: GetServerSideProps<
   PagePropsWithSWR<SeriesPageProps>,

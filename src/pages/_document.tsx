@@ -5,7 +5,7 @@ export default function Document() {
     <Html className="selection:bg-yellow selection:text-black">
       <Head>
         <link
-          href="https://api.fontshare.com/v2/css?f[]=erode@600,401,400&f[]=satoshi@700&display=swap"
+          href="https://api.fontshare.com/v2/css?f[]=satoshi@700,401,400&display=swap"
           rel="stylesheet"
         />
       </Head>

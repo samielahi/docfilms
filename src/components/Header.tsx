@@ -5,7 +5,7 @@ import Menu from "./Menu";
 
 export default function Header() {
   return (
-    <header className="fixed top-0 z-[9999] w-full bg-slate-100/5 py-6 backdrop-blur-2xl md:h-[100px]">
+    <header className="fixed top-0 z-[9999] w-full border-b-[1px] border-gray bg-black py-6 md:h-[100px]">
       <div className="wrapper flex items-center justify-between">
         <Logo size="small" />
         <div className="hidden items-center gap-12 md:flex">
@@ -14,12 +14,12 @@ export default function Header() {
               <Search fullSize={false} />
             </div>
           </div>
-          {/* <Link
+          <Link
             href={"/"}
             className="w-fit font-bold underline decoration-orange decoration-2"
           >
             <p>Log in</p>
-          </Link> */}
+          </Link>
         </div>
       </div>
       {/* Mobile burger menu toggler */}

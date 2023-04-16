@@ -7,7 +7,7 @@ export default function ClearSearch() {
     <>
       {currentQuery.length > 0 && (
         <button
-          className={`rounded-xl bg-slate-100 px-2 py-1 text-sm font-bold text-orange ${
+          className={`absolute left-[calc(100%_-_4rem)]  rounded-xl bg-gray px-2 py-1 text-sm font-bold text-orange md:left-[calc(100%_-_5rem)] ${
             fullSize ? "md:text-lg" : ""
           }`}
           onClick={() => {
