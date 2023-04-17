@@ -122,7 +122,9 @@ const Director: NextPageWithLayout = () => {
       <hr className="mt-8 mb-8 w-[100%] border-t-[1px] border-gray/20 bg-transparent" />
 
       <div className="">
-        <h2 className="my-12 text-5xl font-bold">Their Movies Shown @ doc</h2>
+        <h2 className="my-12 font-bold md:text-5xl">
+          Their Movies Shown @ doc
+        </h2>
 
         <div className="flex flex-wrap justify-center gap-8 pb-10 text-center md:justify-start">
           {movies!.map((movie, i) => (

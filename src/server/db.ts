@@ -83,7 +83,7 @@ export const db = (() => {
       year: movies[0]?.year!,
       director: movies[0]?.director!,
       series: series,
-      tmdbID: movies[0]?.tmdbID! as number,
+      tmdbID: movies[0]?.tmdbID!,
     };
 
     return moviePageProps;

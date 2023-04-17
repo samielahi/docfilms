@@ -1,7 +1,7 @@
 import type { MutableRefObject } from "react";
 
 // Search can return three types of results and displays them in their own group
-export type ResultGroup = "movie" | "director" | "quarter";
+export type ResultGroup = "movie" | "director" | "quarter" | "recent";
 
 export interface SearchResult {
   id: number;
@@ -16,7 +16,6 @@ export interface SearchState {
   fullSize: boolean;
   currentQuery: string;
   showResults: boolean;
-  recentQueries: string[];
   // Expose the input globally for keyboard control functionality
   inputRef: MutableRefObject<HTMLInputElement | null>;
 }

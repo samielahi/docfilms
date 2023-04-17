@@ -13,12 +13,10 @@ type Props = {
 
 export function SearchProvider({ fullSize, children }: Props) {
   const inputRef = useRef<HTMLInputElement | null>(null);
-  // TODO : useLocalStorage hook to work with recentQueries
   const initialState: SearchState = {
     fullSize: fullSize,
     currentQuery: "",
     showResults: true,
-    recentQueries: [],
     inputRef: inputRef,
   };
 
@@ -56,17 +54,6 @@ function searchReducer(state: SearchState, action: SearchAction) {
     case "HIDE_RESULTS":
       return (({ showResults, ...rest }) => ({
         showResults: false,
-        ...rest,
-      }))(state);
-    case "PUSH_TO_RECENT_QUERIES":
-      let newRecentQueries: string[] = [];
-      if (state.recentQueries.length >= 3) {
-        state.recentQueries.pop();
-      }
-      newRecentQueries = [...state.recentQueries, action.value];
-
-      return (({ recentQueries, ...rest }) => ({
-        recentQueries: newRecentQueries,
         ...rest,
       }))(state);
   }

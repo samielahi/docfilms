@@ -2,18 +2,37 @@ import Link from "next/link";
 import Image from "next/image";
 import useFocus from "~/hooks/useFocus";
 import { useSearch } from "./SearchContext";
+import useLocalStorage from "~/hooks/useLocalStorage";
 import type { SearchResult, ResultGroup } from "./types";
+import type { Dispatch, SetStateAction } from "react";
 
 interface Props extends Partial<SearchResult> {
   focus: boolean;
 }
 
 export default function SearchResultItem(props: Props) {
-  const { fullSize } = useSearch()!;
+  const { fullSize, currentQuery } = useSearch()!;
   const ref = useFocus<HTMLAnchorElement>(props.focus);
+  // const [recentQueries, setRecentQueries] = useLocalStorage<string[]>(
+  //   "recent_queries",
+  //   []
+  // );
+
+  // function pushToRecentQueries() {
+  //   // We'll treat the recentQueries array like a stack of fixed length 3
+  //   if (recentQueries?.length! >= 3) {
+  //     (recentQueries as string[]).pop();
+  //   }
+  //   (setRecentQueries as Dispatch<SetStateAction<string[] | undefined>>)([
+  //     currentQuery,
+  //     ...(recentQueries as string[]),
+  //   ]);
+  // }
+
   return (
     <>
       <Link
+        // onClick={pushToRecentQueries}
         href={
           props.group === "movie"
             ? `/${props.group}/${props.index!}?year=${props.year!}`
@@ -53,5 +72,7 @@ export function getResultIcon(group: ResultGroup): string {
       return "/megaphone.svg";
     case "quarter":
       return "/calendar-clock.svg";
+    case "recent":
+      return "/clock.svg";
   }
 }

@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import type { ReactNode } from "react";
-import useViewportWidth from "../hooks/useViewportWidth";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import useViewportWidth from "../hooks/useViewportWidth";
+import type { ReactNode } from "react";
 
 interface Props {
   children?: ReactNode;

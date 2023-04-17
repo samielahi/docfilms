@@ -93,6 +93,35 @@
 }
 
 @layer utilities {
+  body {
+    @apply font-body;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-heading;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-gray;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-orange hover:bg-orange/70;
+  }
+
+  @supports (scrollbar-color: red blue) {
+    * {
+      scrollbar-color: #de612b #e8e8cf;
+      /* scrollbar-width: auto; */
+    }
+  }
+
   .flow > * + * {
     margin-top: var(--flow-space, 1.5em);
   }
@@ -109,15 +138,5 @@
 
   .link {
     @apply underline decoration-orange underline-offset-2 transition-all hover:underline-offset-4;
-  }
-
-  body {
-    @apply font-body;
-  }
-
-  h1,
-  h2,
-  h3 {
-    @apply font-heading;
   }
 }
