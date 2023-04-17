@@ -17,14 +17,14 @@ export default function SearchResultList() {
 
   return (
     <>
-      {results?.length !== 0 && showResults && (
-        <hr className="border-t-[1px] border-gray bg-transparent" />
-      )}
+      {/* {results?.length !== 0 && showResults && (
+        <hr className="border-t-[1px] border-gray/20 bg-transparent" />
+      )} */}
       <ul
         role="presentation"
         aria-label="search suggestions"
         tabIndex={-1}
-        className="flex max-h-[650px] flex-col gap-2 overflow-y-auto"
+        className="flex max-h-[650px] flex-col gap-2 overflow-y-auto border-y-[1px] border-gray/20 bg-black"
       >
         {results &&
           showResults &&

@@ -21,7 +21,7 @@ export default function SearchResultItem(props: Props) {
         }
         ref={ref}
         tabIndex={props.focus ? 0 : -1}
-        className="w-full hover:bg-gray hover:underline hover:decoration-orange focus:bg-gray focus:underline focus:decoration-orange focus:outline-none"
+        className="w-full bg-black font-bold text-gray hover:bg-gray hover:text-black focus:bg-gray focus:text-black focus:outline-none"
         aria-selected={props.focus ? "true" : "false"}
         role="option"
         // Include label so screen readers can announce which group the result is from
@@ -36,7 +36,7 @@ export default function SearchResultItem(props: Props) {
             role="presentation"
             alt=""
           />
-          <p className={`text-sm italic ${fullSize ? "md:text-xl" : ""}`}>
+          <p className={`text-sm md:text-base ${fullSize ? "md:text-xl" : ""}`}>
             {props.index} {props.year && <span> ({props.year})</span>}
           </p>
         </li>

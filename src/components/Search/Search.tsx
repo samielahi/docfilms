@@ -10,7 +10,7 @@ export default function Search({ fullSize }: Props) {
     <>
       <SearchProvider fullSize={fullSize}>
         <div
-          className={`relative z-[9999] flex h-full w-[300px] flex-col border-0 bg-white text-black drop-shadow-sm sm:w-[325px] ${
+          className={`relative z-[9999] flex h-full w-[300px] flex-col border-[1px] border-gray/20 bg-black font-bold text-gray sm:w-[450px] ${
             fullSize ? "md:w-[550px] lg:w-[725px]" : ""
           }`}
         >

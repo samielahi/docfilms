@@ -10,16 +10,16 @@ export interface MovieCardProps {
 export default function MovieCard(props: MovieCardProps) {
   const { title, year, count } = props;
   return (
-    <Link href={`/movies/${title}?year=${year!}`}>
-      <div className="group mt-[-1px] ml-[-1px] flex h-[480px] w-[420px] flex-col justify-between border-[1px] border-gray p-12 text-left transition-colors hover:bg-gray hover:text-black">
+    <Link href={`/movie/${title}?year=${year!}`}>
+      <div className="group mt-[-1px] ml-[-1px] flex h-[480px] w-[420px] flex-col justify-between border-[1px] border-gray/20 p-12 text-left transition-colors hover:bg-gray hover:text-black">
         <div>
           <span className="text-sm font-bold text-gray underline underline-offset-2 group-hover:text-black">
             Shown {count} {count! > 1 ? "times" : "time"}
           </span>
-          <h2 className="mt-8 text-4xl capitalize">
+          <h2 className="mt-8 text-4xl font-bold capitalize italic">
             {title}{" "}
             {year ? (
-              <span className="text-base font-bold text-gray group-hover:text-black">
+              <span className="text-base font-bold not-italic group-hover:text-black">
                 ({year})
               </span>
             ) : (

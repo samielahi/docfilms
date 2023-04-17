@@ -14,7 +14,7 @@ export default function Menu({ children }: Props) {
 
   //  Close an open menu once 'md' width breakpoint is crossed
   useEffect(() => {
-    if (currentWidth > breakpoint && isOpen) {
+    if (currentWidth! > breakpoint && isOpen) {
       setIsOpen(false);
     }
   }, [currentWidth, isOpen]);
@@ -34,15 +34,15 @@ export default function Menu({ children }: Props) {
                   }
                 : {}
             }
-            className="h-[6px] w-10 origin-top-left bg-orange transition-transform duration-300"
+            className="h-[6px] w-10 origin-top-left bg-gray transition-transform duration-300"
           ></span>
           <span
             style={isOpen ? { opacity: "0" } : { opacity: "100" }}
-            className="h-[6px] w-10 bg-violet transition-opacity duration-300"
+            className="h-[6px] w-10 bg-orange transition-opacity duration-300"
           ></span>
           <span
             style={isOpen ? { transform: "rotate(-45deg)" } : {}}
-            className="h-[6px] w-10 origin-top-left bg-white transition-all duration-300"
+            className="h-[6px] w-10 origin-top-left bg-gray transition-all duration-300"
           ></span>
         </div>
       </button>
@@ -51,7 +51,7 @@ export default function Menu({ children }: Props) {
         <div className="wrapper mt-4 flex h-full flex-col items-center justify-center gap-4">
           <Link
             href={"/"}
-            className="w-fit font-bold underline decoration-orange decoration-2"
+            className="w-fit font-bold underline decoration-orange decoration-2 hover:underline-offset-4"
           >
             Log in
           </Link>

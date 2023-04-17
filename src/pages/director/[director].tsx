@@ -55,7 +55,7 @@ const Director: NextPageWithLayout = () => {
     <>
       <div className="flex flex-col items-center md:flex-row md:gap-20">
         <Image
-          className="w-[300px] sm:w-[350px] md:w-[450px]"
+          className="w-[300px] rounded-full  grayscale sm:w-[350px] md:w-[450px]"
           src={profile_path! || "https://placekitten.com/g/300/400"}
           width={400}
           height={300}
@@ -63,7 +63,7 @@ const Director: NextPageWithLayout = () => {
         ></Image>
         <div className="my-10">
           <div className="flow flex flex-col">
-            <h1 className="flex items-center gap-4 capitalize">
+            <h1 className="flex items-center gap-4 font-bold capitalize">
               <span>{name}</span>{" "}
               <Image
                 src={"/megaphone.svg"}
@@ -81,9 +81,8 @@ const Director: NextPageWithLayout = () => {
             </p>
 
             <div className="hidden h-full flex-col md:flex">
-              <h2>
-                <span className="capitalize">{name}</span> @{" "}
-                <span className="font-logo font-bold">doc</span>
+              <h2 className="font-bold">
+                <span className="capitalize">{name}</span> @ <span>doc</span>
               </h2>
 
               <BarPlot
@@ -103,9 +102,8 @@ const Director: NextPageWithLayout = () => {
       </div>
 
       <div className="flex h-full flex-col md:hidden">
-        <h2>
-          <span className="capitalize">{name}</span> @{" "}
-          <span className="font-logo font-bold">doc</span>
+        <h2 className="font-bold">
+          <span className="capitalize">{name}</span> @ <span>doc</span>
         </h2>
 
         <BarPlot
@@ -121,14 +119,12 @@ const Director: NextPageWithLayout = () => {
         />
       </div>
 
-      <hr className="mt-8 mb-8 w-[100%] border-t-4 border-dashed border-gray/70 bg-transparent" />
+      <hr className="mt-8 mb-8 w-[100%] border-t-[1px] border-gray/20 bg-transparent" />
 
       <div className="flow">
-        <h2>
-          Their Movies Shown @ <span className="font-logo font-bold">doc</span>
-        </h2>
+        <h2 className="text-5xl font-bold">Their Movies Shown @ doc</h2>
 
-        <div className="flex flex-wrap justify-center gap-0 pb-10 text-center md:justify-start">
+        <div className="flex flex-wrap justify-center gap-8 pb-10 text-center md:justify-start">
           {movies!.map((movie, i) => (
             <>
               <MovieCard

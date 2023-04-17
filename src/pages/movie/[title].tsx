@@ -53,30 +53,29 @@ const Movie: NextPageWithLayout = () => {
 
   return (
     <>
-      <div className="relative mb-10 h-[400px] overflow-hidden drop-shadow-lg md:h-[550px]">
+      {/* <div className="relative h-[350px] overflow-hidden drop-shadow-lg md:h-[600px]">
         <Image
           priority={true}
-          src={backdrop_path! || "/student.png"}
-          className="object-cover md:object-left-top"
+          src={backdrop_path || "/student.png"}
+          className=" object-cover md:object-center"
           fill={true}
           sizes="(max-width: 768px) 70vw,
-              (max-width: 1200px) 70vw,
+              (max-width: 1200px) 90vw,
               50vw"
           alt=""
         />
-      </div>
-
-      <section className="mb-10">
-        <div className="flow flex flex-col">
+      </div> */}
+      <section className="relative mb-10">
+        <div className="flow flex w-fit flex-col border-[0px] py-12">
           <div className="flex items-center gap-6 capitalize">
-            <h1>
-              <i>{title} </i>
-              <span className="text-2xl">{year ? `(${year})` : ""}</span>
+            <h1 className="text-4xl font-black md:text-7xl">
+              {title}
+              <span className="text-2xl"> {year ? `(${year})` : ""}</span>
             </h1>
           </div>
 
           <Link
-            className="w-fit"
+            className="w-fit font-bold"
             href={{
               pathname: `/director/${director!}`,
             }}
@@ -93,7 +92,7 @@ const Movie: NextPageWithLayout = () => {
           </p>
         </div>
 
-        <hr className="mt-8 mb-8 w-[100%] border-t-4 border-dashed border-gray/70 bg-transparent" />
+        {/* <hr className="mt-8 mb-8 w-[100%] border-t-4 border-dashed border-gray/70 bg-transparent" /> */}
         <div className="flow flex flex-col">
           <h2>
             Shown @ <span className="font-logo font-bold">doc</span> :

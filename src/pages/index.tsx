@@ -1,7 +1,9 @@
 import Head from "next/head";
 import Logo from "~/components/Logo";
 import Search from "~/components/Search/Search";
+import Header from "~/components/Header";
 import type { NextPage } from "next";
+import MovieCard from "~/components/MovieCard";
 
 const Home: NextPage = () => {
   return (
@@ -16,16 +18,6 @@ const Home: NextPage = () => {
           <Logo size="large" />
           <Search fullSize />
         </div>
-
-        {/* <Image
-          draggable={false}
-          priority={true}
-          alt="An assortment of colored movie tickets."
-          src={"/tickets.png"}
-          width={1920}
-          height={400}
-          className="absolute top-[85%] sm:top-[80%] md:top-[75%] lg:top-[65%] xl:top-[55%]"
-        ></Image> */}
       </main>
     </>
   );

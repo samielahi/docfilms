@@ -9,7 +9,7 @@ const config = {
         body: ["Satoshi", "sans-serif"],
       },
       colors: {
-        white: "#fffff1",
+        white: "#e8e8cf",
         black: "#10100e",
         gray: "#e8e8cf",
         orange: "#DE612B",

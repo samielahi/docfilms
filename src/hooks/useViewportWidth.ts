@@ -1,14 +1,15 @@
 import { useState, useEffect } from "react";
 
-function getWidth() {
-  return (
-    window.innerWidth ||
-    document.documentElement.clientWidth ||
-    document.body.clientWidth
-  );
-}
-
 export default function useViewportWidth() {
+  function getWidth() {
+    if (typeof window !== "undefined") {
+      return (
+        window.innerWidth ||
+        document.documentElement.clientWidth ||
+        document.body.clientWidth
+      );
+    }
+  }
   const [width, setWidth] = useState(getWidth());
 
   useEffect(() => {
