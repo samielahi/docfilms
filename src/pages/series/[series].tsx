@@ -40,27 +40,19 @@ const Series: NextPageWithLayout = () => {
       </div>
 
       <section className="flow">
-        <h1 className="capitalize italic">{series}</h1>
+        <h1 className="text-4xl font-bold capitalize md:text-7xl">{series}</h1>
 
-        <div className="flow">
-          <h2 className="flex  items-center gap-4 font-bold">
-            <span>Movies</span>
-
-            <span className="italic text-gray">(Shown {quarter})</span>
-          </h2>
-
-          <div className="flex flex-wrap justify-center gap-10 pb-10 text-center md:justify-start">
-            {movies!.map((movie, i) => (
-              <>
-                <MovieCard
-                  key={i}
-                  count={movie.times_shown!}
-                  title={movie.title!}
-                  year={movie.year!}
-                />
-              </>
-            ))}
-          </div>
+        <div className="flex flex-wrap justify-center gap-10 py-10 text-center md:justify-start">
+          {movies!.map((movie, i) => (
+            <>
+              <MovieCard
+                key={i}
+                count={movie.times_shown!}
+                title={movie.title!}
+                year={movie.year!}
+              />
+            </>
+          ))}
         </div>
       </section>
     </>

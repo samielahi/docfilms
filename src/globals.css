@@ -107,6 +107,10 @@
     margin-left: calc(50% - 50vw);
   }
 
+  .link {
+    @apply underline decoration-orange underline-offset-2 transition-all hover:underline-offset-4;
+  }
+
   body {
     @apply font-body;
   }

@@ -14,10 +14,7 @@ export default function Header() {
               <Search fullSize={false} />
             </div>
           </div>
-          <Link
-            href={"/"}
-            className="w-fit font-bold underline decoration-orange decoration-2 underline-offset-2 transition-all hover:underline-offset-4"
-          >
+          <Link href={"/"} className="link w-fit font-bold">
             <p>Log in</p>
           </Link>
         </div>

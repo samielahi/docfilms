@@ -63,7 +63,7 @@ const Director: NextPageWithLayout = () => {
         ></Image>
         <div className="my-10">
           <div className="flow flex flex-col">
-            <h1 className="flex items-center gap-4 font-bold capitalize">
+            <h1 className="flex items-center gap-4 text-4xl font-bold capitalize md:text-7xl">
               <span>{name}</span>{" "}
               <Image
                 src={"/megaphone.svg"}
@@ -81,7 +81,7 @@ const Director: NextPageWithLayout = () => {
             </p>
 
             <div className="hidden h-full flex-col md:flex">
-              <h2 className="font-bold">
+              <h2 className="font-bold md:text-5xl">
                 <span className="capitalize">{name}</span> @ <span>doc</span>
               </h2>
 
@@ -102,7 +102,7 @@ const Director: NextPageWithLayout = () => {
       </div>
 
       <div className="flex h-full flex-col md:hidden">
-        <h2 className="font-bold">
+        <h2 className="font-bold md:text-5xl">
           <span className="capitalize">{name}</span> @ <span>doc</span>
         </h2>
 
@@ -121,8 +121,8 @@ const Director: NextPageWithLayout = () => {
 
       <hr className="mt-8 mb-8 w-[100%] border-t-[1px] border-gray/20 bg-transparent" />
 
-      <div className="flow">
-        <h2 className="text-5xl font-bold">Their Movies Shown @ doc</h2>
+      <div className="">
+        <h2 className="my-12 text-5xl font-bold">Their Movies Shown @ doc</h2>
 
         <div className="flex flex-wrap justify-center gap-8 pb-10 text-center md:justify-start">
           {movies!.map((movie, i) => (

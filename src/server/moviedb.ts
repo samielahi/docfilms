@@ -109,7 +109,7 @@ const moviedb = (() => {
     return "https://image.tmdb.org/t/p/original" + path;
   }
 
-  return { getMovieData, getDirectorData };
+  return { getMovieData, getDirectorData, getImageUrl };
 })();
 
 export default moviedb;

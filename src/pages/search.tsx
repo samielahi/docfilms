@@ -47,7 +47,7 @@ function PageResult(props: Partial<SearchResult>) {
   return (
     <>
       <Link
-        className="flex w-fit gap-4 underline decoration-white underline-offset-4"
+        className="link flex w-fit gap-4"
         href={
           props.group === "movie"
             ? `/${props.group}/${props.index!}?year=${props.year!}`

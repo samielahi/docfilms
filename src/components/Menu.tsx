@@ -49,10 +49,7 @@ export default function Menu({ children }: Props) {
 
       {isOpen && (
         <div className="wrapper mt-4 flex h-full flex-col items-center justify-center gap-4">
-          <Link
-            href={"/"}
-            className="w-fit font-bold underline decoration-orange decoration-2 hover:underline-offset-4"
-          >
+          <Link href={"/"} className="link w-fit font-bold">
             Log in
           </Link>
           <div className="relative mt-2 h-[45px] w-[300px]">

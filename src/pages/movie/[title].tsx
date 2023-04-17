@@ -53,24 +53,24 @@ const Movie: NextPageWithLayout = () => {
 
   return (
     <>
-      {/* <div className="relative h-[350px] overflow-hidden drop-shadow-lg md:h-[600px]">
+      <div className="relative flex justify-center">
         <Image
-          priority={true}
           src={backdrop_path || "/student.png"}
-          className=" object-cover md:object-center"
-          fill={true}
+          width={600}
+          height={400}
+          className="h-auto w-full rounded-3xl opacity-70 grayscale"
           sizes="(max-width: 768px) 70vw,
-              (max-width: 1200px) 90vw,
-              50vw"
+          (max-width: 1200px) 100vw,
+          50vw"
           alt=""
         />
-      </div> */}
-      <section className="relative mb-10">
-        <div className="flow flex w-fit flex-col border-[0px] py-12">
+      </div>
+      <section className="relative">
+        <div className="flow flex w-fit flex-col  border-[0px] pt-12">
           <div className="flex items-center gap-6 capitalize">
             <h1 className="text-4xl font-black md:text-7xl">
               {title}
-              <span className="text-2xl"> {year ? `(${year})` : ""}</span>
+              <span className="ml-4 text-2xl"> {year ? `(${year})` : ""}</span>
             </h1>
           </div>
 
@@ -80,9 +80,7 @@ const Movie: NextPageWithLayout = () => {
               pathname: `/director/${director!}`,
             }}
           >
-            <p className="capitalize underline decoration-orange decoration-4 underline-offset-4">
-              {director}
-            </p>
+            <p className="link capitalize">{director}</p>
           </Link>
 
           <p>
@@ -92,20 +90,16 @@ const Movie: NextPageWithLayout = () => {
           </p>
         </div>
 
-        {/* <hr className="mt-8 mb-8 w-[100%] border-t-4 border-dashed border-gray/70 bg-transparent" /> */}
+        <hr className="mt-8 mb-8 w-[100%] border-t-[1px] border-gray/20 bg-transparent" />
         <div className="flow flex flex-col">
-          <h2>
-            Shown @ <span className="font-logo font-bold">doc</span> :
-          </h2>
+          <h2 className="font-bold md:text-5xl">Shown @ doc :</h2>
 
           {Object.entries(series!).map(([date, series], key) => (
             <div key={key} className="flex items-center gap-6">
               <DateBlock date={date} />
               <p className="hidden sm:block">as part of series</p>
               <Link href={`/series/${series}`}>
-                <p className="capitalize italic underline decoration-orange decoration-4 underline-offset-4">
-                  {series}
-                </p>
+                <p className="link capitalize italic">{series}</p>
               </Link>
             </div>
           ))}
