@@ -20,7 +20,7 @@ export const prisma =
 
 if (env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
 
-// Util for getting page props through prisma
+// Utils for working with db data
 export const db = (() => {
   // Helper for building movie count by decade for a director
   function buildMovieCountMap(docData: DocMovie[]) {

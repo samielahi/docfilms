@@ -5,6 +5,8 @@ import z from "zod";
 const TMDBMovieSchema = z.object({
   title: z.string(),
   overview: z.string().nullable(),
+  backdrop_path: z.string().nullable(),
+  id: z.number(),
 });
 
 const TMBDCreditSchema = z.object({
