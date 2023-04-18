@@ -49,12 +49,15 @@ const Movie: NextPageWithLayout = () => {
   if (error) return <div>Something went wrong while loading this page.</div>;
 
   const { backdrop_path, title, director, year, series, overview } = data!;
+  const backdropURL = backdrop_path
+    ? moviedb.getImageUrl(backdrop_path)
+    : "/student.png";
 
   return (
     <>
       <div className="relative flex justify-center">
         <Image
-          src={backdrop_path || "/student.png"}
+          src={backdropURL}
           width={600}
           height={400}
           className="h-auto w-full rounded-3xl opacity-70 grayscale"

@@ -104,6 +104,7 @@ export const db = (() => {
         year: true,
         times_shown: true,
         date: true,
+        backdrop_path: true,
       },
       where: {
         director: {

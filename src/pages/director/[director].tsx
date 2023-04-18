@@ -134,6 +134,11 @@ const Director: NextPageWithLayout = () => {
                 title={movie.title!}
                 count={movie.times_shown!}
                 year={movie.year!}
+                backdrop_path={
+                  movie.backdrop_path
+                    ? moviedb.getImageUrl(movie.backdrop_path)
+                    : "/student.png"
+                }
               />
             </>
           ))}

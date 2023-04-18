@@ -33,7 +33,7 @@ export default function MovieCard(props: MovieCardProps) {
           src={backdrop_path || "/student.png"}
           width={300}
           height={250}
-          className="mt-4 w-full"
+          className="mt-4 w-full grayscale"
           alt=""
         />
       </div>
