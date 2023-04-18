@@ -4,7 +4,7 @@ import type { MutableRefObject } from "react";
 export type ResultGroup = "movie" | "director" | "quarter" | "recent";
 
 export interface SearchResult {
-  id: number;
+  id?: number;
   group: ResultGroup;
   index: string;
   // If the ResultGroup is "movie" it could have a year
@@ -24,5 +24,4 @@ export type SearchAction =
   | { type: "SET_QUERY"; value: string }
   | { type: "CLEAR_QUERY" }
   | { type: "SHOW_RESULTS" }
-  | { type: "HIDE_RESULTS" }
-  | { type: "PUSH_TO_RECENT_QUERIES"; value: string };
+  | { type: "HIDE_RESULTS" };

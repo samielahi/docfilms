@@ -5,7 +5,6 @@ import z from "zod";
 const TMDBMovieSchema = z.object({
   title: z.string(),
   overview: z.string().nullable(),
-  backdrop_path: z.string().nullable(),
 });
 
 const TMBDCreditSchema = z.object({
@@ -41,10 +40,6 @@ const moviedb = (() => {
 
     const movieJson = (await response.json()) as TMDBMovie;
     const movie = TMDBMovieSchema.parse(movieJson);
-
-    if (movie.backdrop_path) {
-      movie.backdrop_path = getImageUrl(movie.backdrop_path);
-    }
 
     return Result.ok(movie);
   }
@@ -105,8 +100,12 @@ const moviedb = (() => {
     return Result.ok(director);
   }
 
-  function getImageUrl(path: string) {
-    return "https://image.tmdb.org/t/p/original" + path;
+  function getImageUrl(path: string, original: boolean = true) {
+    if (original) {
+      return "https://image.tmdb.org/t/p/original" + path;
+    } else {
+      return "https://image.tmdb.org/t/p/w500" + path;
+    }
   }
 
   return { getMovieData, getDirectorData, getImageUrl };

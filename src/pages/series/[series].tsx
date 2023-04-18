@@ -3,6 +3,7 @@ import Base from "~/layouts/Base";
 import MovieCard from "~/components/MovieCard";
 import useSWRImmutable, { SWRConfig } from "swr";
 import { db } from "~/server/db";
+import moviedb from "~/server/moviedb";
 import type { GetServerSideProps } from "next";
 import type { SeriesPageProps } from "~/types";
 import type { QParams } from "~/types";
@@ -23,7 +24,7 @@ const Series: NextPageWithLayout = () => {
   const { data, error } = useSWRImmutable<SeriesPageProps, Error>("docDataKey");
   if (error) return <div>An error occurred.</div>;
 
-  const { series, quarter, movies } = data!;
+  const { series, movies } = data!;
   return (
     <>
       <div className="relative mb-10 h-[350px] overflow-hidden drop-shadow-sm md:h-[550px]">
@@ -50,6 +51,11 @@ const Series: NextPageWithLayout = () => {
                 count={movie.times_shown!}
                 title={movie.title!}
                 year={movie.year!}
+                backdrop_path={
+                  movie.backdrop_path
+                    ? moviedb.getImageUrl(movie.backdrop_path, false)
+                    : "/student.png"
+                }
               />
             </>
           ))}

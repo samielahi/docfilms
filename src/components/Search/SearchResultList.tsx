@@ -13,7 +13,8 @@ export default function SearchResultList() {
   const { results, isError } = useFlexSearch(debouncedQuery);
   // Tracking focused result when navigating by keyboard
   const [focusedIndex] = useFocusManager(results ? results.length : 0, null);
-  // const [recentQueries] = useLocalStorage<string[]>("recent_queries", []);
+  // const [recentQueries] = useLocalStorage<SearchResult[]>("recent_queries", []);
+  // const combinedResults = [...(recentQueries as SearchResult[]), ...results!];
 
   if (isError) return <div>An error occurred while fetching results.</div>;
 
@@ -25,17 +26,6 @@ export default function SearchResultList() {
         tabIndex={-1}
         className="flex max-h-[650px] flex-col gap-2 overflow-y-auto border-y-[1px] border-gray/20 bg-black"
       >
-        {/* {recentQueries &&
-          showResults &&
-          (recentQueries as string[]).map((query: string, i) => (
-            <SearchResultItem
-              focus={focusedIndex === i}
-              key={i}
-              index={query}
-              group="recent"
-            />
-          ))} */}
-
         {results &&
           showResults &&
           results.map((result: SearchResult, i) => (

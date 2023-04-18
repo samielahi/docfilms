@@ -18,7 +18,6 @@ export const getServerSideProps: GetServerSideProps<
   QParams
 > = async ({ query }) => {
   const title = query.title as string;
-  const year = query.year as string;
   let moviePageProps = await db.getMoviePageProps(title);
 
   let tmdbMovieData: Result<TMDBMovie, Error> | null = null;

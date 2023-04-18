@@ -13,20 +13,30 @@ interface Props extends Partial<SearchResult> {
 export default function SearchResultItem(props: Props) {
   const { fullSize, currentQuery } = useSearch()!;
   const ref = useFocus<HTMLAnchorElement>(props.focus);
-  // const [recentQueries, setRecentQueries] = useLocalStorage<string[]>(
+  // const [recentQueries, setRecentQueries] = useLocalStorage<SearchResult[]>(
   //   "recent_queries",
   //   []
   // );
 
   // function pushToRecentQueries() {
+  //   const currentLength = recentQueries?.length!;
   //   // We'll treat the recentQueries array like a stack of fixed length 3
-  //   if (recentQueries?.length! >= 3) {
-  //     (recentQueries as string[]).pop();
+  //   if (currentLength >= 3) {
+  //     (recentQueries as SearchResult[]).pop();
   //   }
-  //   (setRecentQueries as Dispatch<SetStateAction<string[] | undefined>>)([
-  //     currentQuery,
-  //     ...(recentQueries as string[]),
-  //   ]);
+
+  //   const queryIsInRecentQueries =
+  //     currentQuery in
+  //     (recentQueries as SearchResult[]).map((result) => result.index);
+
+  //   if (!queryIsInRecentQueries) {
+  //     (
+  //       setRecentQueries as Dispatch<SetStateAction<SearchResult[] | undefined>>
+  //     )([
+  //       { index: currentQuery, group: "recent" },
+  //       ...(recentQueries as SearchResult[]),
+  //     ]);
+  //   }
   // }
 
   return (
