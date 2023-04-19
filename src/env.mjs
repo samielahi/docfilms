@@ -31,9 +31,6 @@ const processEnv = {
   // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
 };
 
-// Don't touch the part below
-// --------------------------
-
 const merged = server.merge(client);
 
 /** @typedef {z.input<typeof merged>} MergedInput */

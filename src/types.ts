@@ -1,7 +1,7 @@
 import type { movies } from "@prisma/client";
 import type { ParsedUrlQuery } from "querystring";
 
-export type DocMovie = Omit<Partial<movies>, "id" | "notes">;
+export type DocMovie = Omit<Partial<movies>, "id">;
 
 export interface QParams extends ParsedUrlQuery {
   title?: string;

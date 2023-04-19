@@ -10,7 +10,7 @@ describe("Home Page", () => {
 
     const logo = screen.getByRole("heading");
     const searchBar = screen.getByPlaceholderText(
-      "Search for movies, directors, or quarters..."
+      "Search for a movie or director"
     );
 
     expect(logo).toBeInTheDocument();

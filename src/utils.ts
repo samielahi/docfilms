@@ -23,4 +23,22 @@ function getDateObject(date: string) {
   };
 }
 
-export { createMappingFn, getDateObject };
+function* enumerate<T>(iterable: IterableIterator<T>) {
+  let i = 0;
+  for (const x of iterable) {
+    yield [i, x];
+    i++;
+  }
+}
+
+function blobToString(blob: Blob | File): Promise<string> {
+  return new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (e) => resolve(reader.result as string);
+    reader.onerror = (e) => reject(reader.error);
+    reader.onabort = (e) => reject(new Error("Read aborted"));
+    reader.readAsDataURL(blob);
+  });
+}
+
+export { createMappingFn, getDateObject, blobToString, enumerate };
