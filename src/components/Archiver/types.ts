@@ -1,3 +1,4 @@
+import type { FileWithHandle } from "browser-fs-access";
 import type { DocMovie } from "~/types";
 
 export type ParsedRow = string[];
@@ -33,11 +34,25 @@ export enum Stage {
   upload,
   edit,
   index,
-  merge,
+  enrich,
   review,
 }
 
-export interface ArchiveSession {
-  data: DocMovie[];
-  currentStage: Stage;
+export namespace Stage {
+  export function next(value: Stage): Stage {
+    return value + 1;
+  }
 }
+
+export interface ArchiverSession {
+  csvString?: string;
+  data?: DocMovie[];
+  errors?: ParsedRowErrors[];
+  currentStage?: Stage;
+}
+
+export type ArchiverAction =
+  | { type: "LOAD_CSV"; value: string }
+  | { type: "PARSE_CSV" }
+  | { type: "CREATE_INDEX" }
+  | { type: "ADVANCE_STAGE" };

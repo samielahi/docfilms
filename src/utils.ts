@@ -37,7 +37,7 @@ function blobToString(blob: Blob | File): Promise<string> {
     reader.onload = (e) => resolve(reader.result as string);
     reader.onerror = (e) => reject(reader.error);
     reader.onabort = (e) => reject(new Error("Read aborted"));
-    reader.readAsDataURL(blob);
+    reader.readAsText(blob);
   });
 }
 

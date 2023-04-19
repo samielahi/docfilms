@@ -104,7 +104,7 @@ export const csv = (() => {
 
   function parse(
     rawString: string
-  ): Result<[DocMovie[], ParsedRowErrors[]], CSVParsingError> {
+  ): Result<[string[], DocMovie[], ParsedRowErrors[]], CSVParsingError> {
     const rawParseResult = rawParse(rawString);
 
     if (Object.hasOwn(rawParseResult, "code")) {
@@ -188,7 +188,7 @@ export const csv = (() => {
       rows.push(movie);
     }
 
-    return Result.ok([rows, rowsWithIssues]);
+    return Result.ok([columnHeaders, rows, rowsWithIssues]);
   }
 
   return { parse };
