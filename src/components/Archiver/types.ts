@@ -1,20 +1,33 @@
-import type { ZodError } from "zod";
 import type { DocMovie } from "~/types";
 
-// export type ArchivableDocMovie = Required<
-//   Pick<DocMovie, "title" | "year" | "director" | "series" | "date">
-// > &
-//   Pick<
-//     DocMovie,
-//     "backdrop_path" | "overview" | "quarter" | "times_shown" | "tmdbID"
-//   >;
-
 export type ParsedRow = string[];
-export type ParseErrors = Partial<Record<keyof DocMovie, string>>;
-export type ParsedRowWithErrors = {
+export type ParsedRowErrors = {
   id: number;
-  errors: ParseErrors;
+  errors: CSVParsingError;
 };
+
+export type InvalidColumnValue = Partial<Record<keyof DocMovie, string>>;
+
+type DuplicateHeader = {
+  code: "duplicate_header";
+  message: string;
+};
+
+type MissingRequiredColumn = {
+  code: "missing_required_col";
+  message: string;
+};
+
+type EmptyInput = {
+  code: "empty_csv";
+  message: string;
+};
+
+export type CSVParsingError =
+  | DuplicateHeader
+  | MissingRequiredColumn
+  | EmptyInput
+  | InvalidColumnValue;
 
 export enum Stage {
   upload,

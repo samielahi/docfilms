@@ -1,14 +1,16 @@
 import z from "zod";
 import { enumerate } from "~/utils";
+import { Result } from "true-myth";
 import type { DocMovie } from "~/types";
-import type { ParsedRow, ParsedRowWithErrors, ParseErrors } from "./types";
-
-/*
-  TODO:
-  - model errors
-*/
+import type {
+  ParsedRow,
+  ParsedRowErrors,
+  InvalidColumnValue,
+  CSVParsingError,
+} from "./types";
 
 export const csv = (() => {
+  // Validators for column types
   const titleSchema = z.string().min(1, { message: "'title' cannot be empty" });
   const directorSchema = z
     .string()
@@ -28,7 +30,9 @@ export const csv = (() => {
 
   const requiredColumns = ["title", "director", "series", "date", "year"];
 
-  function getValidatedColumnHeaders(headers: string[]) {
+  function getValidatedColumnHeaders(
+    headers: string[]
+  ): Result<string[], CSVParsingError> {
     // Trim whitespace and lowercase the headers
     const cleanedHeaders = headers.map((header) => header.trim().toLowerCase());
     const cleanedHeadersSet = new Set(cleanedHeaders);
@@ -36,21 +40,33 @@ export const csv = (() => {
       Array.from(cleanedHeadersSet).length !== cleanedHeaders.length;
 
     if (hasDuplicateHeaders) {
-      throw new Error(`Duplicate column names found.`);
+      return Result.err({
+        code: "duplicate_header",
+        message:
+          "Duplicate column headers found, please provide a .csv file with only one of each required column header",
+      });
     }
 
     for (const header of requiredColumns) {
       if (!cleanedHeadersSet.has(header)) {
-        throw new Error(`Missing required column: '${header}'`);
+        return Result.err({
+          code: "missing_required_col",
+          message: `Missing required column: '${header}'`,
+        });
       }
     }
-    return cleanedHeaders;
+
+    return Result.ok(cleanedHeaders);
   }
 
-  // Parses raw string into an array of strings that are separated by commas and separates those by CR/LF
-  function* rawParse(rawString: string): Generator<ParsedRow, void, undefined> {
+  function* rawParse(
+    rawString: string
+  ): Generator<ParsedRow, void, undefined> | CSVParsingError {
     if (rawString.length === 0) {
-      throw Error("Provided csv file is empty.");
+      return {
+        code: "empty_csv",
+        message: "Provided .csv file was empty",
+      };
     }
 
     let currentRow: string[] = [];
@@ -86,15 +102,30 @@ export const csv = (() => {
     currentRow.length && (yield currentRow);
   }
 
-  function parse(rawString: string) {
-    const rawParsedRows = rawParse(rawString);
-    const rows: DocMovie[] = [];
-    const rowsWithIssues: ParsedRowWithErrors[] = [];
-    const columnHeaders = getValidatedColumnHeaders(
-      rawParsedRows.next().value as string[]
+  function parse(
+    rawString: string
+  ): Result<[DocMovie[], ParsedRowErrors[]], CSVParsingError> {
+    const rawParseResult = rawParse(rawString);
+
+    if (Object.hasOwn(rawParseResult, "code")) {
+      return Result.err(rawParseResult as CSVParsingError);
+    }
+
+    const columnHeadersParseResult = getValidatedColumnHeaders(
+      (rawParseResult as Generator).next().value as string[]
     );
 
-    for (const [i, row] of enumerate<ParsedRow>(rawParsedRows)) {
+    if (columnHeadersParseResult.isErr) {
+      return Result.err(columnHeadersParseResult.error);
+    }
+
+    const columnHeaders = columnHeadersParseResult.value;
+    const rows: DocMovie[] = [];
+    const rowsWithIssues: ParsedRowErrors[] = [];
+
+    for (const [i, row] of enumerate<ParsedRow>(
+      rawParseResult as Generator<ParsedRow, void, undefined>
+    )) {
       const movie: DocMovie = {
         title: "",
         director: "",
@@ -102,7 +133,7 @@ export const csv = (() => {
         year: 0,
         date: null,
       };
-      const errors: ParseErrors = {};
+      const errors: InvalidColumnValue = {};
       for (let j = 0; j < columnHeaders.length; j++) {
         const currentField = (row as ParsedRow)[j]?.trim();
         switch (columnHeaders[j]) {
@@ -157,7 +188,7 @@ export const csv = (() => {
       rows.push(movie);
     }
 
-    return [rows, rowsWithIssues];
+    return Result.ok([rows, rowsWithIssues]);
   }
 
   return { parse };
