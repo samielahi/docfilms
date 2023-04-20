@@ -6,15 +6,14 @@ import EditStage from "./EditStep/EditStep";
 export default function Archiver() {
   return (
     <ArchiverProvider>
-      <div className="flow flex h-full min-h-[40vh] flex-col items-center border-[1px] border-gray/20 p-12">
-        <h2 className="font-bold">Add Data To Archive</h2>
-        <ArchiverProgressBar />
-        <hr className="w-full border-t-[1px] border-gray/20 bg-none" />
-        <div className="w-full">
-          <UploadStage />
-          <EditStage />
-        </div>
+      <div>
+        <h1 className="font-bold">Archiver Tool</h1>
+        <p>Follow these 5 steps to archive capsule data for the quarter.</p>
+        <hr className="mt-6 w-full border-t-[1px] border-gray/20 md:mt-12" />
       </div>
+      <section>
+        <ArchiverProgressBar />
+      </section>
     </ArchiverProvider>
   );
 }

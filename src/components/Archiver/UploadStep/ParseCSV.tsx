@@ -37,7 +37,7 @@ export default function ParseCSV() {
       });
 
       dispatch({
-        type: "ADVANCE_STAGE",
+        type: "ADVANCE_STEP",
       });
     }
 
