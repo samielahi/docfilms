@@ -1,6 +1,6 @@
 import SectionWrapper from "../SectionWrapper";
 import UploadCSV from "./UploadCSV";
-import ParseCSV from "./ParseCSV";
+import UploadStatus from "./UploadStatus";
 import { useArchiver } from "../ArchiverContext";
 
 export default function UploadSection() {
@@ -13,9 +13,11 @@ export default function UploadSection() {
           title="Upload Capsule"
           description="Export quarterly capsule spreadsheet as a .csv and upload. Please make sure that all required column headers are included."
         >
-          <div className="flow">
+          <div className="flow mt-10">
             <UploadCSV />
-            <ParseCSV />
+            <div>
+              <UploadStatus />
+            </div>
           </div>
         </SectionWrapper>
       )}

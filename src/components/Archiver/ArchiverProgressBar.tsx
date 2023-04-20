@@ -39,7 +39,7 @@ function SectionProgressBlock({
 }) {
   return (
     <>
-      <div className="flex w-fit items-center justify-between md:w-[200px]">
+      <div className="flex h-full w-fit items-center justify-between md:w-[200px]">
         <span className="hidden font-bold capitalize md:block">{section}</span>
         <div
           className={`flex items-center justify-center rounded-full ${

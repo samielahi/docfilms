@@ -22,7 +22,7 @@ export default function UploadCSV() {
     <>
       <button
         onClick={uploadCSV}
-        className="flex flex-col gap-4 border-[1px] border-gray py-2 px-4 font-bold transition-colors hover:bg-gray hover:text-black"
+        className="flex w-[125px] justify-center gap-4 border-[1px] border-gray py-2 px-4 font-bold transition-colors hover:bg-gray hover:text-black"
       >
         Upload
       </button>

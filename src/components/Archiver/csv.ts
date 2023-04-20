@@ -25,7 +25,7 @@ export const csv = (() => {
       message: "Date is before the existence of docfilms",
     })
     .max(new Date(), {
-      message: "Please only archive movies past their showdate.",
+      message: "Please only archive movies after their showdate.",
     });
 
   const requiredColumns = ["title", "director", "series", "date", "year"];
@@ -51,7 +51,7 @@ export const csv = (() => {
       if (!cleanedHeadersSet.has(header)) {
         return Result.err({
           code: "missing_required_col",
-          message: `Missing required column: '${header}'`,
+          message: `File missing required column: '${header}', try again.`,
         });
       }
     }
@@ -106,7 +106,7 @@ export const csv = (() => {
     if (rawString.length === 0) {
       return Result.err({
         code: "empty_csv",
-        message: "Provided .csv file was empty",
+        message: "Provided .csv file was empty, try again.",
       });
     }
 
