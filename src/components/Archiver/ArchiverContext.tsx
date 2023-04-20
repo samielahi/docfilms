@@ -37,7 +37,9 @@ function archiverReducer(state: ArchiverSession, action: ArchiverAction) {
         csvString: action.value,
         ...rest,
       }))(state);
-    case "PARSE_CSV":
+    case "SET_DATA":
+      return state;
+    case "SET_ISSUES":
       return state;
     case "CREATE_INDEX":
       return state;

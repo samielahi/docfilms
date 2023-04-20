@@ -7,10 +7,10 @@ export default function UploadStage() {
   return (
     <>
       {currentStage === 0 && (
-        <>
-          <ParseCSV />
+        <div className="flow">
           <UploadCSV />
-        </>
+          <ParseCSV />
+        </div>
       )}
     </>
   );

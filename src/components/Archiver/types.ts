@@ -7,7 +7,12 @@ export type ParsedRowErrors = {
   errors: CSVParsingError;
 };
 
-export type InvalidColumnValue = Partial<Record<keyof DocMovie, string>>;
+export type InvalidColumnValue = {
+  code: "invalid_col_value";
+  id: number;
+  issues: Partial<Record<keyof DocMovie, string>>;
+  message?: string;
+};
 
 type DuplicateHeader = {
   code: "duplicate_header";
@@ -24,11 +29,17 @@ type EmptyInput = {
   message: string;
 };
 
+type NoInput = {
+  code: "no_input";
+  message: string;
+};
+
 export type CSVParsingError =
   | DuplicateHeader
   | MissingRequiredColumn
   | EmptyInput
-  | InvalidColumnValue;
+  | InvalidColumnValue
+  | NoInput;
 
 export enum Stage {
   upload,
@@ -53,6 +64,7 @@ export interface ArchiverSession {
 
 export type ArchiverAction =
   | { type: "LOAD_CSV"; value: string }
-  | { type: "PARSE_CSV" }
+  | { type: "SET_DATA"; value: DocMovie[] }
+  | { type: "SET_ISSUES"; value: ParsedRowErrors[] }
   | { type: "CREATE_INDEX" }
   | { type: "ADVANCE_STAGE" };

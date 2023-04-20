@@ -1,6 +1,5 @@
 import { csv } from "~/components/Archiver/csv";
 import { Result } from "true-myth";
-``;
 
 describe("csv parsing utility", () => {
   it("Basic parsing", () => {

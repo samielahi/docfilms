@@ -59,16 +59,7 @@ export const csv = (() => {
     return Result.ok(cleanedHeaders);
   }
 
-  function* rawParse(
-    rawString: string
-  ): Generator<ParsedRow, void, undefined> | CSVParsingError {
-    if (rawString.length === 0) {
-      return {
-        code: "empty_csv",
-        message: "Provided .csv file was empty",
-      };
-    }
-
+  function* rawParse(rawString: string): Generator<ParsedRow, void, undefined> {
     let currentRow: string[] = [];
     let insideQuotedField = false;
     for (let currentColumn = 0, idx = 0; idx < rawString.length; idx++) {
@@ -104,12 +95,22 @@ export const csv = (() => {
 
   function parse(
     rawString: string
-  ): Result<[string[], DocMovie[], ParsedRowErrors[]], CSVParsingError> {
-    const rawParseResult = rawParse(rawString);
-
-    if (Object.hasOwn(rawParseResult, "code")) {
-      return Result.err(rawParseResult as CSVParsingError);
+  ): Result<[DocMovie[], ParsedRowErrors[]], CSVParsingError> {
+    if (!rawString) {
+      return Result.err({
+        code: "no_input",
+        message: "Upload a csv to get started",
+      });
     }
+
+    if (rawString.length === 0) {
+      return Result.err({
+        code: "empty_csv",
+        message: "Provided .csv file was empty",
+      });
+    }
+
+    const rawParseResult = rawParse(rawString);
 
     const columnHeadersParseResult = getValidatedColumnHeaders(
       (rawParseResult as Generator).next().value as string[]
@@ -123,9 +124,7 @@ export const csv = (() => {
     const rows: DocMovie[] = [];
     const rowsWithIssues: ParsedRowErrors[] = [];
 
-    for (const [i, row] of enumerate<ParsedRow>(
-      rawParseResult as Generator<ParsedRow, void, undefined>
-    )) {
+    for (const [i, row] of enumerate<ParsedRow>(rawParseResult)) {
       const movie: DocMovie = {
         title: "",
         director: "",
@@ -133,7 +132,11 @@ export const csv = (() => {
         year: 0,
         date: null,
       };
-      const errors: InvalidColumnValue = {};
+      const errors: InvalidColumnValue = {
+        code: "invalid_col_value",
+        id: i as number,
+        issues: {},
+      };
       for (let j = 0; j < columnHeaders.length; j++) {
         const currentField = (row as ParsedRow)[j]?.trim();
         switch (columnHeaders[j]) {
@@ -142,7 +145,7 @@ export const csv = (() => {
             if (title.success) {
               movie["title"] = title.data;
             } else {
-              errors["title"] = title.error.issues[0]?.message;
+              errors["issues"]["title"] = title.error.issues[0]?.message;
             }
             break;
           case "series":
@@ -150,7 +153,7 @@ export const csv = (() => {
             if (series.success) {
               movie["series"] = series.data;
             } else {
-              errors["series"] = series.error.issues[0]?.message;
+              errors["issues"]["series"] = series.error.issues[0]?.message;
             }
             break;
           case "director":
@@ -158,7 +161,7 @@ export const csv = (() => {
             if (director.success) {
               movie["director"] = director.data;
             } else {
-              errors["director"] = director.error.issues[0]?.message;
+              errors["issues"]["director"] = director.error.issues[0]?.message;
             }
             break;
           case "year":
@@ -166,7 +169,7 @@ export const csv = (() => {
             if (year.success) {
               movie["year"] = year.data;
             } else {
-              errors["year"] = year.error.message;
+              errors["issues"]["year"] = year.error.message;
             }
             break;
           case "date":
@@ -174,7 +177,7 @@ export const csv = (() => {
             if (date.success) {
               movie["date"] = date.data;
             } else {
-              errors["date"] = date.error.issues[0]?.message;
+              errors["issues"]["date"] = date.error.issues[0]?.message;
             }
             break;
           default:
@@ -188,7 +191,7 @@ export const csv = (() => {
       rows.push(movie);
     }
 
-    return Result.ok([columnHeaders, rows, rowsWithIssues]);
+    return Result.ok([rows, rowsWithIssues]);
   }
 
   return { parse };
