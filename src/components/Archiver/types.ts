@@ -41,7 +41,7 @@ export type CSVParsingError =
   | InvalidColumnValue
   | NoInput;
 
-export enum Stage {
+export enum Step {
   upload,
   edit,
   index,
@@ -49,8 +49,8 @@ export enum Stage {
   review,
 }
 
-export namespace Stage {
-  export function next(value: Stage): Stage {
+export namespace Step {
+  export function next(value: Step): Step {
     return value + 1;
   }
 }
@@ -59,7 +59,7 @@ export interface ArchiverSession {
   csvString?: string;
   data?: DocMovie[];
   errors?: ParsedRowErrors[];
-  currentStage?: Stage;
+  currentStep?: Step;
 }
 
 export type ArchiverAction =
@@ -67,4 +67,4 @@ export type ArchiverAction =
   | { type: "SET_DATA"; value: DocMovie[] }
   | { type: "SET_ISSUES"; value: ParsedRowErrors[] }
   | { type: "CREATE_INDEX" }
-  | { type: "ADVANCE_STAGE" };
+  | { type: "ADVANCE_STEP" };

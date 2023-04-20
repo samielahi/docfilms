@@ -1,7 +1,7 @@
 import { ArchiverProvider } from "./ArchiverContext";
 import ArchiverProgressBar from "./ArchiverProgressBar";
-import UploadStage from "./UploadStage/UploadStage";
-import EditStage from "./EditStage/EditStage";
+import UploadStage from "./UploadStep/UploadStep";
+import EditStage from "./EditStep/EditStep";
 
 export default function Archiver() {
   return (

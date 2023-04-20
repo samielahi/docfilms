@@ -3,7 +3,7 @@ import ParseCSV from "./ParseCSV";
 import { useArchiver } from "../ArchiverContext";
 
 export default function UploadStage() {
-  const { currentStage } = useArchiver()!;
+  const { currentStep: currentStage } = useArchiver()!;
   return (
     <>
       {currentStage === 0 && (

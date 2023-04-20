@@ -1,6 +1,6 @@
 import { createContext, useContext, useReducer } from "react";
 import { blobToString } from "~/utils";
-import { Stage } from "./types";
+import { Step } from "./types";
 import type { ReactNode, Dispatch } from "react";
 import type { ArchiverSession, ArchiverAction } from "./types";
 
@@ -14,7 +14,7 @@ type Props = {
 
 export function ArchiverProvider({ children }: Props) {
   const initialState: ArchiverSession = {
-    currentStage: Stage.upload,
+    currentStep: Step.upload,
   };
 
   const [state, dispatch] = useReducer(archiverReducer, initialState);
@@ -43,9 +43,9 @@ function archiverReducer(state: ArchiverSession, action: ArchiverAction) {
       return state;
     case "CREATE_INDEX":
       return state;
-    case "ADVANCE_STAGE":
-      return (({ currentStage, ...rest }) => ({
-        currentStage: Stage.next(currentStage!),
+    case "ADVANCE_STEP":
+      return (({ currentStep: currentStage, ...rest }) => ({
+        currentStage: Step.next(currentStage!),
         ...rest,
       }))(state);
   }

@@ -2,7 +2,7 @@ import { useArchiver } from "./ArchiverContext";
 
 export default function ArchiverProgressBar() {
   const stages = ["upload", "edit", "index", "enrich", "review"];
-  const { currentStage } = useArchiver()!;
+  const { currentStep: currentStage } = useArchiver()!;
   return (
     <>
       <div className="flex gap-12">
