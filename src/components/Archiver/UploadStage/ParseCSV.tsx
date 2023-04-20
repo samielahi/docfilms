@@ -1,5 +1,5 @@
-import { useArchiver, useArchiverDispatch } from "./ArchiverContext";
-import { csv } from "./csv";
+import { useArchiver, useArchiverDispatch } from "../ArchiverContext";
+import { csv } from "../csv";
 
 export default function ParseCSV() {
   const { csvString } = useArchiver()!;
@@ -46,9 +46,9 @@ export default function ParseCSV() {
         <p>Successfully loaded {rows.length} row(s)</p>
         <button
           onClick={advance}
-          className="border-[1px] border-gray px-4 py-2 font-bold"
+          className="arrow-button pointer-events-auto relative inline-block px-8 py-4 font-bold"
         >
-          Next
+          <span className="arrow-button-text">Next</span>
         </button>
       </>
     );

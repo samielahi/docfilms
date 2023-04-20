@@ -1,5 +1,5 @@
 import { fileOpen } from "browser-fs-access";
-import { useArchiver, useArchiverDispatch } from "./ArchiverContext";
+import { useArchiver, useArchiverDispatch } from "../ArchiverContext";
 import { blobToString } from "~/utils";
 
 export default function UploadCSV() {

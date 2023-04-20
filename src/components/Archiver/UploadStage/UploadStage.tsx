@@ -1,6 +1,6 @@
 import UploadCSV from "./UploadCSV";
 import ParseCSV from "./ParseCSV";
-import { useArchiver } from "./ArchiverContext";
+import { useArchiver } from "../ArchiverContext";
 
 export default function UploadStage() {
   const { currentStage } = useArchiver()!;
