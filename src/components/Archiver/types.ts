@@ -1,4 +1,3 @@
-import type { FileWithHandle } from "browser-fs-access";
 import type { DocMovie } from "~/types";
 
 export type ParsedRow = string[];
@@ -41,7 +40,7 @@ export type CSVParsingError =
   | InvalidColumnValue
   | NoInput;
 
-export enum Step {
+export enum Section {
   upload,
   edit,
   index,
@@ -49,8 +48,8 @@ export enum Step {
   review,
 }
 
-export namespace Step {
-  export function next(value: Step): Step {
+export namespace Section {
+  export function next(value: Section): Section {
     return value + 1;
   }
 }
@@ -59,7 +58,7 @@ export interface ArchiverSession {
   csvString?: string;
   data?: DocMovie[];
   errors?: ParsedRowErrors[];
-  currentStep?: Step;
+  currentSection?: Section;
 }
 
 export type ArchiverAction =
@@ -67,4 +66,4 @@ export type ArchiverAction =
   | { type: "SET_DATA"; value: DocMovie[] }
   | { type: "SET_ISSUES"; value: ParsedRowErrors[] }
   | { type: "CREATE_INDEX" }
-  | { type: "ADVANCE_STEP" };
+  | { type: "ADVANCE" };

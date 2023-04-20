@@ -1,18 +1,27 @@
 import Image from "next/image";
 import { useArchiver } from "./ArchiverContext";
 
-type Step = "upload" | "edit" | "index" | "enrich" | "review";
+type SectionName = "upload" | "edit" | "index" | "enrich" | "review";
 
 export default function ArchiverProgressBar() {
-  const steps: Step[] = ["upload", "edit", "index", "enrich", "review"];
-  const { currentStep } = useArchiver()!;
+  const sectionNames: SectionName[] = [
+    "upload",
+    "edit",
+    "index",
+    "enrich",
+    "review",
+  ];
+  const { currentSection } = useArchiver()!;
   return (
     <>
       <div className="w-full border-b-[1px] border-gray/20 md:w-fit md:border-b-0 md:border-r-[1px]">
-        <div className="flex w-full justify-evenly gap-4 py-6 md:w-fit md:flex-col md:gap-8 md:p-12">
-          {steps.map((step) => (
+        <div className="flex w-full justify-evenly gap-4 py-6 md:w-fit md:flex-col md:gap-8 md:p-10">
+          {sectionNames.map((sectionName) => (
             <>
-              <StepBlock currentStep={steps[currentStep!]!} step={step} />
+              <SectionProgressBlock
+                currentSection={sectionNames[currentSection!]!}
+                section={sectionName}
+              />
             </>
           ))}
         </div>
@@ -21,18 +30,24 @@ export default function ArchiverProgressBar() {
   );
 }
 
-function StepBlock({ step, currentStep }: { step: Step; currentStep: Step }) {
+function SectionProgressBlock({
+  section,
+  currentSection,
+}: {
+  section: SectionName;
+  currentSection: SectionName;
+}) {
   return (
     <>
       <div className="flex w-fit items-center justify-between md:w-[200px]">
-        <span className="hidden font-bold capitalize md:block">{step}</span>
+        <span className="hidden font-bold capitalize md:block">{section}</span>
         <div
           className={`flex items-center justify-center rounded-full ${
-            currentStep === step ? "bg-orange" : "bg-white"
+            currentSection === section ? "bg-orange" : "bg-white"
           } p-4`}
         >
           <Image
-            src={getStepIcon(step)}
+            src={getSectionIcon(section)}
             width={25}
             height={25}
             alt=""
@@ -45,8 +60,8 @@ function StepBlock({ step, currentStep }: { step: Step; currentStep: Step }) {
   );
 }
 
-function getStepIcon(step: Step) {
-  switch (step) {
+function getSectionIcon(section: SectionName) {
+  switch (section) {
     case "upload":
       return "/file-up.svg";
     case "edit":
