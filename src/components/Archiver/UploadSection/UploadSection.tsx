@@ -1,5 +1,5 @@
 import SectionWrapper from "../SectionWrapper";
-import UploadCSV from "./UploadCSV";
+import LoadCSV from "./LoadCSV";
 import UploadStatus from "./UploadStatus";
 import { useArchiver } from "../ArchiverContext";
 
@@ -11,10 +11,10 @@ export default function UploadSection() {
         <SectionWrapper
           section={currentSection}
           title="Upload Capsule"
-          description="Export quarterly capsule spreadsheet as a .csv and upload. Please make sure that all required column headers are included."
+          description="Export the quarterly capsule spreadsheet as a .csv and upload here. Please make sure that the .csv follows the guidelines before uploading."
         >
           <div className="flow mt-10">
-            <UploadCSV />
+            <LoadCSV />
             <div>
               <UploadStatus />
             </div>

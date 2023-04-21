@@ -1,33 +1,11 @@
 import z from "zod";
 import { enumerate } from "~/utils";
 import { Result } from "true-myth";
+import { columnSchemas } from "./types";
 import type { DocMovie } from "~/types";
-import type {
-  ParsedRow,
-  ParsedRowErrors,
-  InvalidColumnValue,
-  CSVParsingError,
-} from "./types";
+import type { ParsedRow, ParsedRowErrors, CSVParsingError } from "./types";
 
 export const csv = (() => {
-  // Validators for column types
-  const titleSchema = z.string().min(1, { message: "'title' cannot be empty" });
-  const directorSchema = z
-    .string()
-    .min(1, { message: "'director' cannot be empty" });
-  const seriesSchema = z
-    .string()
-    .min(1, { message: "'series' cannot be empty" });
-  const yearSchema = z.number().lte(new Date().getFullYear()).gte(1895);
-  const dateSchema = z.coerce
-    .date()
-    .min(new Date("1931-01-01"), {
-      message: "Date is before the existence of docfilms",
-    })
-    .max(new Date(), {
-      message: "Please only archive movies after their showdate.",
-    });
-
   const requiredColumns = ["title", "director", "series", "date", "year"];
 
   function getValidatedColumnHeaders(
@@ -132,52 +110,52 @@ export const csv = (() => {
         year: 0,
         date: null,
       };
-      const errors: InvalidColumnValue = {
-        code: "invalid_col_value",
-        id: i as number,
-        issues: {},
+      const rowError: ParsedRowErrors = {
+        rowId: i as number,
+        errors: {},
       };
       for (let j = 0; j < columnHeaders.length; j++) {
-        const currentField = (row as ParsedRow)[j]?.trim();
+        const currentField = (row as ParsedRow)[j]?.trim().toLowerCase();
         switch (columnHeaders[j]) {
           case "title":
-            const title = titleSchema.safeParse(currentField);
+            const title = columnSchemas.title.safeParse(currentField);
             if (title.success) {
               movie["title"] = title.data;
             } else {
-              errors["issues"]["title"] = title.error.issues[0]?.message;
+              rowError["errors"]["title"] = title.error.issues[0]?.message;
             }
             break;
           case "series":
-            const series = seriesSchema.safeParse(currentField);
+            const series = columnSchemas.series.safeParse(currentField);
             if (series.success) {
               movie["series"] = series.data;
             } else {
-              errors["issues"]["series"] = series.error.issues[0]?.message;
+              rowError["errors"]["series"] = series.error.issues[0]?.message;
             }
             break;
           case "director":
-            const director = directorSchema.safeParse(currentField);
+            const director = columnSchemas.director.safeParse(currentField);
             if (director.success) {
               movie["director"] = director.data;
             } else {
-              errors["issues"]["director"] = director.error.issues[0]?.message;
+              rowError["errors"]["director"] =
+                director.error.issues[0]?.message;
             }
             break;
           case "year":
-            const year = yearSchema.safeParse(parseInt(currentField!));
+            const year = columnSchemas.year.safeParse(parseInt(currentField!));
             if (year.success) {
               movie["year"] = year.data;
             } else {
-              errors["issues"]["year"] = year.error.message;
+              rowError["errors"]["year"] = year.error.message;
             }
             break;
           case "date":
-            const date = dateSchema.safeParse(currentField);
+            const date = columnSchemas.date.safeParse(currentField);
             if (date.success) {
               movie["date"] = date.data;
             } else {
-              errors["issues"]["date"] = date.error.issues[0]?.message;
+              rowError["errors"]["date"] = date.error.issues[0]?.message;
             }
             break;
           default:
@@ -185,8 +163,8 @@ export const csv = (() => {
         }
       }
 
-      if (Object.keys(errors).length) {
-        rowsWithIssues.push({ id: i as number, errors: errors });
+      if (Object.keys(rowError.errors).length) {
+        rowsWithIssues.push(rowError);
       }
       rows.push(movie);
     }

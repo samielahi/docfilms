@@ -1,6 +1,7 @@
 import { ArchiverProvider } from "./ArchiverContext";
 import ArchiverProgressBar from "./ArchiverProgressBar";
 import UploadSection from "./UploadSection/UploadSection";
+import EditSection from "./EditSection/EditSection";
 
 export default function Archiver() {
   return (
@@ -13,6 +14,7 @@ export default function Archiver() {
       <section className="flex flex-col md:flex-row">
         <ArchiverProgressBar />
         <UploadSection />
+        <EditSection />
       </section>
     </ArchiverProvider>
   );

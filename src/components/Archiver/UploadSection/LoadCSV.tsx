@@ -2,10 +2,10 @@ import { fileOpen } from "browser-fs-access";
 import { useArchiver, useArchiverDispatch } from "../ArchiverContext";
 import { blobToString } from "~/utils";
 
-export default function UploadCSV() {
+export default function LoadCSV() {
   const dispatch = useArchiverDispatch()!;
 
-  async function uploadCSV() {
+  async function loadCSV() {
     const csvFile = await fileOpen({
       extensions: [".csv"],
     });
@@ -21,7 +21,7 @@ export default function UploadCSV() {
   return (
     <>
       <button
-        onClick={uploadCSV}
+        onClick={loadCSV}
         className="flex w-[125px] justify-center gap-4 border-[1px] border-gray py-2 px-4 font-bold transition-colors hover:bg-gray hover:text-black"
       >
         Upload

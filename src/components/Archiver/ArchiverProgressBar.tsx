@@ -16,13 +16,12 @@ export default function ArchiverProgressBar() {
     <>
       <div className="w-full border-b-[1px] border-gray/20 md:w-fit md:border-b-0 md:border-r-[1px]">
         <div className="flex w-full justify-evenly gap-4 py-6 md:w-fit md:flex-col md:gap-8 md:p-10">
-          {sectionNames.map((sectionName) => (
-            <>
-              <SectionProgressBlock
-                currentSection={sectionNames[currentSection!]!}
-                section={sectionName}
-              />
-            </>
+          {sectionNames.map((sectionName, i) => (
+            <SectionProgressBlock
+              key={i}
+              currentSection={sectionNames[currentSection!]!}
+              section={sectionName}
+            />
           ))}
         </div>
       </div>

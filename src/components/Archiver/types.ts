@@ -1,16 +1,33 @@
+import z from "zod";
 import type { DocMovie } from "~/types";
+
+const titleSchema = z.string().min(1, { message: "'title' cannot be empty" });
+const directorSchema = z
+  .string()
+  .min(1, { message: "'director' cannot be empty" });
+const seriesSchema = z.string().min(1, { message: "'series' cannot be empty" });
+const yearSchema = z.number().lte(new Date().getFullYear()).gte(1895);
+const dateSchema = z.coerce
+  .date()
+  .min(new Date("1931-01-01"), {
+    message: "Date is before the existence of docfilms",
+  })
+  .max(new Date(), {
+    message: "Please only archive movies after their showdate.",
+  });
+
+export const columnSchemas = {
+  title: titleSchema,
+  director: directorSchema,
+  year: yearSchema,
+  series: seriesSchema,
+  date: dateSchema,
+};
 
 export type ParsedRow = string[];
 export type ParsedRowErrors = {
-  id: number;
-  errors: CSVParsingError;
-};
-
-export type InvalidColumnValue = {
-  code: "invalid_col_value";
-  id: number;
-  issues: Partial<Record<keyof DocMovie, string>>;
-  message?: string;
+  rowId: number;
+  errors: Partial<Record<keyof DocMovie, string>>;
 };
 
 type DuplicateHeader = {
@@ -37,7 +54,6 @@ export type CSVParsingError =
   | DuplicateHeader
   | MissingRequiredColumn
   | EmptyInput
-  | InvalidColumnValue
   | NoInput;
 
 export enum Section {
@@ -58,6 +74,7 @@ export interface ArchiverSession {
   csvString?: string;
   data?: DocMovie[];
   errors?: ParsedRowErrors[];
+
   currentSection?: Section;
 }
 
