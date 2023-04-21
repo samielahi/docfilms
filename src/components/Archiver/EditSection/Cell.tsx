@@ -1,11 +1,11 @@
-import type { Dispatch, SetStateAction } from "react";
-import type { DocMovie } from "~/types";
+import type { Updater } from "use-immer";
+import type { Row } from "../types";
 
 type Props = {
-  type: keyof DocMovie;
+  type: keyof Row;
   value: string | number;
   editable: boolean;
-  setValue?: Dispatch<SetStateAction<any>>;
+  setValue?: Updater<Row>;
 };
 
 export default function Cell(props: Props) {
@@ -27,7 +27,9 @@ export default function Cell(props: Props) {
             value={value}
             onChange={(e) => {
               const newYearValue = parseInt(e.target.value);
-              setValue!(newYearValue);
+              setValue!((draft) => {
+                draft[type] = newYearValue;
+              });
             }}
             className="mr-[-1px] border-[1px] border-gray/20 bg-black px-4 py-2 text-base text-white focus:outline-none"
           />
@@ -56,7 +58,9 @@ export default function Cell(props: Props) {
             max={new Date().toISOString().split("T")[0]}
             value={value}
             onChange={(e) => {
-              setValue!(e.target.value);
+              setValue!((draft) => {
+                draft[type] = e.target.value;
+              });
             }}
             className="mr-[-1px] w-min border-[1px] border-gray/20 bg-black px-4 py-2 text-base focus:outline-none"
           />
@@ -80,7 +84,9 @@ export default function Cell(props: Props) {
           value={value}
           min={1}
           onChange={(e) => {
-            setValue!(e.target.value);
+            setValue!((draft) => {
+              draft[type] = e.target.value;
+            });
           }}
           className="mr-[-1px] w-min border-[1px] border-gray/20 bg-black px-4 py-2 text-base  text-white focus:outline-none"
         />

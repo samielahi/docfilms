@@ -24,6 +24,14 @@ export const columnSchemas = {
   date: dateSchema,
 };
 
+export type Row = {
+  title: string;
+  year: number;
+  date: string;
+  series: string;
+  director: string;
+};
+
 export type ParsedRow = string[];
 export type ParsedRowErrors = {
   rowId: number;
