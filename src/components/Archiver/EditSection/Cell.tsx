@@ -14,7 +14,11 @@ export default function Cell(props: Props) {
   if (type === "year") {
     return (
       <div className="flex flex-col items-center gap-2">
-        <span className="text-base font-bold">{type}</span>
+        <span
+          className={`text-base font-bold ${editable ? "text-orange" : ""}`}
+        >
+          {type}
+        </span>
         {editable ? (
           <input
             type="number"
@@ -25,7 +29,7 @@ export default function Cell(props: Props) {
               const newYearValue = parseInt(e.target.value);
               setValue!(newYearValue);
             }}
-            className="mr-[-1px] w-min border-[1px] border-gray/20 bg-black px-4 py-2 text-base  text-white invalid:border-red-600 invalid:text-red-600 focus:outline-none"
+            className="mr-[-1px] border-[1px] border-gray/20 bg-black px-4 py-2 text-base text-white focus:outline-none"
           />
         ) : (
           <span className="mr-[-1px] border-[1px] border-gray/20 px-4 py-2 text-base">
@@ -38,8 +42,12 @@ export default function Cell(props: Props) {
 
   if (type === "date") {
     return (
-      <div className="flex flex-col items-center gap-2">
-        <span className="text-base font-bold">{type}</span>
+      <div className="flex  flex-col items-center gap-2">
+        <span
+          className={`text-base font-bold ${editable ? "text-orange" : ""}`}
+        >
+          {type}
+        </span>
 
         {editable ? (
           <input
@@ -50,7 +58,7 @@ export default function Cell(props: Props) {
             onChange={(e) => {
               setValue!(e.target.value);
             }}
-            className="mr-[-1px] w-min border-[1px] border-gray/20 bg-black px-4 py-2 text-base  invalid:text-red-600 focus:outline-none"
+            className="mr-[-1px] w-min border-[1px] border-gray/20 bg-black px-4 py-2 text-base focus:outline-none"
           />
         ) : (
           <span className="mr-[-1px] border-[1px] border-gray/20 px-4 py-2 text-base">
@@ -63,7 +71,9 @@ export default function Cell(props: Props) {
 
   return (
     <div className="flex flex-col items-center gap-2">
-      <span className="text-base font-bold">{type}</span>
+      <span className={`text-base font-bold ${editable ? "text-orange" : ""}`}>
+        {type}
+      </span>
       {editable ? (
         <input
           type="text"
@@ -72,7 +82,7 @@ export default function Cell(props: Props) {
           onChange={(e) => {
             setValue!(e.target.value);
           }}
-          className="mr-[-1px] w-min border-[1px] border-gray/20 bg-black px-4 py-2 text-base  text-white invalid:border-red-600 focus:outline-none"
+          className="mr-[-1px] w-min border-[1px] border-gray/20 bg-black px-4 py-2 text-base  text-white focus:outline-none"
         />
       ) : (
         <span className="mr-[-1px] border-[1px] border-gray/20 px-4 py-2 text-base">

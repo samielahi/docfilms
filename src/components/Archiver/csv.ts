@@ -147,7 +147,7 @@ export const csv = (() => {
             if (year.success) {
               movie["year"] = year.data;
             } else {
-              rowError["errors"]["year"] = year.error.message;
+              rowError["errors"]["year"] = year.error.issues[0]?.message;
             }
             break;
           case "date":

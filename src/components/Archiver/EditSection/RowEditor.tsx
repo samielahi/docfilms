@@ -25,12 +25,12 @@ export default function RowEditor(props: Props) {
   const [date, setDate] = useState(movie.date?.toISOString().split("T")[0]);
 
   return (
-    <div className="flow mt-6 border-[1px] border-gray/20 p-10 md:mt-10">
+    <div className="flow mt-6 overflow-auto border-[1px] border-gray/20 p-10 md:mt-10">
       <h3 className="font-bold">Row {rowError.rowId + 1}</h3>
       {Object.values(rowError.errors).map((message, i) => (
         <Warning message={message} key={i} />
       ))}
-      <div className="flex items-center gap-0">
+      <div className="flex w-full flex-col gap-2 md:flex-row">
         <Cell
           editable={columnsWithErrors.has("title")}
           type="title"

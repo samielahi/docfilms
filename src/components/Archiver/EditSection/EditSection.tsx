@@ -17,7 +17,7 @@ export default function EditSection() {
     <>
       {currentSection === 1 && (
         <SectionWrapper
-          title="Edit Rows With Issues"
+          title="Edit Rows"
           description="If there are any issues detected with the uploaded data, you can fix them here."
           section={currentSection}
         >
