@@ -1,42 +1,10 @@
 import z from "zod";
-import { enumerate } from "~/utils";
+import { enumerate, createFrequencyMap } from "~/utils";
 import { Result } from "true-myth";
 import { columnSchemas } from "./types";
-import type { DocMovie } from "~/types";
-import type { ParsedRow, ParsedRowErrors, CSVParsingError } from "./types";
+import type { ParsedRow, Row, Column, CSVParsingError } from "./types";
 
 export const csv = (() => {
-  const requiredColumns = ["title", "director", "series", "date", "year"];
-
-  function getValidatedColumnHeaders(
-    headers: string[]
-  ): Result<string[], CSVParsingError> {
-    // Trim whitespace and lowercase the headers
-    const cleanedHeaders = headers.map((header) => header.trim().toLowerCase());
-    const cleanedHeadersSet = new Set(cleanedHeaders);
-    const hasDuplicateHeaders =
-      Array.from(cleanedHeadersSet).length !== cleanedHeaders.length;
-
-    if (hasDuplicateHeaders) {
-      return Result.err({
-        code: "duplicate_header",
-        message:
-          "Duplicate column headers found, please provide a .csv file with only one of each required column header",
-      });
-    }
-
-    for (const header of requiredColumns) {
-      if (!cleanedHeadersSet.has(header)) {
-        return Result.err({
-          code: "missing_required_col",
-          message: `File missing required column: '${header}', try again.`,
-        });
-      }
-    }
-
-    return Result.ok(cleanedHeaders);
-  }
-
   function* rawParse(rawString: string): Generator<ParsedRow, void, undefined> {
     let currentRow: string[] = [];
     let insideQuotedField = false;
@@ -71,9 +39,48 @@ export const csv = (() => {
     currentRow.length && (yield currentRow);
   }
 
-  function parse(
-    rawString: string
-  ): Result<[DocMovie[], ParsedRowErrors[]], CSVParsingError> {
+  const requiredColumns = new Set<Column>([
+    "title",
+    "date",
+    "director",
+    "series",
+    "year",
+  ]);
+
+  function cleanColumns(values: ParsedRow): ParsedRow {
+    return values.map((value) => value.trim().toLowerCase());
+  }
+
+  function validateColumns(
+    values: ParsedRow
+  ): Result<ParsedRow, CSVParsingError> {
+    const cleanedValues = cleanColumns(values);
+    const valueFrequencyMap = createFrequencyMap<string>(cleanedValues);
+
+    for (const column of requiredColumns) {
+      const count = valueFrequencyMap.get(column);
+      // If the count doesn't exist then report that the column is missing
+      if (!count) {
+        return Result.err({
+          code: "missing_required_col",
+          message: `File missing required column: '${column}', try again.`,
+        });
+      }
+
+      // If the column exists (because it has a count), but it's > 1 then report it as a duplicate
+      if (count > 1) {
+        return Result.err({
+          code: "duplicate_column",
+          message: `Duplicate '${column}' column found, please provide a csv with only one of each required column.`,
+        });
+      }
+    }
+
+    return Result.ok(cleanedValues);
+  }
+
+  function parse(rawString: string): Result<Row[], CSVParsingError> {
+    // For undefined or null input, report no_input error
     if (!rawString) {
       return Result.err({
         code: "no_input",
@@ -81,6 +88,7 @@ export const csv = (() => {
       });
     }
 
+    // If the string is empty, report empty_csv error
     if (rawString.length === 0) {
       return Result.err({
         code: "empty_csv",
@@ -88,74 +96,72 @@ export const csv = (() => {
       });
     }
 
-    const rawParseResult = rawParse(rawString);
+    const rawParsedCSV = rawParse(rawString);
 
-    const columnHeadersParseResult = getValidatedColumnHeaders(
-      (rawParseResult as Generator).next().value as string[]
+    // First yield from rawParsedCSV Generator should be row of column headers
+    const columns = validateColumns(
+      (rawParsedCSV as Generator).next().value as ParsedRow
     );
 
-    if (columnHeadersParseResult.isErr) {
-      return Result.err(columnHeadersParseResult.error);
+    // Report any issues with validating columns
+    if (columns.isErr) {
+      return Result.err(columns.error);
     }
 
-    const columnHeaders = columnHeadersParseResult.value;
-    const rows: DocMovie[] = [];
-    const rowsWithIssues: ParsedRowErrors[] = [];
+    const validatedColumns = columns.value;
+    const rows: Row[] = [];
 
-    for (const [i, row] of enumerate<ParsedRow>(rawParseResult)) {
-      const movie: DocMovie = {
+    for (const parsedRow of rawParsedCSV) {
+      const row: Row = {
         title: "",
         director: "",
         series: "",
         year: 0,
-        date: null,
-      };
-      const rowError: ParsedRowErrors = {
-        rowId: i as number,
+        date: undefined,
         errors: {},
       };
-      for (let j = 0; j < columnHeaders.length; j++) {
-        const currentField = (row as ParsedRow)[j]?.trim().toLowerCase();
-        switch (columnHeaders[j]) {
+
+      for (let idx = 0; idx < validatedColumns.length; idx++) {
+        const currentField = parsedRow[idx]?.trim().toLowerCase();
+        switch (validatedColumns[idx]) {
           case "title":
-            const title = columnSchemas.title.safeParse(currentField);
+            const title = columnSchemas.title!.safeParse(currentField);
             if (title.success) {
-              movie["title"] = title.data;
+              row["title"] = title.data as string;
             } else {
-              rowError["errors"]["title"] = title.error.issues[0]?.message;
+              row["errors"]!["title"] = title.error.issues[0]?.message;
             }
             break;
           case "series":
-            const series = columnSchemas.series.safeParse(currentField);
+            const series = columnSchemas.series!.safeParse(currentField);
             if (series.success) {
-              movie["series"] = series.data;
+              row["series"] = series.data as string;
             } else {
-              rowError["errors"]["series"] = series.error.issues[0]?.message;
+              row["errors"]!["series"] = series.error.issues[0]?.message;
             }
             break;
           case "director":
-            const director = columnSchemas.director.safeParse(currentField);
+            const director = columnSchemas.director!.safeParse(currentField);
             if (director.success) {
-              movie["director"] = director.data;
+              row["director"] = director.data as string;
             } else {
-              rowError["errors"]["director"] =
-                director.error.issues[0]?.message;
+              row["errors"]!["director"] = director.error.issues[0]?.message;
             }
             break;
           case "year":
-            const year = columnSchemas.year.safeParse(parseInt(currentField!));
+            const year = columnSchemas.year!.safeParse(parseInt(currentField!));
             if (year.success) {
-              movie["year"] = year.data;
+              row["year"] = year.data as number;
             } else {
-              rowError["errors"]["year"] = year.error.issues[0]?.message;
+              row["errors"]!["year"] = year.error.issues[0]?.message;
             }
             break;
           case "date":
-            const date = columnSchemas.date.safeParse(currentField);
+            const date = columnSchemas.date!.safeParse(currentField);
             if (date.success) {
-              movie["date"] = date.data;
+              row["date"] = date.data as Date;
             } else {
-              rowError["errors"]["date"] = date.error.issues[0]?.message;
+              row["errors"]!["date"] = date.error.issues[0]?.message;
             }
             break;
           default:
@@ -163,13 +169,10 @@ export const csv = (() => {
         }
       }
 
-      if (Object.keys(rowError.errors).length) {
-        rowsWithIssues.push(rowError);
-      }
-      rows.push(movie);
+      rows.push(row);
     }
 
-    return Result.ok([rows, rowsWithIssues]);
+    return Result.ok(rows);
   }
 
   return { parse };

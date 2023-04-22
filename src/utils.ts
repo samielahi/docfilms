@@ -31,6 +31,19 @@ function* enumerate<T>(iterable: IterableIterator<T>) {
   }
 }
 
+function createFrequencyMap<T>(array: T[]) {
+  const map = new Map<T, number>();
+  for (const value of array) {
+    const count = map.get(value);
+    if (count) {
+      map.set(value, count + 1);
+    } else {
+      map.set(value, 1);
+    }
+  }
+  return map;
+}
+
 function blobToString(blob: Blob | File): Promise<string> {
   return new Promise<string>((resolve, reject) => {
     const reader = new FileReader();
@@ -41,4 +54,10 @@ function blobToString(blob: Blob | File): Promise<string> {
   });
 }
 
-export { createMappingFn, getDateObject, blobToString, enumerate };
+export {
+  createMappingFn,
+  getDateObject,
+  createFrequencyMap,
+  blobToString,
+  enumerate,
+};

@@ -1,13 +1,14 @@
 import z from "zod";
-import type { DocMovie } from "~/types";
 
-const titleSchema = z.string().min(1, { message: "'title' cannot be empty" });
-const directorSchema = z
+const Title = z.string().min(1, { message: "Column 'title' cannot be empty" });
+const Director = z
   .string()
-  .min(1, { message: "'director' cannot be empty" });
-const seriesSchema = z.string().min(1, { message: "'series' cannot be empty" });
-const yearSchema = z.number().lte(new Date().getFullYear()).gte(1895);
-const dateSchema = z.coerce
+  .min(1, { message: "Column 'director' cannot be empty" });
+const Series = z
+  .string()
+  .min(1, { message: "Column 'series' cannot be empty" });
+const Year = z.number().lte(new Date().getFullYear()).gte(1895);
+const DateShown = z.coerce
   .date()
   .min(new Date("1931-01-01"), {
     message: "Date is before the existence of docfilms",
@@ -16,30 +17,39 @@ const dateSchema = z.coerce
     message: "Please only archive movies after their showdate.",
   });
 
-export const columnSchemas = {
-  title: titleSchema,
-  director: directorSchema,
-  year: yearSchema,
-  series: seriesSchema,
-  date: dateSchema,
+export const columnSchemas: Record<
+  string,
+  z.ZodString | z.ZodNumber | z.ZodDate
+> = {
+  title: Title,
+  director: Director,
+  year: Year,
+  series: Series,
+  date: DateShown,
 };
 
-export type Row = {
-  title: string;
-  year: number;
-  date: string;
-  series: string;
-  director: string;
-};
+type Title = z.infer<typeof Title>;
+type Director = z.infer<typeof Director>;
+type Series = z.infer<typeof Series>;
+type Year = z.infer<typeof Year>;
+type DateShown = z.infer<typeof DateShown>;
+
+export type Column = "title" | "year" | "director" | "date" | "series";
+
+export interface Row {
+  title?: Title;
+  year?: Year;
+  date?: DateShown;
+  series?: Series;
+  director?: Director;
+  errors?: Partial<Record<Column, string>> | null;
+}
 
 export type ParsedRow = string[];
-export type ParsedRowErrors = {
-  rowId: number;
-  errors: Partial<Record<keyof DocMovie, string>>;
-};
 
-type DuplicateHeader = {
-  code: "duplicate_header";
+// CSV Parsing Errors
+type DuplicateColumn = {
+  code: "duplicate_column";
   message: string;
 };
 
@@ -59,11 +69,12 @@ type NoInput = {
 };
 
 export type CSVParsingError =
-  | DuplicateHeader
+  | DuplicateColumn
   | MissingRequiredColumn
   | EmptyInput
   | NoInput;
 
+// Archiver section
 export enum Section {
   upload,
   edit,
@@ -78,17 +89,15 @@ export namespace Section {
   }
 }
 
+// Archiver Context
 export interface ArchiverSession {
   csvString?: string;
-  data?: DocMovie[];
-  errors?: ParsedRowErrors[];
-
+  rows: Row[];
   currentSection?: Section;
 }
 
 export type ArchiverAction =
   | { type: "LOAD_CSV"; value: string }
-  | { type: "SET_DATA"; value: DocMovie[] }
-  | { type: "SET_ISSUES"; value: ParsedRowErrors[] }
+  | { type: "SET_DATA"; value: Row[] }
   | { type: "CREATE_INDEX" }
   | { type: "ADVANCE" };

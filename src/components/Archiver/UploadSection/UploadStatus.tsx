@@ -24,7 +24,7 @@ export default function UploadStatus() {
       });
 
       dispatch({
-        type: "SET_ISSUES",
+        type: "SET_ERRORS",
         value: issues,
       });
 
