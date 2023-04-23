@@ -1,43 +1,20 @@
-import type { Updater } from "use-immer";
-import type { Row } from "../types";
+import type { Column } from "../types";
 
 type Props = {
-  type: keyof Row;
-  value: string | number;
-  editable: boolean;
-  setValue?: Updater<Row>;
+  type: Column;
+  value: string | number | Date;
 };
 
 export default function Cell(props: Props) {
-  const { type, value, editable, setValue } = props;
+  const { type, value } = props;
 
   if (type === "year") {
     return (
       <div className="flex flex-col items-center gap-2">
-        <span
-          className={`text-base font-bold ${editable ? "text-orange" : ""}`}
-        >
-          {type}
+        <span className="text-base font-bold">{type}</span>
+        <span className="mr-[-1px] border-[1px] border-gray/20 px-4 py-2 text-base">
+          {value as number}
         </span>
-        {editable ? (
-          <input
-            type="number"
-            min={1895}
-            max={new Date().getFullYear()}
-            value={value}
-            onChange={(e) => {
-              const newYearValue = parseInt(e.target.value);
-              setValue!((draft) => {
-                draft[type] = newYearValue;
-              });
-            }}
-            className="mr-[-1px] border-[1px] border-gray/20 bg-black px-4 py-2 text-base text-white focus:outline-none"
-          />
-        ) : (
-          <span className="mr-[-1px] border-[1px] border-gray/20 px-4 py-2 text-base">
-            {value}
-          </span>
-        )}
       </div>
     );
   }
@@ -45,56 +22,21 @@ export default function Cell(props: Props) {
   if (type === "date") {
     return (
       <div className="flex  flex-col items-center gap-2">
-        <span
-          className={`text-base font-bold ${editable ? "text-orange" : ""}`}
-        >
-          {type}
-        </span>
+        <span className="text-base font-bold">{type}</span>
 
-        {editable ? (
-          <input
-            type="date"
-            min="1895-01-01"
-            max={new Date().toISOString().split("T")[0]}
-            value={value}
-            onChange={(e) => {
-              setValue!((draft) => {
-                draft[type] = e.target.value;
-              });
-            }}
-            className="mr-[-1px] w-min border-[1px] border-gray/20 bg-black px-4 py-2 text-base focus:outline-none"
-          />
-        ) : (
-          <span className="mr-[-1px] border-[1px] border-gray/20 px-4 py-2 text-base">
-            {value}
-          </span>
-        )}
+        <span className="mr-[-1px] border-[1px] border-gray/20 px-4 py-2 text-base">
+          {(value as Date).toISOString().split("T")[0]}
+        </span>
       </div>
     );
   }
 
   return (
     <div className="flex flex-col items-center gap-2">
-      <span className={`text-base font-bold ${editable ? "text-orange" : ""}`}>
-        {type}
+      <span className="text-base font-bold">{type}</span>
+      <span className="mr-[-1px] border-[1px] border-gray/20 px-4 py-2 text-base">
+        {value as string}
       </span>
-      {editable ? (
-        <input
-          type="text"
-          value={value}
-          min={1}
-          onChange={(e) => {
-            setValue!((draft) => {
-              draft[type] = e.target.value;
-            });
-          }}
-          className="mr-[-1px] w-min border-[1px] border-gray/20 bg-black px-4 py-2 text-base  text-white focus:outline-none"
-        />
-      ) : (
-        <span className="mr-[-1px] border-[1px] border-gray/20 px-4 py-2 text-base">
-          {value}
-        </span>
-      )}
     </div>
   );
 }

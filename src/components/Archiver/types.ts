@@ -39,10 +39,10 @@ export type Column = "title" | "year" | "director" | "date" | "series";
 export interface Row {
   title?: Title;
   year?: Year;
-  date?: DateShown;
+  date?: DateShown | string;
   series?: Series;
   director?: Director;
-  errors?: Partial<Record<Column, string>> | null;
+  errors?: Partial<Record<Column, string>>;
 }
 
 export type ParsedRow = string[];
@@ -98,6 +98,6 @@ export interface ArchiverSession {
 
 export type ArchiverAction =
   | { type: "LOAD_CSV"; value: string }
-  | { type: "SET_DATA"; value: Row[] }
+  | { type: "SET_ROWS"; value: Row[] }
   | { type: "CREATE_INDEX" }
   | { type: "ADVANCE" };

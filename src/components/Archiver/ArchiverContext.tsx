@@ -13,6 +13,7 @@ type Props = {
 
 export function ArchiverProvider({ children }: Props) {
   const initialState: ArchiverSession = {
+    rows: [],
     currentSection: Section.upload,
   };
 
@@ -36,14 +37,9 @@ function archiverReducer(state: ArchiverSession, action: ArchiverAction) {
         csvString: action.value,
         ...rest,
       }))(state);
-    case "SET_DATA":
-      return (({ data, ...rest }) => ({
-        data: action.value,
-        ...rest,
-      }))(state);
-    case "SET_ISSUES":
-      return (({ errors, ...rest }) => ({
-        errors: action.value,
+    case "SET_ROWS":
+      return (({ rows, ...rest }) => ({
+        rows: action.value,
         ...rest,
       }))(state);
     case "CREATE_INDEX":

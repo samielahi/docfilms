@@ -2,12 +2,13 @@ import SectionWrapper from "../SectionWrapper";
 import LoadCSV from "./LoadCSV";
 import UploadStatus from "./UploadStatus";
 import { useArchiver } from "../ArchiverContext";
+import { Section } from "../types";
 
 export default function UploadSection() {
   const { currentSection } = useArchiver()!;
   return (
     <>
-      {currentSection === 0 && (
+      {currentSection === Section.upload && (
         <SectionWrapper
           section={currentSection}
           title="Upload Capsule"

@@ -14,18 +14,13 @@ export default function UploadStatus() {
   }
 
   if (parsedCSV.isOk) {
-    const [rows, issues] = parsedCSV.value;
-    console.log(rows, issues);
+    const rows = parsedCSV.value;
+    console.log(rows);
 
     function advance() {
       dispatch({
-        type: "SET_DATA",
+        type: "SET_ROWS",
         value: rows,
-      });
-
-      dispatch({
-        type: "SET_ERRORS",
-        value: issues,
       });
 
       dispatch({
