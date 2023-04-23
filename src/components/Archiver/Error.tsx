@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-export default function Warning({ message }: { message: string }) {
+export default function Error({ message }: { message: string }) {
   return (
     <div className="flex items-center gap-4">
       <Image

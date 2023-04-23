@@ -1,20 +1,16 @@
 import z from "zod";
 
-const Title = z.string().min(1, { message: "Column 'title' cannot be empty" });
-const Director = z
-  .string()
-  .min(1, { message: "Column 'director' cannot be empty" });
-const Series = z
-  .string()
-  .min(1, { message: "Column 'series' cannot be empty" });
+const Title = z.string().min(1, { message: "Cannot be empty" });
+const Director = z.string().min(1, { message: "Cannot be empty" });
+const Series = z.string().min(1, { message: "Cannot be empty" });
 const Year = z.number().lte(new Date().getFullYear()).gte(1895);
 const DateShown = z.coerce
   .date()
   .min(new Date("1931-01-01"), {
-    message: "Date is before the existence of docfilms",
+    message: "Show date cannot be before the existence of docfilms",
   })
   .max(new Date(), {
-    message: "Please only archive movies after their showdate.",
+    message: "Show date cannot be in the future",
   });
 
 export const columnSchemas: Record<
@@ -34,8 +30,6 @@ type Series = z.infer<typeof Series>;
 type Year = z.infer<typeof Year>;
 type DateShown = z.infer<typeof DateShown>;
 
-export type Column = "title" | "year" | "director" | "date" | "series";
-
 export interface Row {
   title?: Title;
   year?: Year;
@@ -44,6 +38,7 @@ export interface Row {
   director?: Director;
   errors?: Partial<Record<Column, string>>;
 }
+export type Column = "title" | "year" | "director" | "date" | "series";
 
 export type ParsedRow = string[];
 

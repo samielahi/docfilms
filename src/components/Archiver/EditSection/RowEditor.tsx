@@ -1,52 +1,105 @@
-import { useArchiver, useArchiverDispatch } from "../ArchiverContext";
-import NextButton from "../NextButton";
 import EditableCell from "./EditableCell";
 import Cell from "./Cell";
-import Warning from "../Warning";
-import { useImmer } from "use-immer";
-import { columnSchemas } from "../types";
+import Error from "../Error";
+import useRowEditor from "./useRowEditor";
 import type { Row, Column } from "../types";
+import type { ChangeEvent } from "react";
 
 type Props = {
   rowWithError: Row;
-  id: number;
+  rowId: number;
 };
 
-const columns: Column[] = ["title", "year", "series", "date", "director"];
-
-export default function RowEditor(props: Props) {
-  const { rowWithError, id } = props;
-  const columnsWithErrors = new Set(Object.keys(rowWithError.errors!));
-  const dispatch = useArchiverDispatch()!;
-
-  const [row, setRow] = useImmer<Row>({
-    title: rowWithError.title!,
-    year: rowWithError.year!,
-    director: rowWithError.director!,
-    series: rowWithError.series!,
-    date: rowWithError.date,
-  });
+export default function RowEditor({ rowWithError, rowId }: Props) {
+  const [draftRow, handleRowChange, confirmRowChanges] = useRowEditor(
+    rowId,
+    rowWithError
+  );
+  const columnsWithErrors = new Set<Column>(
+    Object.keys(rowWithError.errors!) as Column[]
+  );
 
   return (
     <div className="flow mt-6 overflow-auto border-[1px] border-gray/20 p-10 md:mt-10">
-      <h3 className="font-bold">Row {id + 1}</h3>
-      {Object.values(rowWithError.errors!).map((message, i) => (
-        <Warning message={message} key={i} />
-      ))}
-      <div className="flex w-full flex-col gap-2 md:flex-row">
-        {columns.map((col, i) =>
-          columnsWithErrors.has(col) ? (
-            <EditableCell
-              key={i}
-              type={col}
-              value={row[col]!}
-              setValue={setRow}
-            />
-          ) : (
-            <Cell key={i} type={col} value={row[col]!} />
-          )
-        )}
-      </div>
+      <h3 className="font-bold">Row {rowId + 1}</h3>
+
+      <Errors draftRow={draftRow as Row} />
+
+      <EditableRow
+        draftRow={draftRow as Row}
+        columnsWithErrors={columnsWithErrors}
+        handleRowChange={
+          handleRowChange as (e: ChangeEvent, type: Column) => void
+        }
+      />
+
+      <ConfirmChanges
+        draftRow={draftRow as Row}
+        confirmRowChanges={confirmRowChanges as () => void}
+      />
     </div>
+  );
+}
+
+function Errors({ draftRow }: { draftRow: Row }) {
+  return (
+    <>
+      {Object.entries(draftRow.errors!).map(([column, message], i) => (
+        <Error message={`Column '${column}': ` + message} key={i} />
+      ))}
+    </>
+  );
+}
+
+function EditableRow({
+  draftRow,
+  columnsWithErrors,
+  handleRowChange,
+}: {
+  draftRow: Row;
+  columnsWithErrors: Set<Column>;
+  handleRowChange: (e: ChangeEvent, type: Column) => void;
+}) {
+  const columns: Column[] = ["title", "year", "series", "date", "director"];
+
+  return (
+    <div className="flex w-full flex-col gap-2 md:flex-row">
+      {columns.map((col, i) =>
+        columnsWithErrors.has(col) ? (
+          <EditableCell
+            key={i}
+            type={col}
+            value={draftRow[col]!}
+            handleChange={
+              handleRowChange as (e: ChangeEvent, type: Column) => void
+            }
+          />
+        ) : (
+          <Cell key={i} type={col} value={draftRow[col]!} />
+        )
+      )}
+    </div>
+  );
+}
+
+function ConfirmChanges({
+  draftRow,
+  confirmRowChanges,
+}: {
+  draftRow: Row;
+  confirmRowChanges: () => void;
+}) {
+  return (
+    <>
+      <div>
+        <button
+          disabled={Object.keys(draftRow.errors!).length > 0}
+          className="border-[1px] border-gray/20 px-4 py-2"
+          onClick={confirmRowChanges as () => void}
+        >
+          confirm
+        </button>
+      </div>
+    </>
   );
 }

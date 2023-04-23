@@ -1,6 +1,6 @@
 import Image from "next/image";
 import NextButton from "../NextButton";
-import Warning from "../Warning";
+import Error from "../Error";
 import { useArchiver, useArchiverDispatch } from "../ArchiverContext";
 import { csv } from "../csv";
 
@@ -10,7 +10,7 @@ export default function UploadStatus() {
   const parsedCSV = csv.parse(csvString!);
 
   if (parsedCSV.isErr && parsedCSV.error.message) {
-    return <Warning message={parsedCSV.error.message} />;
+    return <Error message={parsedCSV.error.message} />;
   }
 
   if (parsedCSV.isOk) {

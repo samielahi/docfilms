@@ -1,7 +1,6 @@
-import z from "zod";
-import { enumerate, createFrequencyMap } from "~/utils";
-import { Result } from "true-myth";
+import { createFrequencyMap } from "~/utils";
 import { columnSchemas } from "./types";
+import { Result } from "true-myth";
 import type { ParsedRow, Row, Column, CSVParsingError } from "./types";
 
 export const csv = (() => {
@@ -123,6 +122,7 @@ export const csv = (() => {
 
       for (let idx = 0; idx < validatedColumns.length; idx++) {
         const currentField = parsedRow[idx]?.trim().toLowerCase();
+        // REFACTOR
         switch (validatedColumns[idx]) {
           case "title":
             const title = columnSchemas.title!.safeParse(currentField);

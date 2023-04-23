@@ -1,14 +1,12 @@
-import { err } from "true-myth/dist/public/result";
 import { useArchiver } from "../ArchiverContext";
 import SectionWrapper from "../SectionWrapper";
 import RowEditor from "./RowEditor";
 import { Section } from "../types";
+import type { Row } from "../types";
 
 export default function EditSection() {
   const { currentSection, rows } = useArchiver()!;
-  const rowsWithErrors = rows.filter(
-    (row) => Object.keys(row.errors!).length !== 0
-  );
+  const hasErrors = (row: Row) => Object.keys(row.errors!).length > 0;
   return (
     <>
       {currentSection === Section.edit && (
@@ -19,9 +17,11 @@ export default function EditSection() {
         >
           <div className="mt-6 md:mt-10">
             <h2 className="font-bold">Issues Found</h2>
-            {rowsWithErrors?.map((row, i) => (
-              <RowEditor key={i} id={i} rowWithError={row} />
-            ))}
+            {rows?.map((row, i) => {
+              if (hasErrors(row)) {
+                return <RowEditor key={i} rowId={i} rowWithError={row} />;
+              }
+            })}
           </div>
         </SectionWrapper>
       )}
