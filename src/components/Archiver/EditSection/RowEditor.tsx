@@ -89,17 +89,18 @@ function ConfirmChanges({
   draftRow: Row;
   confirmRowChanges: () => void;
 }) {
+  const rowHasErrors = Object.keys(draftRow.errors!).length > 0;
   return (
-    <>
-      <div>
-        <button
-          disabled={Object.keys(draftRow.errors!).length > 0}
-          className="border-[1px] border-gray/20 px-4 py-2"
-          onClick={confirmRowChanges as () => void}
-        >
-          confirm
-        </button>
-      </div>
-    </>
+    <div
+      className={`${!rowHasErrors ? "flex" : "hidden"} w-full justify-end`}
+      aria-hidden={!rowHasErrors}
+    >
+      <button
+        className="border-[1px] border-gray/20 px-4 py-2 font-bold transition-colors duration-300 hover:bg-white hover:text-black"
+        onClick={confirmRowChanges as () => void}
+      >
+        confirm
+      </button>
+    </div>
   );
 }

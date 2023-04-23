@@ -20,7 +20,7 @@ export default function EditableCell({ type, value, handleChange }: Props) {
           onChange={(e) => {
             handleChange(e, type);
           }}
-          className="mr-[-1px] border-[1px] border-gray/20 bg-black px-4 py-2 text-base text-white focus:outline-none"
+          className="mr-[-1px] border-[1px] border-orange bg-black px-4 py-2 text-base text-white focus:outline-none"
         />
       </CellWrapper>
     );
@@ -37,7 +37,7 @@ export default function EditableCell({ type, value, handleChange }: Props) {
           onChange={(e) => {
             handleChange(e, type);
           }}
-          className="mr-[-1px] w-min border-[1px] border-gray/20 bg-black px-4 py-2 text-base focus:outline-none"
+          className="mr-[-1px] w-min border-[1px] border-orange bg-black px-4 py-2 text-base focus:outline-none"
         />
       </CellWrapper>
     );
@@ -52,7 +52,7 @@ export default function EditableCell({ type, value, handleChange }: Props) {
         onChange={(e) => {
           handleChange(e, type);
         }}
-        className="mr-[-1px] w-min border-[1px] border-gray/20 bg-black px-4 py-2 text-base  text-white focus:outline-none"
+        className="mr-[-1px] w-min border-[1px] border-orange bg-black px-4 py-2 text-base text-white "
       />
     </CellWrapper>
   );
