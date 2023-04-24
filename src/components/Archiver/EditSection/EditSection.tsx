@@ -1,4 +1,5 @@
 import { useArchiver, useArchiverDispatch } from "../ArchiverContext";
+import { useMemo } from "react";
 import SectionWrapper from "../SectionWrapper";
 import RowEditor from "./RowEditor";
 import NextButton from "../NextButton";
@@ -7,9 +8,9 @@ import { Section } from "../types";
 export default function EditSection() {
   const { currentSection, rows } = useArchiver()!;
   const dispatch = useArchiverDispatch()!;
-  const rowsWithErrors = rows.filter(
-    (row) => Object.keys(row.errors!).length > 0
-  );
+  const rowsWithErrors = useMemo(() => {
+    return rows.filter((row) => Object.keys(row.errors!).length > 0);
+  }, [rows]);
 
   return (
     <>

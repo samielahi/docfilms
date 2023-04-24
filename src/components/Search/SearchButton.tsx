@@ -1,16 +1,17 @@
 import { useSearch } from "./SearchContext";
 import { useRouter } from "next/router";
+import { useCallback } from "react";
 
 export default function SearchButton() {
   const { currentQuery, fullSize } = useSearch()!;
   const router = useRouter();
 
-  function routeToSearchResults() {
+  const routeToSearchResults = useCallback(() => {
     if (currentQuery.length > 0) {
       // router.push returns a Promise, void to get around eslint
       void router.push(`/search?q=${currentQuery}`);
     }
-  }
+  }, [currentQuery, router]);
 
   return (
     <>

@@ -1,13 +1,16 @@
 import Image from "next/image";
 import NextButton from "../NextButton";
 import Error from "../Error";
+import { useMemo } from "react";
 import { useArchiver, useArchiverDispatch } from "../ArchiverContext";
 import { csv } from "../csv";
 
 export default function UploadStatus() {
   const { csvString } = useArchiver()!;
   const dispatch = useArchiverDispatch()!;
-  const parsedCSV = csv.parse(csvString!);
+  const parsedCSV = useMemo(() => {
+    return csv.parse(csvString!);
+  }, [csvString]);
 
   if (parsedCSV.isErr && parsedCSV.error.message) {
     return <Error message={parsedCSV.error.message} />;

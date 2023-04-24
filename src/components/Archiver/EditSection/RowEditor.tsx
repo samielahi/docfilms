@@ -1,6 +1,7 @@
 import EditableCell from "./EditableCell";
 import Cell from "./Cell";
 import Error from "../Error";
+import { useMemo } from "react";
 import useRowEditor from "./useRowEditor";
 import type { Row, Column } from "../types";
 import type { ChangeEvent } from "react";
@@ -15,9 +16,10 @@ export default function RowEditor({ rowWithError, rowId }: Props) {
     rowId,
     rowWithError
   );
-  const columnsWithErrors = new Set<Column>(
-    Object.keys(rowWithError.errors!) as Column[]
-  );
+
+  const columnsWithErrors = useMemo(() => {
+    return new Set<Column>(Object.keys(rowWithError.errors!) as Column[]);
+  }, [rowWithError]);
 
   return (
     <div className="flow mt-6 overflow-auto border-[1px] border-gray/20 p-10 md:mt-10">
@@ -89,7 +91,10 @@ function ConfirmChanges({
   draftRow: Row;
   confirmRowChanges: () => void;
 }) {
-  const rowHasErrors = Object.keys(draftRow.errors!).length > 0;
+  const rowHasErrors = useMemo(() => {
+    return Object.keys(draftRow.errors!).length > 0;
+  }, [draftRow]);
+
   return (
     <div
       className={`${!rowHasErrors ? "flex" : "hidden"} w-full justify-end`}
