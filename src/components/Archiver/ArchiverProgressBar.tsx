@@ -1,16 +1,10 @@
 import Image from "next/image";
 import { useArchiver } from "./ArchiverContext";
 
-type SectionName = "upload" | "edit" | "index" | "enrich" | "review";
+type SectionName = "upload" | "edit" | "index" | "review";
 
 export default function ArchiverProgressBar() {
-  const sectionNames: SectionName[] = [
-    "upload",
-    "edit",
-    "index",
-    "enrich",
-    "review",
-  ];
+  const sectionNames: SectionName[] = ["upload", "edit", "index", "review"];
   const { currentSection } = useArchiver()!;
   return (
     <>
@@ -67,8 +61,6 @@ function getSectionIcon(section: SectionName) {
       return "/edit.svg";
     case "index":
       return "/folder-search-2.svg";
-    case "enrich":
-      return "/wand-2.svg";
     case "review":
       return "/clipboard-check.svg";
   }

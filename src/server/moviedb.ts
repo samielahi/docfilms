@@ -1,6 +1,8 @@
 // Utility functions for working with data from TMBD
 import { Result } from "true-myth";
 import z from "zod";
+import type { Row } from "~/components/Archiver/types";
+import type { DocMovie } from "~/types";
 
 const TMDBMovieSchema = z.object({
   title: z.string(),
@@ -24,11 +26,38 @@ const TMDBDirectorSchema = z.object({
   biography: z.string(),
 });
 
+const TMDBSearchSchema = z.object({
+  results: z.array(TMDBMovieSchema),
+});
+
+type TMBDSearchResult = z.infer<typeof TMDBSearchSchema>;
 export type TMDBMovie = z.infer<typeof TMDBMovieSchema>;
 export type TMDBDirectorInfo = z.infer<typeof TMDBDirectorSchema>;
 type TMDBCredits = z.infer<typeof TMDBCreditsSchema>;
 
 const moviedb = (() => {
+  async function getMovieSearchData(
+    title: string,
+    year: number
+  ): Promise<Result<TMDBMovie, Error>> {
+    const url = `https://api.themoviedb.org/3/search/movie?api_key=${process.env
+      .MOVIEDB_API_KEY!}&language=en-US&query=${title}&page=1&include_adult=false&year=${year}`;
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      return Result.err(new Error("Unable to find movie on TMBD."));
+    }
+
+    const searchResultsJson = (await response.json()) as TMBDSearchResult;
+    const movie = TMDBSearchSchema.parse(searchResultsJson).results[0]!;
+
+    Object.defineProperty(movie, "tmdbID", movie.id);
+    // @ts-ignore
+    delete movie.id;
+
+    return Result.ok(movie);
+  }
+
   async function getMovieData(
     movieId: number
   ): Promise<Result<TMDBMovie, Error>> {
@@ -110,7 +139,41 @@ const moviedb = (() => {
     }
   }
 
-  return { getMovieData, getDirectorData, getImageUrl };
+  async function enrichCapsuleData(rows: Row[]) {
+    const queriesForTMDBData = rows.map((row) => {
+      return getMovieSearchData(row.title!, row.year!);
+    });
+
+    const tmdbData = await Promise.all(queriesForTMDBData);
+
+    const enrichedData: DocMovie[] = [];
+
+    for (let i = 0; i < rows.length; i++) {
+      const { title, year, director, date, series } = rows[i]!;
+      const docData = {
+        title: title?.toLowerCase(),
+        year: year,
+        director: director?.toLowerCase(),
+        date: new Date(date!),
+        series: series?.toLowerCase(),
+        overview: "",
+        backdrop_path: "",
+        quarter: "",
+        times_shown: 1,
+        tmdbID: -1,
+      };
+
+      if (tmdbData[i]?.isErr) {
+        enrichedData.push(docData);
+      } else {
+        enrichedData.push(Object.assign(docData, tmdbData[i]));
+      }
+    }
+
+    return enrichedData;
+  }
+
+  return { getMovieData, getDirectorData, getImageUrl, enrichCapsuleData };
 })();
 
 export default moviedb;

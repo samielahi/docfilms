@@ -2,6 +2,7 @@
 import { PrismaClient } from "@prisma/client";
 import { env } from "~/env.mjs";
 import moviedb from "./moviedb";
+import type { Row } from "~/components/Archiver/types";
 import type {
   DocMovie,
   DirectorPageProps,
@@ -86,10 +87,8 @@ export const db = (() => {
       year: year!,
       director: director!,
       series: series,
-      backdrop_path: backdrop_path
-        ? moviedb.getImageUrl(backdrop_path)
-        : "/student.png",
-      tmdbID: Number(movies[0]?.tmdbID!),
+      backdrop_path: backdrop_path || "/student.png",
+      tmdbID: movies[0]?.tmdbID!,
     };
 
     return moviePageProps;
@@ -165,14 +164,19 @@ export const db = (() => {
     return seriesPageProps;
   }
 
-  /*
-  TODO:
-    - Update records based on where clause
-    - Uploading capsule csv
-      - Create records and update affected
-    - Checking if index needs to be added to and updating
-    - Delete?
-  */
+  async function insertRecords(rows: Row[]) {
+    const movies = await moviedb.enrichCapsuleData(rows);
+    const createMany = await prisma.movies.createMany({
+      data: movies,
+    });
 
-  return { getDirectorPageProps, getMoviePageProps, getSeriesPageProps };
+    return createMany.count;
+  }
+
+  return {
+    getDirectorPageProps,
+    getMoviePageProps,
+    getSeriesPageProps,
+    insertRecords,
+  };
 })();

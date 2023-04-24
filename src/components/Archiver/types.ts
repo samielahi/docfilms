@@ -74,7 +74,6 @@ export enum Section {
   upload,
   edit,
   index,
-  enrich,
   review,
 }
 
@@ -94,5 +93,4 @@ export interface ArchiverSession {
 export type ArchiverAction =
   | { type: "LOAD_CSV"; value: string }
   | { type: "SET_ROWS"; value: Row[] }
-  | { type: "CREATE_INDEX" }
   | { type: "ADVANCE" };

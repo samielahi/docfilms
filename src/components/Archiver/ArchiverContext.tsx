@@ -42,8 +42,6 @@ function archiverReducer(state: ArchiverSession, action: ArchiverAction) {
         rows: action.value,
         ...rest,
       }))(state);
-    case "CREATE_INDEX":
-      return state;
     case "ADVANCE":
       return (({ currentSection: currentSection, ...rest }) => ({
         currentSection: Section.next(currentSection!),
