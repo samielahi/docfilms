@@ -2,7 +2,7 @@ import { ArchiverProvider } from "./ArchiverContext";
 import ArchiverProgressBar from "./ArchiverProgressBar";
 import UploadSection from "./UploadSection/UploadSection";
 import EditSection from "./EditSection/EditSection";
-import IndexSection from "./IndexSection/IndexSection";
+import IndexSection from "./IndexSection";
 
 export default function Archiver() {
   return (

@@ -25,12 +25,16 @@ export const indexer = (() => {
   }
 
   function findIndicesToAdd(rows: Row[]): SearchResult[] {
+    const indicesToAdd: SearchResult[] = [];
+
+    if (!rows.length) {
+      return indicesToAdd;
+    }
+
     const movies = rows.map((row) => {
       return { title: row.title, year: row.year };
     });
     const directors = rows.map((row) => row.director);
-
-    const indicesToAdd: SearchResult[] = [];
 
     for (const movie of movies) {
       const results = document.search(movie.title!);

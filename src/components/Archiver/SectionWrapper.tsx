@@ -16,8 +16,8 @@ export default function SectionWrapper({
 }: Props) {
   return (
     <>
-      <div className="mt-6 md:p-10">
-        <div className="">
+      <div className="mt-6 w-full md:p-10">
+        <div className="w-full">
           <span className="text-base">Step {section + 1}/6</span>
           <h2 className="font-bold">{title}</h2>
           <p>{description}</p>
