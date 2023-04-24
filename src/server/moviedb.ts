@@ -36,6 +36,25 @@ export type TMDBDirectorInfo = z.infer<typeof TMDBDirectorSchema>;
 type TMDBCredits = z.infer<typeof TMDBCreditsSchema>;
 
 const moviedb = (() => {
+  function getQuarter(date: string) {
+    const splitDate = date.split("-");
+    const year = splitDate[0]!;
+    const month = parseInt(splitDate[1]!);
+    let season = null;
+
+    if (month <= 3) {
+      season = "Winter";
+    } else if (month > 3 && month <= 6) {
+      season = "Spring";
+    } else if (month > 6 && month <= 9) {
+      season = "Summer";
+    } else {
+      season = "Fall";
+    }
+
+    return season + year;
+  }
+
   async function getMovieSearchData(
     title: string,
     year: number
@@ -158,7 +177,7 @@ const moviedb = (() => {
         series: series?.toLowerCase(),
         overview: "",
         backdrop_path: "",
-        quarter: "",
+        quarter: getQuarter(date! as string),
         times_shown: 1,
         tmdbID: -1,
       };
