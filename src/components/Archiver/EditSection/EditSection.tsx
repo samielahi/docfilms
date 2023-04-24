@@ -11,8 +11,6 @@ export default function EditSection() {
     (row) => Object.keys(row.errors!).length > 0
   );
 
-  console.log(rowsWithErrors);
-
   return (
     <>
       {currentSection === Section.edit && (
