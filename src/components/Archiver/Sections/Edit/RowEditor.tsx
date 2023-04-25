@@ -3,7 +3,7 @@ import Cell from "./Cell";
 import Error from "../Error";
 import { useMemo } from "react";
 import useRowEditor from "./useRowEditor";
-import type { Row, Column } from "../types";
+import type { Row, Column } from "../../types";
 import type { ChangeEvent } from "react";
 
 type Props = {

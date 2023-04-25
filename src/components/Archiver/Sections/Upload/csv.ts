@@ -1,7 +1,7 @@
 import { createFrequencyMap } from "~/utils";
-import { columnSchemas } from "./types";
+import { columnSchemas } from "../../types";
 import { Result } from "true-myth";
-import type { ParsedRow, Row, Column, CSVParsingError } from "./types";
+import type { ParsedRow, Row, Column, CSVParsingError } from "../../types";
 
 export const csv = (() => {
   function* rawParse(rawString: string): Generator<ParsedRow, void, undefined> {

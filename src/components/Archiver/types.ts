@@ -73,11 +73,14 @@ export type CSVParsingError =
 export enum Section {
   upload,
   edit,
-  index,
   review,
 }
 
 export namespace Section {
+  export function prev(value: Section): Section {
+    return value - 1;
+  }
+
   export function next(value: Section): Section {
     return value + 1;
   }
@@ -93,4 +96,5 @@ export interface ArchiverSession {
 export type ArchiverAction =
   | { type: "LOAD_CSV"; value: string }
   | { type: "SET_ROWS"; value: Row[] }
-  | { type: "ADVANCE" };
+  | { type: "ADVANCE" }
+  | { type: "BACK" };

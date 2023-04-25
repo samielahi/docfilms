@@ -2,8 +2,8 @@ import Image from "next/image";
 import NextButton from "../NextButton";
 import Error from "../Error";
 import { useMemo } from "react";
-import { useArchiver, useArchiverDispatch } from "../ArchiverContext";
-import { csv } from "../csv";
+import { useArchiver, useArchiverDispatch } from "../../ArchiverContext";
+import { csv } from "./csv";
 
 export default function UploadStatus() {
   const { csvString } = useArchiver()!;

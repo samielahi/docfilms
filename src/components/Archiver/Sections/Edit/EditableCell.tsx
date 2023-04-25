@@ -1,5 +1,5 @@
 import { CellWrapper } from "./Cell";
-import type { Column } from "../types";
+import type { Column } from "../../types";
 import type { ChangeEvent } from "react";
 
 type Props = {

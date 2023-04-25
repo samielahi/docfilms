@@ -1,9 +1,8 @@
 import { ArchiverProvider } from "./ArchiverContext";
-import ArchiverProgressBar from "./ArchiverProgressBar";
-import UploadSection from "./UploadSection/UploadSection";
-import EditSection from "./EditSection/EditSection";
-import IndexSection from "./IndexSection";
-import Review from "./Review";
+import SectionProgress from "./SectionProgress";
+import Upload from "./Sections/Upload/Upload";
+import Edit from "./Sections/Edit/Edit";
+import Review from "./Sections/Review/Review";
 
 export default function Archiver() {
   return (
@@ -14,10 +13,9 @@ export default function Archiver() {
         <hr className="mt-6 w-full border-t-[1px] border-gray/20 md:mt-10" />
       </div>
       <section className="flex flex-col md:flex-row">
-        <ArchiverProgressBar />
-        <UploadSection />
-        <EditSection />
-        <IndexSection />
+        <SectionProgress />
+        <Upload />
+        <Edit />
         <Review />
       </section>
     </ArchiverProvider>

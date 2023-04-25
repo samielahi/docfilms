@@ -1,4 +1,5 @@
 import { indexer } from "~/server/indexer";
+import { db } from "~/server/db";
 import type { NextApiRequest, NextApiResponse } from "next";
 import type { Row } from "~/components/Archiver/types";
 
@@ -15,6 +16,9 @@ export default function handler(
 
   const indicesToAdd = indexer.findIndicesToAdd(rows);
   // indexer.writeToIndex(indicesToAdd);
+
+  // const moviesAddedToArchive = db.insertRecords(rows);
+
   const message = indicesToAdd.length
     ? `${indicesToAdd.length} new search indices added!`
     : "No new movies or directors to add to the search index!";

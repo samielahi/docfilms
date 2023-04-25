@@ -1,8 +1,8 @@
 import { useImmer } from "use-immer";
-import { useArchiver, useArchiverDispatch } from "../ArchiverContext";
-import { columnSchemas } from "../types";
+import { useArchiver, useArchiverDispatch } from "../../ArchiverContext";
+import { columnSchemas } from "../../types";
 import type { ChangeEvent } from "react";
-import type { Row, Column } from "../types";
+import type { Row, Column } from "../../types";
 
 export default function useRowEditor(rowId: number, rowWithError: Row) {
   const { rows } = useArchiver()!;

@@ -1,5 +1,5 @@
 import type { ReactElement } from "react";
-import type { Column } from "../types";
+import type { Column } from "../../types";
 
 type Props = {
   type: Column;

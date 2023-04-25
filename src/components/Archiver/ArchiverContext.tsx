@@ -47,6 +47,11 @@ function archiverReducer(state: ArchiverSession, action: ArchiverAction) {
         currentSection: Section.next(currentSection!),
         ...rest,
       }))(state);
+    case "BACK":
+      return (({ currentSection: currentSection, ...rest }) => ({
+        currentSection: Section.prev(currentSection!),
+        ...rest,
+      }))(state);
   }
 }
 
