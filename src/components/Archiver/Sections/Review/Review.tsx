@@ -1,28 +1,24 @@
 import SectionWrapper from "../SectionWrapper";
-import { useArchiver, useArchiverDispatch } from "../../ArchiverContext";
+import { useArchiver } from "../../ArchiverContext";
 import { useEffect, useState, useMemo } from "react";
 import { Section } from "../../types";
 
 export default function Review() {
-  const { currentSection } = useArchiver()!;
-  const dispatch = useArchiverDispatch()!;
   // const message = useIndexBuilder();
 
   return (
     <>
-      {currentSection === Section.review && (
-        <SectionWrapper
-          canGoBack={true}
-          canProceed={false}
-          section={currentSection}
-          title="Review Additions to the Archive"
-          description="New movies and directors are being added to the search index."
-        >
-          <div className="mt-6 flex w-full justify-between md:mt-10">
-            {/* <p>{message.length ? message : ""} </p> */}
-          </div>
-        </SectionWrapper>
-      )}
+      <SectionWrapper
+        canGoBack={true}
+        canProceed={false}
+        section={Section.review}
+        title="Review Additions to the Archive"
+        description="New movies and directors are being added to the search index."
+      >
+        <div className="mt-6 flex w-full justify-between md:mt-10">
+          {/* <p>{message.length ? message : ""} </p> */}
+        </div>
+      </SectionWrapper>
     </>
   );
 }

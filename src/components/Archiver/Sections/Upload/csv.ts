@@ -1,3 +1,4 @@
+// Convert this into a class
 import { createFrequencyMap } from "~/utils";
 import { columnSchemas } from "../../types";
 import { Result } from "true-myth";

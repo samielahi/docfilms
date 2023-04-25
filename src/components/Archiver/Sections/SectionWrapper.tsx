@@ -48,7 +48,7 @@ export default function SectionWrapper({
 
           {children}
 
-          <div className="flex w-full items-center justify-between">
+          <div className={`flex w-full items-center justify-end gap-4`}>
             {canGoBack && (
               <Button onClick={goToPreviousSection}>
                 <span>back</span>

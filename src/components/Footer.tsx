@@ -17,7 +17,6 @@ export default function Footer() {
               width={100}
               height={100}
               alt="The MovieDB Logo"
-              className="h-auto w-[100px]"
             ></Image>
           </Link>
         </div>
