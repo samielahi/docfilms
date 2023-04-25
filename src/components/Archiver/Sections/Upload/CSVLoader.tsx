@@ -75,7 +75,7 @@ function Uploader({ parsedCSV, dispatch }: Props) {
           />
           <p>
             Successfully loaded {rows.length}{" "}
-            {rows.length === 1 ? "row" : "rows"}
+            {rows.length === 1 ? "row" : "rows"}. Click next to continue.
           </p>
         </div>
       </div>

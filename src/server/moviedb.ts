@@ -70,7 +70,7 @@ const moviedb = (() => {
     const searchResultsJson = (await response.json()) as TMBDSearchResult;
     const movie = TMDBSearchSchema.parse(searchResultsJson).results[0]!;
 
-    Object.defineProperty(movie, "tmdbID", movie.id);
+    Object.defineProperty(movie, "tmdbID", { value: movie.id, writable: true });
     // @ts-ignore
     delete movie.id;
 
@@ -182,10 +182,12 @@ const moviedb = (() => {
         tmdbID: -1,
       };
 
-      if (tmdbData[i]?.isErr) {
+      const additionalInfo = tmdbData[i];
+
+      if (additionalInfo?.isErr) {
         enrichedData.push(docData);
       } else {
-        enrichedData.push(Object.assign(docData, tmdbData[i]));
+        enrichedData.push(Object.assign(docData, additionalInfo?.value));
       }
     }
 

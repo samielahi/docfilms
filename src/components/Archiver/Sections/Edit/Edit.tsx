@@ -1,5 +1,6 @@
 import { useArchiver, useArchiverDispatch } from "../../ArchiverContext";
 import { useMemo } from "react";
+import Image from "next/image";
 import SectionWrapper from "../SectionWrapper";
 import RowEditor from "./RowEditor";
 import { Section } from "../../types";
@@ -30,8 +31,15 @@ export default function Edit() {
             })}
           </div>
         ) : (
-          <div className="mt-6 flex w-full items-center justify-between md:mt-10">
-            <p>No issues found!</p>
+          <div className="mt-6 flex w-full items-center gap-4 md:mt-10">
+            <Image
+              src="/check-circle-2.svg"
+              width={25}
+              height={25}
+              alt=""
+              role="presentation"
+            />
+            <p>No issues found. Click next to continue.</p>
           </div>
         )}
       </SectionWrapper>
