@@ -139,28 +139,4 @@
   .link {
     @apply underline decoration-orange underline-offset-2 transition-all hover:underline-offset-4;
   }
-
-  .arrow-button::before {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    content: "";
-    background: #e8e8cf;
-    clip-path: polygon(0% 0%, 100% 0, 100% 50%, 100% 100%, 0% 100%);
-    transition: clip-path 0.4s cubic-bezier(0.2, 1, 0.8, 1),
-      -webkit-clip-path 0.4s cubic-bezier(0.2, 1, 0.8, 1);
-  }
-
-  .arrow-button:hover::before {
-    background: #e8e8cf;
-    clip-path: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%);
-  }
-
-  .arrow-button-text {
-    display: block;
-    mix-blend-mode: difference;
-    transition: transform 0.4s cubic-bezier(0.2, 1, 0.8, 1);
-  }
 }

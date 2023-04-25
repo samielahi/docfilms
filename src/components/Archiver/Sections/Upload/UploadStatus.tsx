@@ -1,5 +1,4 @@
 import Image from "next/image";
-import NextButton from "../NextButton";
 import Error from "../Error";
 import { useMemo } from "react";
 import { useArchiver, useArchiverDispatch } from "../../ArchiverContext";
@@ -18,7 +17,6 @@ export default function UploadStatus() {
 
   if (parsedCSV.isOk) {
     const rows = parsedCSV.value;
-    console.log(rows);
 
     function advance() {
       dispatch({
@@ -46,7 +44,6 @@ export default function UploadStatus() {
             {rows.length === 1 ? "row" : "rows"}
           </p>
         </div>
-        <NextButton onClick={advance} />
       </div>
     );
   }
