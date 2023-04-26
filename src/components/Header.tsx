@@ -2,10 +2,12 @@ import Logo from "./Logo";
 import Search from "./Search/Search";
 import Link from "next/link";
 import Menu from "./Menu";
-import { useEffect, useRef } from "react";
+import { useSession, signIn, signOut } from "next-auth/react";
 import autoAnimate from "@formkit/auto-animate";
+import { useEffect, useRef } from "react";
 
 export default function Header() {
+  const { data: session, status } = useSession();
   const parent = useRef(null);
 
   useEffect(() => {
@@ -25,9 +27,24 @@ export default function Header() {
               <Search fullSize={false} />
             </div>
           </div>
-          <Link href={"/"} className="link w-fit font-bold">
-            <p>Log in</p>
-          </Link>
+          {status === "authenticated" ? (
+            <div className="flex gap-8">
+              <Link href={"/archiver"} className="link font-bold">
+                archiver
+              </Link>
+              <p
+                onClick={() => signOut()}
+                className="link font-bold"
+                role="button"
+              >
+                sign out
+              </p>
+            </div>
+          ) : (
+            <Link href={"/signIn"} className="link font-bold" role="button">
+              sign in
+            </Link>
+          )}
         </div>
       </div>
       <Menu>

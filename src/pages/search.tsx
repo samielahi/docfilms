@@ -11,6 +11,7 @@ import type { NextPageWithLayout } from "./_app";
 // Search Results page
 const Search: NextPageWithLayout = () => {
   const router = useRouter();
+  console.log(router);
   const query = router.query.q! as string;
   const { results, isError } = useFlexSearch(query, 15);
 

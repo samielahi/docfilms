@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import useViewportWidth from "../hooks/useViewportWidth";
+import { useSession, signIn, signOut } from "next-auth/react";
 import type { ReactNode } from "react";
 
 interface Props {
@@ -8,6 +9,7 @@ interface Props {
 }
 
 export default function Menu({ children }: Props) {
+  const { data: session, status } = useSession();
   const [isOpen, setIsOpen] = useState(false);
   const currentWidth = useViewportWidth();
   const breakpoint = 768; // TailwindCSS 'md' breakpoint width
@@ -49,9 +51,21 @@ export default function Menu({ children }: Props) {
 
       {isOpen && (
         <div className="wrapper mt-4 flex h-full flex-col items-center justify-center gap-4">
-          <Link href={"/"} className="link w-fit font-bold">
-            Log in
-          </Link>
+          {status === "authenticated" ? (
+            <div className="flex flex-col gap-4">
+              <Link href={"/archiver"} className="link font-bold">
+                archiver
+              </Link>
+              <p onClick={() => signOut()} className="link font-bold">
+                sign out
+              </p>
+            </div>
+          ) : (
+            <Link href={"/signIn"} className="link w-fit font-bold">
+              sign in
+            </Link>
+          )}
+
           <div className="relative mt-2 h-[45px] w-[300px]">
             <div className="absolute top-0">{children}</div>
           </div>

@@ -23,7 +23,7 @@ export default function useFlexSearch(
 ) {
   const [shouldFetch, setShouldFetch] = useState(false);
 
-  if (!shouldFetch && query.length) {
+  if (!shouldFetch && query && query.length) {
     setShouldFetch(true);
   }
 
