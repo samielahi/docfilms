@@ -1,6 +1,4 @@
 import { SessionProvider } from "next-auth/react";
-import { AnimatePresence } from "framer-motion";
-import { motion } from "framer-motion";
 import Loader from "~/components/Loader";
 import type { ReactElement, ReactNode } from "react";
 import type { NextPage } from "next";
@@ -28,11 +26,9 @@ export default function MyApp({
   return getLayout(
     <>
       <SessionProvider session={session}>
-        <AnimatePresence>
-          <Loader>
-            <Component {...pageProps} />
-          </Loader>
-        </AnimatePresence>
+        <Loader>
+          <Component {...pageProps} />
+        </Loader>
       </SessionProvider>
     </>
   );

@@ -14,6 +14,7 @@ type Icon =
   | "signIn"
   | "quarter"
   | "recent"
+  | "loader"
   | "signOut";
 
 type Props = {
@@ -63,5 +64,7 @@ function getIconPath(name: Icon) {
       return "/icons/calendar-clock.svg";
     case "recent":
       return "/icons/clock.svg";
+    case "loader":
+      return "/icons/loader-2.svg";
   }
 }
