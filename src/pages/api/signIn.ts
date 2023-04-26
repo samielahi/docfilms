@@ -7,7 +7,7 @@ type Credential = {
   password: string;
 };
 
-export default function handler(
+export default async function handler(
   request: NextApiRequest,
   response: NextApiResponse
 ) {
@@ -18,5 +18,22 @@ export default function handler(
 
   const { username, password } = request.body as Credential;
 
-  // response.status(200).json({ message: [archiveMessage, indexMessage] });
+  const hash = await prisma.users.findFirst({
+    select: {
+      password: true,
+    },
+    where: {
+      username: {
+        equals: username,
+      },
+    },
+  });
+
+  const success = await bcrypt.compare(password, hash?.password!);
+
+  if (success) {
+    response.status(200).json({ message: "successfully signed in!" });
+  } else {
+    response.status(401).json({ message: "invalid username or password" });
+  }
 }
