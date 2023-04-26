@@ -13,6 +13,7 @@
   "dependencies": {
     "@formkit/auto-animate": "^1.0.0-beta.6",
     "@prisma/client": "^4.13.0",
+    "bcrypt": "^5.1.0",
     "browser-fs-access": "^0.33.1",
     "flexsearch": "^0.7.21",
     "immer": "^10.0.1",
@@ -28,6 +29,7 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
+    "@types/bcrypt": "^5.0.0",
     "@types/eslint": "^8.21.1",
     "@types/flexsearch": "^0.7.3",
     "@types/node": "^18.14.0",
