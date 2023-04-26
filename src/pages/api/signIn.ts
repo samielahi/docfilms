@@ -29,6 +29,10 @@ export default async function handler(
     },
   });
 
+  if (!hash || !hash.password) {
+    response.status(401).json({ message: "invalid username or password" });
+  }
+
   const success = await bcrypt.compare(password, hash?.password!);
 
   if (success) {

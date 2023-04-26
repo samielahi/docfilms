@@ -2,47 +2,19 @@ import Link from "next/link";
 import Image from "next/image";
 import useFocus from "~/hooks/useFocus";
 import { useSearch } from "./SearchContext";
-import useLocalStorage from "~/hooks/useLocalStorage";
 import type { SearchResult, ResultGroup } from "./types";
-import type { Dispatch, SetStateAction } from "react";
 
 interface Props extends Partial<SearchResult> {
   focus: boolean;
 }
 
 export default function SearchResultItem(props: Props) {
-  const { fullSize, currentQuery } = useSearch()!;
+  const { fullSize } = useSearch()!;
   const ref = useFocus<HTMLAnchorElement>(props.focus);
-  // const [recentQueries, setRecentQueries] = useLocalStorage<SearchResult[]>(
-  //   "recent_queries",
-  //   []
-  // );
-
-  // function pushToRecentQueries() {
-  //   const currentLength = recentQueries?.length!;
-  //   // We'll treat the recentQueries array like a stack of fixed length 3
-  //   if (currentLength >= 3) {
-  //     (recentQueries as SearchResult[]).pop();
-  //   }
-
-  //   const queryIsInRecentQueries =
-  //     currentQuery in
-  //     (recentQueries as SearchResult[]).map((result) => result.index);
-
-  //   if (!queryIsInRecentQueries) {
-  //     (
-  //       setRecentQueries as Dispatch<SetStateAction<SearchResult[] | undefined>>
-  //     )([
-  //       { index: currentQuery, group: "recent" },
-  //       ...(recentQueries as SearchResult[]),
-  //     ]);
-  //   }
-  // }
 
   return (
     <>
       <Link
-        // onClick={pushToRecentQueries}
         href={
           props.group === "movie"
             ? `/${props.group}/${props.index!}?year=${props.year!}`
@@ -77,12 +49,12 @@ export default function SearchResultItem(props: Props) {
 export function getResultIcon(group: ResultGroup): string {
   switch (group) {
     case "movie":
-      return "/film.svg";
+      return "/icons/film.svg";
     case "director":
-      return "/megaphone.svg";
+      return "/icons/megaphone.svg";
     case "quarter":
-      return "/calendar-clock.svg";
+      return "/icons/calendar-clock.svg";
     case "recent":
-      return "/clock.svg";
+      return "/icons/clock.svg";
   }
 }

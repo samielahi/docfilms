@@ -3,6 +3,7 @@ import { useArchiver } from "./ArchiverContext";
 
 type SectionName = "upload" | "edit" | "review";
 
+// Sidebar used in Archiver component to indicate which section user is on
 export default function SectionProgress() {
   const sectionNames: SectionName[] = ["upload", "edit", "review"];
   const { currentSection } = useArchiver()!;
@@ -56,10 +57,10 @@ function SectionProgressBlock({
 function getSectionIcon(section: SectionName) {
   switch (section) {
     case "upload":
-      return "/file-up.svg";
+      return "/icons/file-up.svg";
     case "edit":
-      return "/edit.svg";
+      return "/icons/edit.svg";
     case "review":
-      return "/clipboard-check.svg";
+      return "/icons/clipboard-check.svg";
   }
 }

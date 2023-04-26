@@ -47,7 +47,6 @@ const Movie: NextPageWithLayout = () => {
   const { data, error } = useSWRImmutable<MoviePageProps, Error>("docDataKey");
 
   if (error) return <div>Something went wrong while loading this page.</div>;
-  console.log(data);
   const { backdrop_path, title, director, year, series, overview } = data!;
   const backdropURL =
     backdrop_path !== "/student.png"

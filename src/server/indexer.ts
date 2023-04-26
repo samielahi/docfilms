@@ -36,9 +36,10 @@ export const indexer = (() => {
     });
     const directors = rows.map((row) => row.director);
 
+    // If the search ends up empty we need to update the search index with the movie or director
+
     for (const movie of movies) {
       const results = document.search(movie.title!);
-      // If the search ends up empty then we need to update the search index with this movie
       if (results?.length === 0) {
         indicesToAdd.push({
           group: "movie",
@@ -69,8 +70,6 @@ export const indexer = (() => {
       index.push({ ...result, id: currentId });
       currentId++;
     });
-
-    console.log(indicesToAdd);
 
     fs.writeFileSync(`${publicPath}/index.json`, JSON.stringify(index));
   }

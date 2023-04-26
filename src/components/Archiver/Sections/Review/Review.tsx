@@ -25,7 +25,7 @@ export default function Review() {
             messages.map((message, i) => (
               <div className="flex gap-4" key={i}>
                 <Image
-                  src="/check-circle-2.svg"
+                  src="/icons/check-circle-2.svg"
                   width={25}
                   height={25}
                   alt=""
@@ -48,6 +48,7 @@ export default function Review() {
 function useAddRecords(shouldSubmit: boolean) {
   const [message, setMessage] = useState([""]);
   const { currentSection, rows } = useArchiver()!;
+  // Convert dates to strings so they're serializable
   const serializableRows = useMemo(() => {
     return rows.map(({ date, ...rest }) => {
       return {
@@ -58,7 +59,9 @@ function useAddRecords(shouldSubmit: boolean) {
   }, [rows]);
 
   useEffect(() => {
-    const add = (async () => {
+    // Run this IIFE once user confirms
+    void (async () => {
+      // Send new records to the server to be indexed and added to the archive
       if (currentSection === Section.review && shouldSubmit) {
         const response = await fetch("/api/addRecords", {
           method: "POST",
@@ -68,6 +71,7 @@ function useAddRecords(shouldSubmit: boolean) {
           body: JSON.stringify(serializableRows),
         });
 
+        // We get two messages back, one for the search index and one for the archive
         const data = (await response.json()) as { message: string[] };
         setMessage(data.message);
       }

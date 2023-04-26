@@ -103,7 +103,7 @@ export const csv = (() => {
       (rawParsedCSV as Generator).next().value as ParsedRow
     );
 
-    // Report any issues with validating columns
+    // Report any issues with columns
     if (columns.isErr) {
       return Result.err(columns.error);
     }

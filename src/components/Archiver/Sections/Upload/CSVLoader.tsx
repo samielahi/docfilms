@@ -67,7 +67,7 @@ function Uploader({ parsedCSV, dispatch }: Props) {
       <div className="flex flex-col justify-between gap-6 sm:flex-row sm:items-center sm:gap-0">
         <div className="flex gap-4">
           <Image
-            src="/check-circle-2.svg"
+            src="/icons/check-circle-2.svg"
             width={25}
             height={25}
             alt=""

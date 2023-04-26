@@ -3,7 +3,6 @@ import { useSearch } from "./SearchContext";
 import useFlexSearch from "~/hooks/useFlexSearch";
 import useDebouncedValue from "~/hooks/useDebouncedValue";
 import { useFocusManager } from "./useFocusManager";
-import useLocalStorage from "~/hooks/useLocalStorage";
 import type { SearchResult } from "./types";
 
 export default function SearchResultList() {
@@ -13,8 +12,6 @@ export default function SearchResultList() {
   const { results, isError } = useFlexSearch(debouncedQuery);
   // Tracking focused result when navigating by keyboard
   const [focusedIndex] = useFocusManager(results ? results.length : 0, null);
-  // const [recentQueries] = useLocalStorage<SearchResult[]>("recent_queries", []);
-  // const combinedResults = [...(recentQueries as SearchResult[]), ...results!];
 
   if (isError) return <div>An error occurred while fetching results.</div>;
 

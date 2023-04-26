@@ -13,7 +13,7 @@ export default function SearchInput() {
         <title id="searchTitle">Search</title>
         <Image
           role="presentation"
-          src={"/search.svg"}
+          src={"/icons/search.svg"}
           width={35}
           height={35}
           alt=""

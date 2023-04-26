@@ -4,6 +4,7 @@ import { columnSchemas } from "../../types";
 import type { ChangeEvent } from "react";
 import type { Row, Column } from "../../types";
 
+// Handles state for editable row and exposes helpers to confirm changes to row
 export default function useRowEditor(rowId: number, rowWithError: Row) {
   const { rows } = useArchiver()!;
   const dispatch = useArchiverDispatch()!;

@@ -13,6 +13,30 @@ const SignInPage: NextPage = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
+  async function handleSignIn() {
+    // Report error if passing in empty fields
+    if (!username.length || !password.length) {
+      setError("Username or password cannot be empty.");
+      return;
+    }
+
+    // Authenticate the credentials and redirect to home page on success
+    const res = await signIn("credentials", {
+      username: username,
+      password: password,
+      callbackUrl: `${window.location.origin}`,
+      redirect: false,
+    });
+
+    if (res?.error) {
+      setUsername("");
+      setPassword("");
+      setError("Username or password is invalid.");
+    }
+
+    if (res?.url) void router.push(res.url);
+  }
+
   return (
     <>
       <Head>
@@ -61,7 +85,7 @@ const SignInPage: NextPage = () => {
             {error.length > 1 && (
               <>
                 <Image
-                  src="/alert-triangle.svg"
+                  src="/icons/alert-triangle.svg"
                   width={25}
                   height={25}
                   alt=""
@@ -71,29 +95,7 @@ const SignInPage: NextPage = () => {
               </>
             )}
           </div>
-          <Button
-            onClick={async () => {
-              if (!username.length || !password.length) {
-                setError("Username or password cannot be empty.");
-                return;
-              }
-
-              const res = await signIn("credentials", {
-                username: username,
-                password: password,
-                callbackUrl: `${window.location.origin}`,
-                redirect: false,
-              });
-
-              if (res?.error) {
-                setUsername("");
-                setPassword("");
-                setError("Username or password is invalid.");
-              }
-
-              if (res?.url) void router.push(res.url);
-            }}
-          >
+          <Button onClick={handleSignIn}>
             <span>sign in</span>
           </Button>
         </div>

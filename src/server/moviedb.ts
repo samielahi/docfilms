@@ -4,6 +4,7 @@ import z from "zod";
 import type { Row } from "~/components/Archiver/types";
 import type { DocMovie } from "~/types";
 
+// Modeling API responses
 const TMDBMovieSchema = z.object({
   title: z.string(),
   overview: z.string().nullable(),

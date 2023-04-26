@@ -66,7 +66,7 @@ const Director: NextPageWithLayout = () => {
             <h1 className="flex items-center gap-4 text-4xl font-bold capitalize md:text-7xl">
               <span>{name}</span>{" "}
               <Image
-                src={"/megaphone.svg"}
+                src={"/icons/megaphone.svg"}
                 width={45}
                 height={45}
                 role="presentation"

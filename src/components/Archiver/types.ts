@@ -1,5 +1,7 @@
 import z from "zod";
 
+// Models the docfilms capsule csv schema (rows & columns), parsing errors, and context/actions
+
 const Title = z.string().min(1, { message: "Cannot be empty" });
 const Director = z.string().min(1, { message: "Cannot be empty" });
 const Series = z.string().min(1, { message: "Cannot be empty" });
@@ -36,13 +38,15 @@ export interface Row {
   date?: DateShown | string;
   series?: Series;
   director?: Director;
-  errors?: Partial<Record<Column, string>>;
+  errors?: ParsedRowValueError;
 }
 export type Column = "title" | "year" | "director" | "date" | "series";
 
 export type ParsedRow = string[];
+type ParsedRowValueError = Partial<Record<Column, string>>;
 
 // CSV Parsing Errors
+
 type DuplicateColumn = {
   code: "duplicate_column";
   message: string;
@@ -69,7 +73,8 @@ export type CSVParsingError =
   | EmptyInput
   | NoInput;
 
-// Archiver section
+// The various steps of the archival processs
+
 export enum Section {
   upload,
   edit,
@@ -87,6 +92,7 @@ export namespace Section {
 }
 
 // Archiver Context
+
 export interface ArchiverSession {
   csvString?: string;
   rows: Row[];
