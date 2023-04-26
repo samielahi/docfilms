@@ -7,5 +7,6 @@ Search through movies shown at docfilms since the early 20th century. Images and
 # Note: Under Further Construction
 
 - More recent archival data is being cleaned and added (2007 - onward)
+- Improved copy and help text.
 - Fuzzy searching improvements
 - General UI Improvements and testing
