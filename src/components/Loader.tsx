@@ -21,7 +21,7 @@ export default function Loader({ children }: Props) {
             exit={{ opacity: 0 }}
             className="flex h-screen w-screen items-center justify-center gap-4"
           >
-            <div className="flex gap-4">
+            <div className="flex items-center gap-4">
               <div className="h-fit w-fit origin-center animate-spin">
                 <Icon name="loader" />
               </div>

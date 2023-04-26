@@ -65,7 +65,7 @@ function Uploader({ parsedCSV, dispatch }: Props) {
 
     return (
       <div className="flex flex-col justify-between gap-6 sm:flex-row sm:items-center sm:gap-0">
-        <div className="flex gap-4">
+        <div className="flex items-center gap-4">
           <Icon name="confirm" />
 
           <p>

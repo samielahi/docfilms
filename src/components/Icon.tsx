@@ -53,7 +53,7 @@ function getIconPath(name: Icon) {
     case "review":
       return "/icons/clipboard-check.svg";
     case "confirm":
-      return "/icons/check-circle.svg";
+      return "/icons/check-circle-2.svg";
     case "index":
       return "/icons/folder-search-2.svg";
     case "signIn":
