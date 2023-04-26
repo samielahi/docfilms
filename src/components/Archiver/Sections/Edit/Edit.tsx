@@ -1,6 +1,6 @@
 import { useArchiver } from "../../ArchiverContext";
 import { useMemo } from "react";
-import Image from "next/image";
+import Icon from "~/components/Icon";
 import SectionWrapper from "../SectionWrapper";
 import RowEditor from "./RowEditor";
 import { Section } from "../../types";
@@ -43,13 +43,7 @@ function RowsToEdit({ rows }: { rows: Row[] }) {
 function NoIssues() {
   return (
     <div className="mt-6 flex w-full items-center gap-4 md:mt-10">
-      <Image
-        src="/icons/check-circle-2.svg"
-        width={25}
-        height={25}
-        alt=""
-        role="presentation"
-      />
+      <Icon name="confirm" />
       <p>No issues found. Click next to continue.</p>
     </div>
   );

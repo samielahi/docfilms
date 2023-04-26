@@ -1,9 +1,8 @@
 import Link from "next/link";
 import Base from "~/layouts/Base";
-import Image from "next/image";
+import Icon from "~/components/Icon";
 import { useRouter } from "next/router";
 import useFlexSearch from "~/hooks/useFlexSearch";
-import { getResultIcon } from "~/components/Search/SearchResultItem";
 import type { SearchResult } from "~/components/Search/types";
 import type { ReactElement } from "react";
 import type { NextPageWithLayout } from "./_app";
@@ -54,13 +53,8 @@ function PageResult(props: Partial<SearchResult>) {
             : `/${props.group!}/${props.index!}`
         }
       >
-        <Image
-          src={getResultIcon(props.group!)}
-          alt=""
-          role="presentation"
-          width={30}
-          height={30}
-        />
+        <Icon name={props.group!} />
+
         <li className="list-none italic md:text-xl">
           {props.index} {props.year && <span> ({props.year})</span>}
         </li>

@@ -3,7 +3,7 @@ import { useArchiver } from "../../ArchiverContext";
 import { useEffect, useState, useMemo } from "react";
 import { Section } from "../../types";
 import Button from "~/components/Button";
-import Image from "next/image";
+import Icon from "~/components/Icon";
 
 export default function Review() {
   const [confirmation, setConfirmation] = useState(false);
@@ -24,13 +24,7 @@ export default function Review() {
           {confirmation &&
             messages.map((message, i) => (
               <div className="flex gap-4" key={i}>
-                <Image
-                  src="/icons/check-circle-2.svg"
-                  width={25}
-                  height={25}
-                  alt=""
-                  role="presentation"
-                />
+                <Icon name="confirm" />
                 <span>{message}</span>
               </div>
             ))}

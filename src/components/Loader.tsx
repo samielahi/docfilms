@@ -1,4 +1,5 @@
 import useLoading from "~/hooks/useLoading";
+import Logo from "./Logo";
 import type { ReactElement } from "react";
 
 type Props = {
@@ -11,7 +12,8 @@ export default function Loader({ children }: Props) {
   return (
     <>
       {loading ? (
-        <div className="flex h-screen w-screen items-center justify-center">
+        <div className="flex h-screen w-screen flex-col items-center justify-center gap-2">
+          <Logo size="small" />
           <p className="font-bold">Loading...</p>
         </div>
       ) : (

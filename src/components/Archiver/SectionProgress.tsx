@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Icon from "../Icon";
 import { useArchiver } from "./ArchiverContext";
 
 type SectionName = "upload" | "edit" | "review";
@@ -40,27 +40,9 @@ function SectionProgressBlock({
             currentSection === section ? "bg-orange" : "bg-white"
           } p-4`}
         >
-          <Image
-            src={getSectionIcon(section)}
-            width={25}
-            height={25}
-            alt=""
-            role="presentation"
-            className="h-[20px] w-[20px] md:h-[25px] md:w-[25px]"
-          />
+          <Icon name={section} />
         </div>
       </div>
     </>
   );
-}
-
-function getSectionIcon(section: SectionName) {
-  switch (section) {
-    case "upload":
-      return "/icons/file-up.svg";
-    case "edit":
-      return "/icons/edit.svg";
-    case "review":
-      return "/icons/clipboard-check.svg";
-  }
 }

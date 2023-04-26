@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Logo from "~/components/Logo";
 import Button from "~/components/Button";
-import Image from "next/image";
+import Icon from "~/components/Icon";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import type { NextPage } from "next";
@@ -84,13 +84,7 @@ const SignInPage: NextPage = () => {
           <div className="flex gap-2">
             {error.length > 1 && (
               <>
-                <Image
-                  src="/icons/alert-triangle.svg"
-                  width={25}
-                  height={25}
-                  alt=""
-                  role="presentation"
-                />
+                <Icon name="alert" />
                 <span className="text-lg font-bold">{error}</span>
               </>
             )}

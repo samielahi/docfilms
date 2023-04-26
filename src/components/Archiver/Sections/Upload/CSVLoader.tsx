@@ -1,5 +1,5 @@
 import Button from "~/components/Button";
-import Image from "next/image";
+import Icon from "~/components/Icon";
 import Error from "../Error";
 import { fileOpen } from "browser-fs-access";
 import { blobToString } from "~/utils";
@@ -66,13 +66,8 @@ function Uploader({ parsedCSV, dispatch }: Props) {
     return (
       <div className="flex flex-col justify-between gap-6 sm:flex-row sm:items-center sm:gap-0">
         <div className="flex gap-4">
-          <Image
-            src="/icons/check-circle-2.svg"
-            width={25}
-            height={25}
-            alt=""
-            role="presentation"
-          />
+          <Icon name="confirm" />
+
           <p>
             Successfully loaded {rows.length}{" "}
             {rows.length === 1 ? "row" : "rows"}. Click next to continue.

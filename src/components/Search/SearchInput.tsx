@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Icon from "../Icon";
 import { useSearch, useSearchDispatch } from "./SearchContext";
 import { useRouter } from "next/router";
 
@@ -11,16 +11,7 @@ export default function SearchInput() {
     <>
       <label htmlFor="search" aria-labelledby="searchTitle">
         <title id="searchTitle">Search</title>
-        <Image
-          role="presentation"
-          src={"/icons/search.svg"}
-          width={35}
-          height={35}
-          alt=""
-          className={`h-[25px] w-[25px] ${
-            fullSize ? "md:h-[35px] md:w-[35px]" : ""
-          } `}
-        />
+        <Icon name="search" />
       </label>
 
       <input

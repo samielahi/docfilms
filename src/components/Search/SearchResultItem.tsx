@@ -1,8 +1,8 @@
 import Link from "next/link";
-import Image from "next/image";
 import useFocus from "~/hooks/useFocus";
+import Icon from "../Icon";
 import { useSearch } from "./SearchContext";
-import type { SearchResult, ResultGroup } from "./types";
+import type { SearchResult } from "./types";
 
 interface Props extends Partial<SearchResult> {
   focus: boolean;
@@ -29,14 +29,8 @@ export default function SearchResultItem(props: Props) {
         aria-label={`${props.index!}, go to this ${props.group!}`}
       >
         <li className="flex w-full gap-4 px-4 py-2 md:px-6 md:py-4">
-          <Image
-            src={getResultIcon(props.group!)}
-            width={15}
-            height={15}
-            className="w-[20px] text-orange/50"
-            role="presentation"
-            alt=""
-          />
+          <Icon name={props.group!} />
+
           <p className={`text-sm md:text-base ${fullSize ? "md:text-xl" : ""}`}>
             {props.index} {props.year && <span> ({props.year})</span>}
           </p>
@@ -44,17 +38,4 @@ export default function SearchResultItem(props: Props) {
       </Link>
     </>
   );
-}
-
-export function getResultIcon(group: ResultGroup): string {
-  switch (group) {
-    case "movie":
-      return "/icons/film.svg";
-    case "director":
-      return "/icons/megaphone.svg";
-    case "quarter":
-      return "/icons/calendar-clock.svg";
-    case "recent":
-      return "/icons/clock.svg";
-  }
 }
