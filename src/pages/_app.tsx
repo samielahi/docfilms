@@ -1,4 +1,5 @@
 import { SessionProvider } from "next-auth/react";
+import Loader from "~/components/Loader";
 import type { ReactElement, ReactNode } from "react";
 import type { NextPage } from "next";
 import type { AppProps } from "next/app";
@@ -25,7 +26,9 @@ export default function MyApp({
   return getLayout(
     <>
       <SessionProvider session={session}>
-        <Component {...pageProps} />
+        <Loader>
+          <Component {...pageProps} />
+        </Loader>
       </SessionProvider>
     </>
   );
