@@ -1,5 +1,4 @@
 import Head from "next/head";
-import Footer from "~/components/Footer";
 import Logo from "~/components/Logo";
 import Button from "~/components/Button";
 import Image from "next/image";
@@ -21,11 +20,8 @@ const SignInPage: NextPage = () => {
         <meta charSet="utf-8" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <main className="wrapper mt-[calc(100px_+_3rem)] flex h-full min-h-[70vh] justify-center bg-black text-white">
-        <div
-          className="flow mx-auto flex h-max
-         w-[500px] flex-col items-center border-[1px] border-gray/20 p-12"
-        >
+      <main className="wrapper flex h-screen justify-center bg-black pt-14 text-white md:pt-20">
+        <div className="flow flex h-max w-fit flex-col items-center border-[1px] border-gray/20 p-10 md:w-[500px] md:p-12">
           <Logo size="small" />
           <div className="flex flex-col gap-2">
             <label htmlFor="username" className="font-bold">
@@ -102,7 +98,6 @@ const SignInPage: NextPage = () => {
           </Button>
         </div>
       </main>
-      <Footer />
     </>
   );
 };

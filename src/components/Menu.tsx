@@ -9,7 +9,7 @@ interface Props {
 }
 
 export default function Menu({ children }: Props) {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const [isOpen, setIsOpen] = useState(false);
   const currentWidth = useViewportWidth();
   const breakpoint = 768; // TailwindCSS 'md' breakpoint width

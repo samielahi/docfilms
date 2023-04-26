@@ -10,7 +10,7 @@ export default function Error({ message }: { message: string }) {
         alt=""
         role="presentation"
       />
-      <p className="italic">{message}</p>
+      <p className="font-bold italic">{message}</p>
     </div>
   );
 }
