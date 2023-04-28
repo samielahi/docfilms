@@ -1,5 +1,5 @@
 import Logo from "./Logo";
-import Search from "./Search/Search";
+import Search from "./Search";
 import Link from "next/link";
 import Menu from "./Menu";
 import { useSession, signIn, signOut } from "next-auth/react";

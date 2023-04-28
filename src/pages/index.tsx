@@ -2,7 +2,7 @@ import Head from "next/head";
 import Logo from "~/components/Logo";
 import Icon from "~/components/Icon";
 import Image from "next/image";
-import Search from "~/components/Search/Search";
+import Search from "~/components/Search";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import type { NextPage } from "next";
