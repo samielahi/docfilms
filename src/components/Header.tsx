@@ -2,12 +2,12 @@ import Logo from "./Logo";
 import Search from "./Search";
 import Link from "next/link";
 import Menu from "./Menu";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import autoAnimate from "@formkit/auto-animate";
 import { useEffect, useRef } from "react";
 
 export default function Header() {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const parent = useRef(null);
 
   useEffect(() => {

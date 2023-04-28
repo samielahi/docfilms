@@ -1,5 +1,5 @@
 import Base from "~/layouts/Base";
-import Archiver from "~/components/Archiver/Archiver";
+import Archiver from "~/components/Archiver/index";
 import { useSession } from "next-auth/react";
 import type { ReactElement } from "react";
 import type { NextPageWithLayout } from "./_app";
