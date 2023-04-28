@@ -1,10 +1,20 @@
 # docfilms archive
 
-Archival search tool for docfilms, one of the nation's oldest film societies.
-
-![image](/public/screenshots/directors.png)
-
 Search through movies shown at docfilms since the early 20th century. Images and additional data courtesy of [The Movie Database](https://www.themoviedb.org/?language=en-US).
+
+# Features
+
+![search page](/public/screenshots/search.png)
+
+Full text search through movies and directors.
+
+![director page](/public/screenshots/directors.png)
+
+Summary of a director's films and popularity.
+
+![archiver page](/public/screenshots/archiver.png)
+
+Tool to parse csv capsules and archive data for admins.
 
 # Note: Under Further Construction
 
