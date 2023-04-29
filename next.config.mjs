@@ -20,7 +20,7 @@ const config = {
     locales: ["en"],
     defaultLocale: "en",
   },
-  transpilePackages: ["truth-myth"],
+  transpilePackages: ["true-myth"],
   images: {
     remotePatterns: [
       {

@@ -11,7 +11,7 @@ const createJestConfig = nextJest({
 const config = {
   // Add more setup options before each test is run
   // setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
-  transformIgnorePatterns: ["/node_modules/(?!truth-myth)"],
+  transformIgnorePatterns: ["/node_modules/(?!true-myth)"],
 
   testEnvironment: "jest-environment-jsdom",
 };
